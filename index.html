@@ -1,0 +1,2384 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>East Bay Makers Club — Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+    <style>
+        :root {
+            --bg0: #07070a;
+            --bg1: #0c0c10;
+            --bg2: #111116;
+            --hair: rgba(255, 255, 255, 0.12);
+            --hair2: rgba(255, 255, 255, 0.08);
+            --text: rgba(255, 255, 255, 0.94);
+            --muted: rgba(255, 255, 255, 0.78);
+            --muted2: rgba(255, 255, 255, 0.6);
+            --muted3: rgba(255, 255, 255, 0.48);
+            --shadow: rgba(0, 0, 0, 0.55);
+            --led: #39ff88;
+            --maxw: 1160px;
+            --gutter: 24px;
+            --radius: 14px;
+            --border-strong: rgba(255, 255, 255, 0.18);
+            --border-soft: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .text-muted {
+            color: var(--muted2);
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            color: var(--text);
+            background: radial-gradient(1200px 700px at 50% -10%, rgba(255, 255, 255, 0.06), transparent 55%), radial-gradient(900px 700px at 50% 30%, rgba(255, 255, 255, 0.04), transparent 70%), linear-gradient(to bottom, var(--bg0), var(--bg1) 35%, var(--bg0) 100%);
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Dot grid texture */
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 18px 18px;
+            opacity: 0.14;
+            mix-blend-mode: overlay;
+            z-index: 0;
+            mask-image: radial-gradient(1200px 700px at 50% 10%, black 35%, transparent 70%);
+        }
+
+        /* micro scanlines */
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 3px, transparent 6px);
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            opacity: 0.92;
+        }
+
+        /* Canvas */
+        #stage {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+        }
+
+        .top-band {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            backdrop-filter: blur(10px);
+            background: linear-gradient(to bottom, rgba(10, 10, 12, 0.82), rgba(10, 10, 12, 0.62));
+            border-bottom: 1px solid var(--hair2);
+        }
+
+        .top-band:before,
+        .top-band:after {
+            content: "";
+            display: block;
+            height: 8px;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0px, rgba(255, 255, 255, 0.10) 1px, transparent 3px, transparent 7px);
+            opacity: 0.10;
+        }
+
+        .top-band:before {
+            border-bottom: 1px solid var(--hair2);
+        }
+
+        .top-band:after {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            opacity: 0.06;
+        }
+
+        .nav {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 12px var(--gutter);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 220px;
+        }
+
+        .mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: 1px solid var(--hair);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.28), transparent 55%), radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            background-size: auto, 5px 5px;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.38);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mark:after {
+            content: "";
+            position: absolute;
+            inset: -20%;
+            background: radial-gradient(circle at 60% 30%, rgba(255, 255, 255, 0.18), transparent 55%);
+            transform: rotate(18deg);
+            opacity: 0.7;
+        }
+
+        .brand-title {
+            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.1;
+        }
+
+        .brand-sub {
+            margin-top: 2px;
+            font-size: 11px;
+            color: var(--muted2);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .navlinks {
+            display: none;
+            gap: 18px;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 13px;
+        }
+
+        @media (min-width: 900px) {
+            .navlinks {
+                display: flex;
+            }
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-note {
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted2);
+            padding: 8px 12px;
+            border: 1px dashed var(--hair2);
+            border-radius: 999px;
+            display: none;
+        }
+
+        @media (min-width: 640px) {
+            .nav-note {
+                display: inline-flex;
+            }
+        }
+
+        .btn {
+            appearance: none;
+            border: 1px solid var(--hair);
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.88);
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 120ms ease, border-color 180ms ease, background 180ms ease, opacity 180ms ease;
+        }
+
+        .btn:hover {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn.primary {
+            background: rgba(255, 255, 255, 0.92);
+            color: rgba(0, 0, 0, 0.88);
+            border-color: rgba(255, 255, 255, 0.92);
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .btn.primary:hover {
+            background: rgba(255, 255, 255, 0.98);
+            border-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.65);
+            outline-offset: 2px;
+        }
+
+        /* HERO */
+        .hero {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 72px var(--gutter) 40px;
+            text-align: center;
+            position: relative;
+            isolation: isolate;
+        }
+
+        /* Readability scrim in hero */
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: -40px -10px 0 -10px;
+            height: 520px;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(700px 360px at 50% 35%, rgba(0, 0, 0, 0.78), transparent 70%), radial-gradient(900px 420px at 50% 55%, rgba(0, 0, 0, 0.42), transparent 72%);
+        }
+
+        .hero>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--hair2);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 999px;
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 12px;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+        }
+
+        .led {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--led);
+            box-shadow: 0 0 0 3px rgba(57, 255, 136, 0.12), 0 0 18px rgba(57, 255, 136, 0.35);
+        }
+
+        h1 {
+            margin: 18px auto 0;
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            line-height: 1.0;
+            font-size: clamp(40px, 5vw, 72px);
+            max-width: 18ch;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55), 0 18px 80px rgba(0, 0, 0, 0.75);
+        }
+
+        .subhead {
+            max-width: 70ch;
+            margin: 14px auto 0;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--muted);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45), 0 18px 70px rgba(0, 0, 0, 0.65);
+        }
+
+        .hero-ctas {
+            margin-top: 22px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-status {
+            margin-top: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status-card {
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            background: rgba(0, 0, 0, 0.32);
+            padding: 12px 16px;
+            backdrop-filter: blur(10px);
+            min-width: 220px;
+            text-align: left;
+        }
+
+        .status-card .status-label {
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            color: var(--muted2);
+            text-transform: uppercase;
+        }
+
+        .status-card .status-value {
+            margin-top: 6px;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .orbit-overlay {
+            position: absolute;
+            inset: -20px 0 auto 0;
+            height: 420px;
+            pointer-events: none;
+            opacity: 0.35;
+            mask-image: radial-gradient(closest-side at 50% 40%, black 45%, transparent 80%);
+            z-index: -1;
+            background: radial-gradient(circle at 50% 60%, transparent 46%, rgba(255, 255, 255, 0.10) 46.5%, transparent 47.5%), radial-gradient(ellipse at 50% 62%, transparent 50%, rgba(255, 255, 255, 0.06) 50.5%, transparent 51.5%), radial-gradient(ellipse at 50% 62%, transparent 62%, rgba(255, 255, 255, 0.05) 62.5%, transparent 63.5%);
+            transform: rotate(-6deg);
+        }
+
+        .console {
+            max-width: 900px;
+            margin: 46px auto 0;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 16px 16px 14px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 30px 110px rgba(0, 0, 0, 0.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .console:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(800px 220px at 30% 0%, rgba(255, 255, 255, 0.10), transparent 55%), radial-gradient(700px 240px at 100% 40%, rgba(255, 255, 255, 0.06), transparent 60%);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .console-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .console-title {
+            font-size: 13px;
+            color: rgba(213, 255, 234, 0.86);
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            flex: 1 1 260px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(57, 255, 136, 0.35);
+            background: linear-gradient(140deg, rgba(8, 12, 10, 0.92), rgba(12, 20, 16, 0.88) 55%, rgba(10, 12, 18, 0.85));
+            box-shadow: inset 0 0 18px rgba(57, 255, 136, 0.08), 0 20px 60px rgba(0, 0, 0, 0.55);
+            text-shadow: 0 0 12px rgba(57, 255, 136, 0.4);
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            animation: consolePulse 6.4s ease-in-out infinite;
+        }
+
+        .console-title:before {
+            content: "";
+            position: absolute;
+            inset: -40% -50% 35% -50%;
+            background: radial-gradient(circle at 20% 50%, rgba(57, 255, 136, 0.3), transparent 60%);
+            filter: blur(8px);
+            opacity: 0.9;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .console-title:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, rgba(57, 255, 136, 0), rgba(57, 255, 136, 0.4), rgba(57, 255, 136, 0));
+            transform: translateX(-120%);
+            animation: consoleSweep 11s ease-in-out infinite;
+            mix-blend-mode: screen;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes consolePulse {
+            0% {
+                box-shadow: inset 0 0 18px rgba(57, 255, 136, 0.08), 0 20px 60px rgba(0, 0, 0, 0.55);
+                color: rgba(213, 255, 234, 0.78);
+            }
+
+            50% {
+                box-shadow: inset 0 0 28px rgba(57, 255, 136, 0.18), 0 30px 80px rgba(0, 0, 0, 0.6);
+                color: rgba(255, 255, 255, 0.95);
+            }
+
+            100% {
+                box-shadow: inset 0 0 18px rgba(57, 255, 136, 0.08), 0 20px 60px rgba(0, 0, 0, 0.55);
+                color: rgba(213, 255, 234, 0.78);
+            }
+        }
+
+        @keyframes consoleSweep {
+            0% {
+                transform: translateX(-120%);
+                opacity: 0;
+            }
+
+            30% {
+                opacity: 0.8;
+            }
+
+            60% {
+                transform: translateX(140%);
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateX(160%);
+                opacity: 0;
+            }
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.18);
+            color: rgba(255, 255, 255, 0.70);
+            font-size: 12px;
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            letter-spacing: 0.04em;
+        }
+
+        .chip .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.80);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+            opacity: 0.9;
+        }
+
+        .console-actions {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.58);
+        }
+
+        .mini-pill {
+            border: 1px dashed var(--hair2);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 999px;
+            padding: 8px 10px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            color: var(--muted2);
+            transition: border-color 120ms ease, color 120ms ease;
+        }
+
+        .mini-pill:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.6);
+            outline-offset: 2px;
+        }
+
+        .mini-pill:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text);
+        }
+
+        .play {
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.05);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: transform 120ms ease, border-color 180ms ease, background 180ms ease;
+        }
+
+        .play:hover {
+            border-color: rgba(255, 255, 255, 0.26);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .play:active {
+            transform: translateY(1px);
+        }
+
+        .play svg {
+            opacity: 0.9;
+        }
+
+        .sep {
+            max-width: var(--maxw);
+            margin: 22px auto -22px;
+            padding: 0 var(--gutter);
+        }
+
+        .sep .line {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.14), transparent);
+        }
+
+        .sep .hatch {
+            height: 10px;
+            margin-top: 12px;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0px, rgba(255, 255, 255, 0.12) 1px, transparent 3px, transparent 8px);
+            opacity: 0.08;
+            border-radius: 999px;
+        }
+
+        .trust {
+            position: relative;
+            max-width: var(--maxw);
+            margin: 22px auto 12px;
+            padding: 18px calc(var(--gutter) + 2px);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px 22px;
+            border-radius: 3px;
+            color: rgba(255, 255, 255, 0.78);
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            font-size: 12px;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(7, 7, 10, 0.85);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(14px);
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .trust::before {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: 999px;
+            background: radial-gradient(650px 220px at 25% 50%, rgba(255, 255, 255, 0.08), transparent 60%), radial-gradient(450px 260px at 85% 50%, rgba(255, 255, 255, 0.04), transparent 65%);
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .trust span {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .trust .markdot {
+            width: 5px;
+            height: 5px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.35);
+            opacity: 0.7;
+        }
+
+        .trust .trust-label {
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.72);
+            position: relative;
+            z-index: 1;
+        }
+
+        .mobile-nav {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 16px var(--gutter) 0;
+            display: grid;
+            gap: 8px;
+        }
+
+        .mobile-nav-title {
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            color: var(--muted2);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .mobile-nav-links a {
+            border: 1px solid var(--hair2);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        @media (min-width: 900px) {
+            .mobile-nav {
+                display: none;
+            }
+        }
+
+        /* Sections */
+        .section {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 56px var(--gutter);
+            position: relative;
+            isolation: isolate;
+        }
+
+        /* Readability wash for sections */
+        .section::before {
+            content: "";
+            position: absolute;
+            inset: -24px -8px -24px -8px;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(900px 420px at 20% 10%, rgba(0, 0, 0, 0.62), transparent 70%), radial-gradient(900px 420px at 80% 40%, rgba(0, 0, 0, 0.52), transparent 70%), linear-gradient(to bottom, rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.15));
+            opacity: 0.95;
+        }
+
+        .section>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .kicker {
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.56);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .kicker .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kicker .sn {
+            color: var(--muted2);
+        }
+
+        .kicker .rule {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.10);
+            flex: 1;
+            border-radius: 99px;
+        }
+
+        .section h2 {
+            margin: 14px 0 0;
+            font-size: clamp(28px, 3.3vw, 48px);
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            font-weight: 600;
+            max-width: 18ch;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55), 0 18px 60px rgba(0, 0, 0, 0.70);
+        }
+
+        .section p.lede {
+            margin: 12px 0 0;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 72ch;
+            font-size: 15px;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45), 0 18px 50px rgba(0, 0, 0, 0.65);
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        @media (min-width: 900px) {
+            .grid2 {
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+            }
+        }
+
+        .card {
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+            position: relative;
+            min-height: 220px;
+        }
+
+        .card .inner {
+            padding: 16px 16px 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .card .title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.84);
+            letter-spacing: 0.02em;
+            font-weight: 600;
+        }
+
+        .card .desc {
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.60);
+            line-height: 1.6;
+            font-size: 13px;
+            max-width: 60ch;
+        }
+
+        .card .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.52);
+        }
+
+        .card .status .led {
+            width: 9px;
+            height: 9px;
+            box-shadow: 0 0 0 4px rgba(57, 255, 136, 0.10), 0 0 18px rgba(57, 255, 136, 0.32);
+            animation: ledPulse 2.8s ease-in-out infinite;
+        }
+
+        @keyframes ledPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.95;
+            }
+
+            50% {
+                transform: scale(0.86);
+                opacity: 0.55;
+            }
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(650px 240px at 25% 0%, rgba(255, 255, 255, 0.09), transparent 60%), radial-gradient(600px 300px at 100% 60%, rgba(255, 255, 255, 0.05), transparent 62%);
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .card:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0px, rgba(255, 255, 255, 0.10) 1px, transparent 3px, transparent 10px);
+            opacity: 0.05;
+            pointer-events: none;
+            mask-image: radial-gradient(closest-side at 40% 0%, black 35%, transparent 70%);
+        }
+
+        .preview {
+            margin-top: 14px;
+            height: 110px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(0, 0, 0, 0.32);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, box-shadow 320ms ease;
+            --pointer-x: 0.5;
+            --pointer-y: 0.5;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+        }
+
+        .preview::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at calc(var(--pointer-x, 0.5) * 100%) calc(var(--pointer-y, 0.5) * 100%), rgba(57, 255, 136, 0.12), rgba(57, 255, 136, 0.04) 45%, transparent 70%);
+            opacity: 0;
+            transition: opacity 220ms ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .preview.is-hovered {
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: translateY(-4px);
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.50);
+        }
+
+        .preview.is-hovered::after {
+            opacity: 1;
+        }
+
+        .preview.is-active {
+            transform: translateY(-2px) scale(0.99);
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.55);
+        }
+
+        .preview canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            opacity: 0.94;
+            position: absolute;
+            inset: 0;
+            transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), filter 320ms ease;
+            pointer-events: none;
+        }
+
+        .preview.is-hovered canvas.spark {
+            filter: drop-shadow(0 0 12px rgba(57, 255, 136, 0.24));
+            transform: scale(1.02) translateY(-1px);
+        }
+
+        .preview.is-hovered canvas.orbit {
+            filter: drop-shadow(0 0 14px rgba(120, 180, 255, 0.22));
+            transform: scale(1.015);
+        }
+
+        .preview.is-active canvas.spark,
+        .preview.is-active canvas.orbit {
+            transform: scale(1.025) translateY(1px);
+            filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.32));
+        }
+
+        .preview .label {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.55);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .preview .label .tiny {
+            width: 6px;
+            height: 6px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.55);
+            opacity: 0.7;
+        }
+
+        /* Visit */
+        .visit {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 22px;
+            align-items: start;
+        }
+
+        @media (min-width: 900px) {
+            .visit {
+                grid-template-columns: 0.9fr 1.1fr;
+                gap: 18px;
+            }
+        }
+
+        .panel {
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .panel .inner {
+            padding: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .panel .mono {
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.64);
+        }
+
+        .panel .addr {
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .panel ul {
+            list-style: none;
+            padding: 0;
+            margin: 14px 0 0;
+            display: grid;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 13px;
+        }
+
+        .panel li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .panel-actions {
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .bullet {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.04);
+            margin-top: 4px;
+            flex: 0 0 auto;
+        }
+
+        .map {
+            aspect-ratio: 16 / 10;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .map iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(100%) contrast(140%) brightness(0.92);
+            opacity: 0.95;
+        }
+
+        .map:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(800px 280px at 30% 0%, rgba(255, 255, 255, 0.10), transparent 60%), radial-gradient(700px 260px at 110% 70%, rgba(255, 255, 255, 0.06), transparent 55%);
+            opacity: 0.50;
+        }
+
+        /* Membership */
+        .membership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .membership-card {
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.28);
+            padding: 18px;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .membership-card h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .membership-card p {
+            margin: 10px 0 0;
+            color: var(--muted);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .tag-list {
+            margin: 14px 0 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-list span {
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            letter-spacing: 0.08em;
+            font-size: 11px;
+            text-transform: uppercase;
+            border: 1px solid var(--hair2);
+            border-radius: 999px;
+            padding: 6px 10px;
+            color: var(--muted2);
+        }
+
+        .membership-note {
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--muted2);
+            line-height: 1.5;
+        }
+
+        /* Email capture */
+        .capture {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1 1 240px;
+            min-width: 220px;
+        }
+
+        .field-group label {
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted2);
+        }
+
+        .field {
+            flex: 1 1 280px;
+            min-width: 240px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(0, 0, 0, 0.22);
+            padding: 12px 12px;
+            color: rgba(255, 255, 255, 0.86);
+            font-size: 14px;
+            transition: border-color 160ms ease, background 160ms ease;
+        }
+
+        .field.select {
+            font-size: 13px;
+            letter-spacing: 0.02em;
+            background-image: linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.5) 50%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.5) 50%, transparent 50%);
+            background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+            background-size: 6px 6px, 6px 6px;
+            background-repeat: no-repeat;
+            appearance: none;
+            padding-right: 36px;
+        }
+
+        .field::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .field:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.36);
+            background: rgba(0, 0, 0, 0.28);
+        }
+
+        .field:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.55);
+            outline-offset: 2px;
+        }
+
+        .fineprint {
+            margin-top: 10px;
+            color: var(--muted2);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        footer {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 28px var(--gutter) 48px;
+            color: rgba(255, 255, 255, 0.50);
+            font-family: "IBM Plex Mono", ui-monospace, monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            flex-wrap: wrap;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%) translateY(18px);
+            background: rgba(10, 10, 12, 0.86);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 13px;
+            box-shadow: 0 18px 70px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 180ms ease, transform 180ms ease;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card .status .led {
+                animation: none;
+            }
+
+            .preview,
+            .preview canvas {
+                transition: none !important;
+                transform: none !important;
+            }
+
+            .console-title,
+            .console-title:after {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="stage"></canvas>
+    <div class="wrap">
+        <div class="top-band">
+            <div class="nav">
+                <div class="brand">
+                    <div class="mark" aria-hidden="true"></div>
+                    <div>
+                        <div class="brand-title">East Bay Makers Club</div>
+                        <div class="brand-sub">Archive Build 0.1</div>
+                    </div>
+                </div>
+
+                <div class="nav-cta"> <span class="nav-note">Member portal · coming soon</span> <a class="btn primary"
+                        href="#updates">Get updates</a> </div>
+            </div>
+        </div>
+        <main id="mainContent">
+            <header class="hero" id="top">
+                <div class="orbit-overlay" aria-hidden="true"></div>
+                <div class="pill"> <span class="led" aria-hidden="true"></span> <span>NEW SPACE • MEMBERSHIPS OPENING
+                        SOON</span> </div>
+                <h1>A new space for building and community.</h1>
+                <p class="subhead"> Tools, classes, and a builder community for the East Bay.<br />CNC mill, laser
+                    cutter, 3D printing,
+                    electronics, and serious shop time. </p>
+                <div class="hero-status" aria-label="Project status">
+                    <div class="status-card">
+                        <div class="status-label">Opening target</div>
+                        <div class="status-value">Jan 2026</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-label">Current status</div>
+                        <div class="status-value">Space build-out + early tours</div>
+                    </div>
+                </div>
+
+    </div>
+    <div class="sep">
+        <div class="line"></div>
+        <div class="hatch"></div>
+    </div>
+    <div class="trust" aria-label="Planned tool stack"> <span class="trust-label">Tool stack (in progress)</span>
+        <span><i class="markdot"></i> PRUSA 3D PRINTERS</span> <span><i class="markdot"></i> GLOWFORGE
+        </span> <span><i class="markdot"></i> ELECTRONIC BOARD LAB</span> <span><i class="markdot"></i> AUTODESK
+            FUSION</span> <span><i class="markdot"></i> SHOPBOT</span>
+    </div>
+    </header>
+    <nav class="mobile-nav" aria-label="Sections">
+        <div class="mobile-nav-title">Sections</div>
+        <div class="mobile-nav-links"> <a href="#space">Space</a> <a href="#tools">Tools</a> <a
+                href="#classes">Classes</a> <a href="#membership">Membership</a> <a href="#visit">Visit</a> <a
+                href="#updates">Updates</a> </div>
+    </nav>
+    <section class="section" id="space">
+        <div class="kicker">
+            <div class="left"><span class="led" aria-hidden="true"></span> ARCHIVE DATA / EBMC</div>
+            <div class="rule" aria-hidden="true"></div>
+            <div class="sn">SN. 25/001/000/05</div>
+        </div>
+        <h2>Built for hands-on work.</h2>
+        <div class="grid2">
+            <article class="card" id="tools">
+                <div class="inner">
+                    <div class="head">
+                        <div>
+                            <div class="title">Tool Access</div>
+                            <div class="desc">CNC, laser, 3D printers, electronics bench, and a clean workflow from
+                                idea to part.</div>
+                        </div>
+                        <div class="status"><span class="led" aria-hidden="true"></span> READY</div>
+                    </div>
+                    <div class="preview">
+                        <div class="label"><span class="tiny" aria-hidden="true"></span> OSCILLOSCOPE / CH1</div>
+                        <canvas class="spark" aria-hidden="true"></canvas>
+                    </div>
+                </div>
+            </article>
+            <article class="card" id="classes">
+                <div class="inner">
+                    <div class="head">
+                        <div>
+                            <div class="title">Community + Classes</div>
+                            <div class="desc">Monthly classes, equipment certs, mentorship, and member-only build nights
+                                & events.</div>
+                        </div>
+                        <div class="status"><span class="led" aria-hidden="true"></span> ONLINE</div>
+                    </div>
+                    <div class="preview">
+                        <div class="label"><span class="tiny" aria-hidden="true"></span> ORBIT DIAGRAM</div> <canvas
+                            class="orbit" aria-hidden="true"></canvas>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="updates">
+        <div class="kicker">
+            <div class="left"><span class="led" aria-hidden="true"></span> MEMBERSHIP LIST</div>
+            <div class="rule" aria-hidden="true"></div>
+            <div class="sn">NO SPAM</div>
+        </div>
+        <h2>Get updates.</h2>
+        <p class="lede">Member openings + class drops only. No noise.</p>
+
+        <form class="capture" id="signupForm" autocomplete="on"
+            action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post">
+            <label for="email" class="sr-only">Email</label>
+            <input class="field" id="email" name="email" type="email" placeholder="Email address" required />
+
+            <!-- tells Buttondown this is an embedded form -->
+            <input type="hidden" name="embed" value="1" />
+
+            <button class="btn primary" type="submit">Join</button>
+        </form>
+        <div class="fineprint"> By joining, you’ll get occasional announcements about openings and programming.
+            That’s it. </div>
+    </section>
+
+    <section class="section" id="membership">
+        <div class="kicker">
+            <div class="left"><span class="led" aria-hidden="true"></span> MEMBERSHIP MODULE</div>
+            <div class="rule" aria-hidden="true"></div>
+            <div class="sn">COHORT FORMING</div>
+        </div>
+        <h2>Membership is staged + limited.</h2>
+        <p class="lede">We’re opening with a member founding cohort. Passionate builders ready to get started.</p>
+        <div class="membership-grid">
+            <article class="membership-card">
+                <h3>Early 2026</h3>
+                <p>Small group of passionate builders, beta classes, and a shared build calendar. Co-shape the workflows
+                    and layout with the founding cohort.</p>
+                <div class="tag-list"> <span>Early access</span> <span>Tool training</span> <span>Early pricing</span>
+                </div>
+            </article>
+            <article class="membership-card">
+                <h3>Early founding pricing</h3>
+                <p>Founding pricing at <strong>$55/mo</strong> to start. Expect scheduled build blocks while we dial
+                    staffing and flows, with early members steering operating hours in real time.</p>
+                <div class="tag-list"> <span>Nights + weekends</span> <span>Community</span> <span>Build nights</span>
+                </div>
+            </article>
+            <article class="membership-card">
+                <h3>Tell us what matters</h3>
+                <p>Tell us which stack you need most—CNC, metal, electronics, or classroom-only time. Programming
+                    priority and equipment expansion follow this signal so every card stays useful.</p>
+                <div class="tag-list"> <span>CNC / wood</span> <span>Metal</span> <span>3D printing</span>
+                    <span>Electronics</span> <span>Classes only</span>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="section" id="visit">
+        <div class="kicker">
+            <div class="left"><span class="led" aria-hidden="true"></span> VISIT MODULE</div>
+            <div class="rule" aria-hidden="true"></div>
+            <div class="sn">BERKELEY, CA</div>
+        </div>
+        <h2>Find the space.</h2>
+        <p class="lede">Close to transit. Easy parking. Bring your project brain.</p>
+        <div class="visit">
+            <div class="panel">
+                <div class="inner">
+                    <div class="mono">EAST BAY MAKERS CLUB</div>
+                    <div class="addr"> <strong>1619 San Pablo Ave.</strong><br /> Berkeley, CA 94702 </div>
+                    <ul>
+                        <li><span class="bullet" aria-hidden="true"></span>Member openings announced via email.</li>
+                        <li><span class="bullet" aria-hidden="true"></span>Tools: CNC mill, laser, 3d printing,
+                            electronics bench.</li>
+                        <li><span class="bullet" aria-hidden="true"></span>Build nights, small groups, classes.</li>
+                    </ul>
+                    <div class="panel-actions"> <a class="btn" href="#updates">Get updates</a> <a class="btn"
+                            target="_blank" rel="noreferrer" href="https://maps.app.goo.gl/eZpfscjaT95YaREL9">Open in
+                            maps</a> </div>
+                </div>
+            </div>
+            <div class="map" aria-label="Map"> <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=-122.295478284359%2C37.87346448977305%2C-122.29250103235248%2C37.8754250383831&layer=mapnik&marker=37.874529%2C-122.293490">
+                </iframe>
+
+
+
+            </div>
+        </div>
+    </section>
+
+    </main>
+    <footer>
+        <div>ARCHIVE: EBMC // BUILD 0.1</div>
+        <div>© <span id="year"></span> EAST BAY MAKERS CLUB</div>
+        <div>SN. 25/001/000/05</div>
+    </footer>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"> <span class="led" aria-hidden="true"></span> <span
+            id="toastMsg">Saved.</span> </div>
+    <script>
+        (() => {
+            // Respect reduced-motion user preference
+            const prefersReduced =
+                window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+            const previewState = new WeakMap();
+            const previewActiveTimers = new WeakMap();
+            const finePointer =
+                window.matchMedia?.("(pointer: fine)")?.matches ?? false;
+
+            function getPreviewState(canvas) {
+                let state = previewState.get(canvas);
+                if (!state) {
+                    state = {
+                        hover: 0,
+                        hoverTarget: 0,
+                        cursorX: 0.5,
+                        cursorY: 0.5,
+                        cursorTargetX: 0.5,
+                        cursorTargetY: 0.5,
+                        boost: 0,
+                        seed: Math.random() * 1000,
+                    };
+                    previewState.set(canvas, state);
+                }
+                return state;
+            }
+
+            function requestStaticPreviewRender() {
+                if (prefersReduced) tickPreviews();
+            }
+
+            const noise = (() => {
+                const fract = (x) => x - Math.floor(x);
+                const hash = (x) => fract(Math.sin(x) * 43758.5453123);
+
+                function smoothNoise(x) {
+                    const i0 = Math.floor(x);
+                    const i1 = i0 + 1;
+                    const t = x - i0;
+                    return (1 - t) * hash(i0 * 12.9898 + 78.233) + t * hash(i1 * 12.9898 + 78.233);
+                }
+
+                function fbm(x, octaves = 3, falloff = 0.5) {
+                    let value = 0;
+                    let amplitude = 1;
+                    let frequency = 1;
+                    let norm = 0;
+                    for (let i = 0; i < octaves; i++) {
+                        value += smoothNoise(x * frequency) * amplitude;
+                        norm += amplitude;
+                        amplitude *= falloff;
+                        frequency *= 2;
+                    }
+                    return norm ? (value / norm) * 2 - 1 : 0;
+                }
+
+                return { fbm };
+            })();
+
+            // ------------------------------------------------------------
+            // Footer year
+            // ------------------------------------------------------------
+            document.getElementById("year").textContent = new Date().getFullYear();
+
+            // ------------------------------------------------------------
+            // Toast helper
+            // ------------------------------------------------------------
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toastMsg");
+            let toastTimer = null;
+
+            function showToast(msg) {
+                toastMsg.textContent = msg;
+                toast.classList.add("show");
+
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+            }
+
+            // ------------------------------------------------------------
+            // Email capture (local-only v1)
+            // ------------------------------------------------------------
+            document
+                .getElementById("signupForm")
+                .addEventListener("submit", (e) => {
+                    showToast("Saved — we’ll keep you posted.");
+                });
+
+            function forEachPreviewCanvas(preview, cb) {
+                preview
+                    .querySelectorAll("canvas")
+                    .forEach((canvas) => cb(getPreviewState(canvas), canvas));
+            }
+
+            function updatePreviewHover(preview, hovering) {
+                forEachPreviewCanvas(preview, (state) => {
+                    state.hoverTarget = hovering ? 1 : 0;
+                });
+                requestStaticPreviewRender();
+            }
+
+            function updatePreviewCursor(preview, x = 0.5, y = 0.5) {
+                const clampedX = Math.max(0, Math.min(1, x));
+                const clampedY = Math.max(0, Math.min(1, y));
+                preview.style.setProperty("--pointer-x", clampedX.toFixed(3));
+                preview.style.setProperty("--pointer-y", clampedY.toFixed(3));
+                forEachPreviewCanvas(preview, (state) => {
+                    state.cursorTargetX = clampedX;
+                    state.cursorTargetY = clampedY;
+                });
+                requestStaticPreviewRender();
+            }
+
+            function energizePreview(preview) {
+                preview.classList.add("is-active");
+                const prior = previewActiveTimers.get(preview);
+                if (prior) clearTimeout(prior);
+
+                forEachPreviewCanvas(preview, (state) => {
+                    state.boost = Math.min(1.4, (state.boost || 0) + 1);
+                });
+                requestStaticPreviewRender();
+
+                const timer = setTimeout(() => preview.classList.remove("is-active"), 260);
+                previewActiveTimers.set(preview, timer);
+            }
+
+            function initPreviewInteractivity() {
+                document.querySelectorAll(".card .preview").forEach((preview) => {
+                    updatePreviewCursor(preview, 0.5, 0.5);
+
+                    preview.addEventListener("pointerenter", (event) => {
+                        const rect = preview.getBoundingClientRect();
+                        const x = (event.clientX - rect.left) / rect.width;
+                        const y = (event.clientY - rect.top) / rect.height;
+                        updatePreviewCursor(preview, x, y);
+                        preview.classList.add("is-hovered");
+                        updatePreviewHover(preview, true);
+                    });
+
+                    preview.addEventListener("pointerleave", () => {
+                        preview.classList.remove("is-hovered");
+                        preview.classList.remove("is-active");
+                        updatePreviewHover(preview, false);
+                        updatePreviewCursor(preview, 0.5, 0.5);
+                    });
+
+                    preview.addEventListener("pointerdown", (event) => {
+                        const rect = preview.getBoundingClientRect();
+                        const x = (event.clientX - rect.left) / rect.width;
+                        const y = (event.clientY - rect.top) / rect.height;
+                        updatePreviewCursor(preview, x, y);
+                        energizePreview(preview);
+                    });
+
+                    preview.addEventListener("pointerup", () => {
+                        preview.classList.remove("is-active");
+                    });
+
+                    preview.addEventListener("pointercancel", () => {
+                        preview.classList.remove("is-active");
+                    });
+
+                    const handlePointerMove = (event) => {
+                        if (!finePointer) return;
+                        const rect = preview.getBoundingClientRect();
+                        const x = (event.clientX - rect.left) / rect.width;
+                        const y = (event.clientY - rect.top) / rect.height;
+                        updatePreviewCursor(preview, x, y);
+                    };
+
+                    preview.addEventListener("pointermove", handlePointerMove);
+                });
+            }
+
+            /* ============================================================
+               Preview Canvas: Oscilloscope-style signal trace
+               ============================================================ */
+            function drawScope(canvas) {
+                const ctx = canvas.getContext("2d");
+                const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+                const rect = canvas.getBoundingClientRect();
+
+                canvas.width = Math.floor(rect.width * dpr);
+                canvas.height = Math.floor(rect.height * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                const w = rect.width;
+                const h = rect.height;
+                const state = getPreviewState(canvas);
+
+                state.hover += (state.hoverTarget - state.hover) * 0.08;
+                state.boost = Math.max(0, (state.boost || 0) * 0.9);
+
+                const hover = state.hover;
+                const boost = state.boost;
+                state.cursorX += (state.cursorTargetX - state.cursorX) * 0.12;
+                state.cursorY += (state.cursorTargetY - state.cursorY) * 0.12;
+                const cursorX = state.cursorX;
+                const cursorY = state.cursorY;
+                const pointerTilt = (cursorX - 0.5) * 0.9;
+                const pointerLift = (0.5 - cursorY) * 0.65;
+
+                ctx.clearRect(0, 0, w, h);
+
+                const divX = 10;
+                const divY = 6;
+                const gx = w / divX;
+                const gy = h / divY;
+
+                // Panel background
+                const bg = ctx.createLinearGradient(0, 0, 0, h);
+                bg.addColorStop(0, "rgba(5,10,12,0.95)");
+                bg.addColorStop(1, "rgba(5,8,10,0.8)");
+                ctx.fillStyle = bg;
+                ctx.fillRect(0, 0, w, h);
+
+                // Minor grid
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = "rgba(255,255,255,0.05)";
+
+                for (let i = 0; i <= divX * 5; i++) {
+                    const x = (w / (divX * 5)) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                    ctx.stroke();
+                }
+
+                for (let j = 0; j <= divY * 5; j++) {
+                    const y = (h / (divY * 5)) * j;
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                    ctx.stroke();
+                }
+
+                // Major grid
+                ctx.strokeStyle = "rgba(255,255,255,0.12)";
+
+                for (let i = 0; i <= divX; i++) {
+                    const x = i * gx;
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                    ctx.stroke();
+                }
+
+                for (let j = 0; j <= divY; j++) {
+                    const y = j * gy;
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                    ctx.stroke();
+                }
+
+                // Center crosshair
+                ctx.strokeStyle = "rgba(255,255,255,0.16)";
+                ctx.beginPath();
+                ctx.moveTo(0, h / 2);
+                ctx.lineTo(w, h / 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(w / 2, 0);
+                ctx.lineTo(w / 2, h);
+                ctx.stroke();
+
+                // Signal synthesis
+                const samples = Math.max(128, Math.floor(w));
+                if (!state.trace || state.trace.length !== samples) {
+                    state.trace = new Float32Array(samples);
+                    state.afterglow = new Float32Array(samples);
+                    state.phase = 0;
+                }
+
+                state.phase += 0.015 + hover * 0.003 + boost * 0.008;
+                const baseFreq = 6.28318 * (0.9 + pointerTilt * 0.15);
+                const vPerDiv = 0.5;
+                const pxPerVolt = (gy / vPerDiv) * (1 + hover * 0.06 + boost * 0.25);
+
+                for (let i = 0; i < samples; i++) {
+                    const xNorm = i / (samples - 1);
+                    const t = state.phase + xNorm * (2.8 + boost * 0.4);
+                    const sine =
+                        0.78 * Math.sin(t * baseFreq) +
+                        0.22 * Math.sin(t * baseFreq * 1.8 + 0.8) +
+                        0.08 * Math.sin(t * baseFreq * 3.2 + 1.4);
+                    const stepWindow = Math.max(
+                        0,
+                        1 - Math.abs(xNorm - (0.42 + pointerTilt * 0.1)) * 18
+                    );
+                    const step = stepWindow * (0.32 + 0.12 * Math.sin(t * 2.0));
+                    const baseline = pointerLift * 0.35;
+                    const crest =
+                        sine * (1 + hover * 0.08) +
+                        step +
+                        baseline +
+                        noise.fbm(t * 32 + state.seed * 10, 3, 0.5) * 0.015;
+
+                    const smoothing = 0.16;
+                    const glowSmooth = 0.05;
+                    state.trace[i] += (crest - state.trace[i]) * smoothing;
+                    state.afterglow[i] += (state.trace[i] - state.afterglow[i]) * glowSmooth;
+                }
+
+                // Under-glow
+                ctx.globalCompositeOperation = "lighter";
+                ctx.lineWidth = 3.4;
+                ctx.strokeStyle = "rgba(57,255,136,0.12)";
+                ctx.beginPath();
+
+                for (let i = 0; i < samples; i++) {
+                    const x = (w / (samples - 1)) * i;
+                    const yv = h / 2 - state.afterglow[i] * pxPerVolt;
+                    if (i === 0) ctx.moveTo(x, yv);
+                    else ctx.lineTo(x, yv);
+                }
+
+                ctx.stroke();
+
+                // Main trace
+                ctx.globalCompositeOperation = "source-over";
+                ctx.lineWidth = 1.4;
+                ctx.strokeStyle = `rgba(245,255,255,${0.78 + hover * 0.12 + boost * 0.18})`;
+                ctx.beginPath();
+
+                for (let i = 0; i < samples; i++) {
+                    const x = (w / (samples - 1)) * i;
+                    const yv = h / 2 - state.trace[i] * pxPerVolt;
+                    if (i === 0) ctx.moveTo(x, yv);
+                    else ctx.lineTo(x, yv);
+                }
+
+                ctx.stroke();
+
+                // Measurement bullets
+                ctx.fillStyle = "rgba(255,255,255,0.9)";
+                ctx.globalAlpha = 0.65 + boost * 0.2;
+
+                for (let k = 0; k < 4; k++) {
+                    const idx = Math.floor(((samples - 1) * (0.55 + k * 0.08)));
+                    const x = (w / (samples - 1)) * idx;
+                    const yv = h / 2 - state.trace[idx] * pxPerVolt;
+                    ctx.beginPath();
+                    ctx.arc(x, yv, 1.9 + boost * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Readouts
+                ctx.globalAlpha = 0.8;
+                ctx.fillStyle = "rgba(255,255,255,0.9)";
+                ctx.font = "11px 'IBM Plex Mono', ui-monospace, monospace";
+                const readoutY = h - 36;
+                ctx.fillText("CH1 0.50V/div", 10, readoutY);
+                ctx.fillText("TIME 2.0ms/div", 10, readoutY + 14);
+                ctx.fillText(
+                    `TRIG RISE ${pointerTilt >= 0 ? "+" : ""}${(pointerTilt * 0.2).toFixed(
+                        2
+                    )}V`,
+                    10,
+                    readoutY + 28
+                );
+
+                // Trigger marker
+                ctx.globalAlpha = 0.55;
+                ctx.strokeStyle = "rgba(255,255,255,0.7)";
+                ctx.lineWidth = 1;
+                const markerY = h / 2 - pointerLift * pxPerVolt;
+                ctx.beginPath();
+                ctx.moveTo(6, markerY);
+                ctx.lineTo(14, markerY - 6);
+                ctx.lineTo(14, markerY + 6);
+                ctx.closePath();
+                ctx.stroke();
+            }
+
+            /* ============================================================
+               Preview Canvas: coherent orbit diagram (great circles + nodes)
+               ============================================================ */
+            function drawOrbit(canvas) {
+                const ctx = canvas.getContext("2d");
+                const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+                const rect = canvas.getBoundingClientRect();
+
+                canvas.width = Math.floor(rect.width * dpr);
+                canvas.height = Math.floor(rect.height * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                const w = rect.width;
+                const h = rect.height;
+                const t = performance.now() * 0.001;
+                const state = getPreviewState(canvas);
+
+                state.hover += (state.hoverTarget - state.hover) * 0.08;
+                state.boost = Math.max(0, (state.boost || 0) * 0.9);
+                const hover = state.hover;
+                const boost = state.boost;
+                state.cursorX += (state.cursorTargetX - state.cursorX) * 0.12;
+                state.cursorY += (state.cursorTargetY - state.cursorY) * 0.12;
+                const cursorX = state.cursorX;
+                const cursorY = state.cursorY;
+                const pointerYaw = (cursorX - 0.5) * 0.8;
+                const pointerPitch = (0.5 - cursorY) * 0.8;
+                const orbitScale = 0.3 + hover * 0.04 + boost * 0.05;
+                const sweepSpeed = 0.28 + hover * 0.05 + boost * 0.12;
+
+                ctx.clearRect(0, 0, w, h);
+
+                // subtle grid
+                ctx.globalAlpha = 0.12 + hover * 0.04;
+                ctx.strokeStyle = "rgba(255,255,255,0.35)";
+                ctx.lineWidth = 1;
+
+                for (let x = 0; x < w; x += 34) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                    ctx.stroke();
+                }
+
+                for (let y = 0; y < h; y += 34) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                    ctx.stroke();
+                }
+
+                const cx = w * 0.62;
+                const cy = h * 0.58;
+                const R = Math.min(w, h) * orbitScale;
+
+                const yaw =
+                    -0.55 + Math.sin(t * 0.12) * 0.06 + pointerYaw * 0.5 + boost * 0.15;
+                const pitch =
+                    0.35 + Math.cos(t * 0.1) * 0.05 + pointerPitch * 0.5;
+
+                if (state.yawSmooth === undefined) state.yawSmooth = yaw;
+                if (state.pitchSmooth === undefined) state.pitchSmooth = pitch;
+                state.yawSmooth += (yaw - state.yawSmooth) * 0.1;
+                state.pitchSmooth += (pitch - state.pitchSmooth) * 0.1;
+                const smoothYaw = state.yawSmooth;
+                const smoothPitch = state.pitchSmooth;
+
+                function cross(a, b) {
+                    return {
+                        x: a.y * b.z - a.z * b.y,
+                        y: a.z * b.x - a.x * b.z,
+                        z: a.x * b.y - a.y * b.x,
+                    };
+                }
+
+                function normalize(v) {
+                    const m = Math.hypot(v.x, v.y, v.z) || 1;
+                    return { x: v.x / m, y: v.y / m, z: v.z / m };
+                }
+
+                function rotY(v) {
+                    const c = Math.cos(smoothYaw);
+                    const s = Math.sin(smoothYaw);
+                    return {
+                        x: v.x * c + v.z * s,
+                        y: v.y,
+                        z: -v.x * s + v.z * c,
+                    };
+                }
+
+                function rotX(v) {
+                    const c = Math.cos(smoothPitch);
+                    const s = Math.sin(smoothPitch);
+                    return {
+                        x: v.x,
+                        y: v.y * c - v.z * s,
+                        z: v.y * s + v.z * c,
+                    };
+                }
+
+                function proj(v) {
+                    const z = v.z + 2.6;
+                    const p = 1.0 / z;
+                    return {
+                        x: cx + v.x * R * p,
+                        y: cy + v.y * R * p,
+                    };
+                }
+
+                function drawGreatCircle(normal, alpha) {
+                    const n = normalize(normal);
+                    const a = Math.abs(n.x) < 0.9 ? { x: 1, y: 0, z: 0 } : { x: 0, y: 1, z: 0 };
+                    const u = normalize(cross(n, a));
+                    const v = cross(n, u);
+
+                    ctx.globalAlpha = alpha;
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = "rgba(255,255,255,0.72)";
+                    ctx.beginPath();
+
+                    let started = false;
+
+                    for (let i = 0; i <= 360; i++) {
+                        const ang = (i / 360) * Math.PI * 2;
+                        const p3 = {
+                            x: u.x * Math.cos(ang) + v.x * Math.sin(ang),
+                            y: u.y * Math.cos(ang) + v.y * Math.sin(ang),
+                            z: u.z * Math.cos(ang) + v.z * Math.sin(ang),
+                        };
+
+                        const r = rotX(rotY(p3));
+                        const p2 = proj(r);
+
+                        if (!started) {
+                            ctx.moveTo(p2.x, p2.y);
+                            started = true;
+                        } else {
+                            ctx.lineTo(p2.x, p2.y);
+                        }
+                    }
+
+                    ctx.stroke();
+                    return { n, u, v };
+                }
+
+                // Sphere silhouette
+                ctx.globalAlpha = 0.55 + hover * 0.1;
+                ctx.strokeStyle = "rgba(255,255,255,0.28)";
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(cx, cy, R * 0.92, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Great circles
+                drawGreatCircle({ x: 0, y: 1, z: 0 }, 0.45);
+                const orbitFrame = drawGreatCircle(
+                    { x: 0.75, y: 0.2, z: 0.63 },
+                    0.55
+                );
+
+                // Nodes on the tilted orbit
+                function pointOnOrbit(ang) {
+                    const p3 = {
+                        x: orbitFrame.u.x * Math.cos(ang) + orbitFrame.v.x * Math.sin(ang),
+                        y: orbitFrame.u.y * Math.cos(ang) + orbitFrame.v.y * Math.sin(ang),
+                        z: orbitFrame.u.z * Math.cos(ang) + orbitFrame.v.z * Math.sin(ang),
+                    };
+                    return rotX(rotY(p3));
+                }
+
+                const nodes = [
+                    { ang: 0.55 + t * sweepSpeed, label: "N12" },
+                    { ang: 2.15 + t * sweepSpeed, label: "N33" },
+                    { ang: 4.1 + t * sweepSpeed, label: "N411" },
+                ];
+
+                ctx.font = "11px 'IBM Plex Mono', ui-monospace, monospace";
+
+                for (const n of nodes) {
+                    const p3 = pointOnOrbit(n.ang);
+                    const p2 = proj(p3);
+
+                    ctx.globalAlpha = 0.85 + boost * 0.1;
+                    ctx.fillStyle = "rgba(255,255,255,0.92)";
+                    ctx.beginPath();
+                    ctx.arc(p2.x, p2.y, 2.2 + boost * 0.8, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.globalAlpha = 0.55 + hover * 0.1;
+                    ctx.fillStyle = "rgba(255,255,255,0.75)";
+                    ctx.fillText(n.label, p2.x + 8, p2.y + 4);
+                }
+
+                // Axis lines (registry feel)
+                ctx.globalAlpha = 0.24 + hover * 0.05;
+                ctx.strokeStyle = "rgba(255,255,255,0.25)";
+                ctx.beginPath();
+                ctx.moveTo(cx - R * 0.95, cy);
+                ctx.lineTo(cx + R * 0.95, cy);
+                ctx.moveTo(cx, cy - R * 0.95);
+                ctx.lineTo(cx, cy + R * 0.95);
+                ctx.stroke();
+            }
+
+            // ------------------------------------------------------------
+            // Preview tick + loop
+            // ------------------------------------------------------------
+            function tickPreviews() {
+                document.querySelectorAll("canvas.spark").forEach(drawScope);
+                document.querySelectorAll("canvas.orbit").forEach(drawOrbit);
+            }
+
+            function loopPreviews() {
+                tickPreviews();
+                if (!prefersReduced) requestAnimationFrame(loopPreviews);
+            }
+
+            initPreviewInteractivity();
+            loopPreviews();
+            window.addEventListener("resize", tickPreviews);
+
+            /* ============================================================
+               THREE.JS — ordered-dither dome + subtle wire wave + scroll fade
+               ============================================================ */
+            const canvas = document.getElementById("stage");
+
+            const stageSupported = (() => {
+                if (!window.WebGLRenderingContext || !window.THREE) return false;
+                try {
+                    const test = document.createElement("canvas");
+                    return !!(
+                        test.getContext("webgl") || test.getContext("experimental-webgl")
+                    );
+                } catch {
+                    return false;
+                }
+            })();
+
+            if (!stageSupported) {
+                canvas.remove();
+                return;
+            }
+
+            const heroSection = document.getElementById("top");
+            let scrollPerturb = 0;
+            const stagePointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas,
+                antialias: true,
+                alpha: true,
+            });
+
+            renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x07070a, 0.07);
+
+            const camera = new THREE.PerspectiveCamera(
+                52,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                200
+            );
+            camera.position.set(0, 0.8, 10.6);
+
+            const lightDir = new THREE.Vector3(-0.25, 0.45, 1.0).normalize();
+
+            // Point cloud dome
+            const isSmallViewport = window.innerWidth < 768;
+            const count = isSmallViewport ? 32000 : 52000;
+            const pos = new Float32Array(count * 3);
+            const nrm = new Float32Array(count * 3);
+            const seed = new Float32Array(count);
+            const golden = (1 + Math.sqrt(5)) / 2;
+            const radius = 5.6;
+
+            for (let i = 0; i < count; i++) {
+                const tt = i / (count - 1);
+                const inclination = Math.acos(1 - 2 * tt);
+                const azimuth = (2 * Math.PI * i) / golden;
+
+                const x = Math.sin(inclination) * Math.cos(azimuth);
+                const y = Math.cos(inclination);
+                const z = Math.sin(inclination) * Math.sin(azimuth);
+
+                pos[i * 3 + 0] = x * radius;
+                pos[i * 3 + 1] = y * radius * 0.78 - 3.0;
+                pos[i * 3 + 2] = z * radius;
+
+                nrm[i * 3 + 0] = x;
+                nrm[i * 3 + 1] = y;
+                nrm[i * 3 + 2] = z;
+
+                seed[i] = (i * 0.6180339887) % 1;
+            }
+
+            const geo = new THREE.BufferGeometry();
+            geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+            geo.setAttribute("normal", new THREE.BufferAttribute(nrm, 3));
+            geo.setAttribute("aSeed", new THREE.BufferAttribute(seed, 1));
+
+            const uniforms = {
+                uTime: { value: 0 },
+                uLightDir: { value: lightDir },
+                uPixelRatio: { value: Math.min(2, window.devicePixelRatio || 1) },
+                uOpacity: { value: 0.95 },
+                uGlobalFade: { value: 1.0 },
+            };
+
+            const material = new THREE.ShaderMaterial({
+                transparent: true,
+                depthWrite: false,
+                uniforms,
+                vertexShader: `
+        uniform float uTime;
+        uniform float uPixelRatio;
+        attribute float aSeed;
+        varying float vShade;
+        varying float vMask;
+        varying float vSeed;
+
+        void main() {
+          vec3 p = position;
+
+          float sway = sin(uTime * 0.28 + aSeed * 6.2831) * 0.06;
+          p.x += sway * 0.7;
+          p.z += sway * 0.9;
+
+          vMask = smoothstep(-2.8, -0.8, p.y);
+
+          vec3 n = normalize(normal);
+          vec3 ld = normalize(vec3(-0.22, 0.42, 0.88));
+          float ndl = clamp(dot(n, ld) * 0.5 + 0.5, 0.0, 1.0);
+          vShade = pow(ndl, 1.45);
+          vSeed = aSeed;
+
+          vec4 mv = modelViewMatrix * vec4(p, 1.0);
+          gl_Position = projectionMatrix * mv;
+
+          float dist = max(1.0, -mv.z);
+          float baseSize = mix(1.4, 3.3, vShade);
+          gl_PointSize = (baseSize * uPixelRatio) * (10.0 / dist);
+        }
+      `,
+                fragmentShader: `
+        uniform float uOpacity;
+        uniform float uGlobalFade;
+        varying float vShade;
+        varying float vMask;
+        varying float vSeed;
+
+        float hashDither(vec2 p) {
+          vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+          p3 += dot(p3, p3.yzx + 33.33);
+          return fract((p3.x + p3.y) * p3.z);
+        }
+
+        void main() {
+          vec2 uv = gl_PointCoord * 2.0 - 1.0;
+          float r2 = dot(uv, uv);
+          if (r2 > 1.0) discard;
+
+          float edge = smoothstep(1.0, 0.72, r2);
+          float threshold = hashDither(gl_FragCoord.xy + vSeed * 17.0);
+          float keep = step(threshold, vShade);
+          float mask = vMask;
+
+          float a = uOpacity * keep * edge * mask * uGlobalFade;
+          if (a < 0.01) discard;
+
+          gl_FragColor = vec4(vec3(1.0), a);
+        }
+      `,
+            });
+
+            const points = new THREE.Points(geo, material);
+            scene.add(points);
+
+            // Wireframe wave plane
+            const waveGeo = new THREE.PlaneGeometry(16, 6, 160, 40);
+            const waveMat = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.1,
+            });
+
+            const wave = new THREE.Mesh(waveGeo, waveMat);
+            wave.position.set(0, -3.35, 2.8);
+            wave.rotation.x = -0.55;
+            scene.add(wave);
+
+            // Scroll-based fade
+            renderer.setClearColor(0x000000, 0);
+
+            function updateHeroFade() {
+                const y = window.scrollY || 0;
+                const vh = Math.max(1, window.innerHeight);
+                const t = (y - vh * 0.35) / (vh * 0.9);
+
+                const fade = Math.max(0.18, Math.min(1.0, 1.0 - t));
+                uniforms.uGlobalFade.value = fade;
+                waveMat.opacity = 0.1 * fade;
+                const heroHeight = heroSection?.offsetHeight || vh;
+                const heroStart = heroHeight * 0.55;
+                const scrolledPast = Math.max(0, y - heroStart);
+                scrollPerturb = Math.min(1, scrolledPast / (heroHeight * 0.8));
+
+                if (prefersReduced) {
+                    renderScene(performance.now());
+                }
+            }
+
+            updateHeroFade();
+            window.addEventListener("scroll", updateHeroFade, { passive: true });
+
+            // Resize handler
+            function resize() {
+                renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                uniforms.uPixelRatio.value = Math.min(
+                    2,
+                    window.devicePixelRatio || 1
+                );
+
+                tickPreviews();
+                renderScene(performance.now());
+            }
+
+            window.addEventListener("resize", resize);
+
+            // Wave animation
+            const posAttr = waveGeo.attributes.position;
+            let staticWavePrimed = false;
+
+            function updateWave(timeSeconds) {
+                for (let i = 0; i < posAttr.count; i++) {
+                    const x = posAttr.getX(i);
+                    const y = posAttr.getY(i);
+
+                    const z =
+                        Math.sin(x * 0.8 + timeSeconds * 1.0) * 0.08 +
+                        Math.sin(x * 1.8 + timeSeconds * 0.65) * 0.05 +
+                        Math.cos(y * 1.2 + timeSeconds * 0.55) * 0.04;
+
+                    posAttr.setZ(i, z);
+                }
+
+                posAttr.needsUpdate = true;
+            }
+
+            function renderScene(time = 0) {
+                const seconds = time * 0.001;
+                const motionSeconds = prefersReduced ? 0 : seconds;
+                uniforms.uTime.value = motionSeconds;
+
+                stagePointer.x += (stagePointer.targetX - stagePointer.x) * 0.06;
+                stagePointer.y += (stagePointer.targetY - stagePointer.y) * 0.06;
+
+                if (!prefersReduced) {
+                    updateWave(seconds);
+                } else if (!staticWavePrimed) {
+                    updateWave(0);
+                    staticWavePrimed = true;
+                }
+
+                const yawDrift = scrollPerturb * 0.35 + stagePointer.x * 0.4;
+                const pitchDrift = stagePointer.y * 0.3;
+
+                points.rotation.y = Math.sin(motionSeconds * 0.12) * 0.16 + yawDrift;
+                points.rotation.x = Math.sin(motionSeconds * 0.08) * 0.04 + pitchDrift;
+
+                wave.rotation.y = yawDrift * 0.2;
+                wave.position.x = stagePointer.x * 0.5;
+                wave.position.y = -3.35 - scrollPerturb * 0.3 + stagePointer.y * 0.12;
+
+                camera.position.x = stagePointer.x * 3.0;
+                camera.position.y = 0.8 + pitchDrift * 3 - scrollPerturb * 0.25;
+                camera.lookAt(0, -0.2 - scrollPerturb * 0.3, 0);
+
+                uniforms.uOpacity.value = 0.95 - scrollPerturb * 0.25;
+
+                renderer.render(scene, camera);
+            }
+
+            function setStagePointer(x, y) {
+                stagePointer.targetX = x;
+                stagePointer.targetY = y;
+                if (prefersReduced) {
+                    renderScene(performance.now());
+                }
+            }
+
+            function handleStagePointer(event) {
+                if (event.isPrimary === false) return;
+                const x = (event.clientX / window.innerWidth - 0.5) * 2;
+                const y = (event.clientY / window.innerHeight - 0.5) * 2;
+                setStagePointer(x, y);
+            }
+
+            function resetStagePointer() {
+                setStagePointer(0, 0);
+            }
+
+            window.addEventListener("pointermove", handleStagePointer, { passive: true });
+            window.addEventListener("pointerdown", handleStagePointer, { passive: true });
+            window.addEventListener("pointerout", (event) => {
+                if (!event.relatedTarget) {
+                    resetStagePointer();
+                }
+            });
+            window.addEventListener("blur", resetStagePointer);
+
+            function animate(time) {
+                renderScene(time || performance.now());
+                if (!prefersReduced) requestAnimationFrame(animate);
+            }
+
+            if (prefersReduced) {
+                renderScene(performance.now());
+            } else {
+                requestAnimationFrame(animate);
+            }
+        })();
+    </script>
+</body>
+
+</html>
