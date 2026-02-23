@@ -19,8 +19,8 @@
             --hair: rgba(255, 255, 255, 0.12);
             --hair2: rgba(255, 255, 255, 0.08);
             --text: rgba(255, 255, 255, 0.94);
-            --muted: rgba(255, 255, 255, 0.78);
-            --muted2: rgba(255, 255, 255, 0.6);
+            --muted: rgba(255, 255, 255, 0.84);
+            --muted2: rgba(255, 255, 255, 0.68);
             --muted3: rgba(255, 255, 255, 0.48);
             --shadow: rgba(0, 0, 0, 0.55);
             --led: #39ff88;
@@ -215,23 +215,6 @@
             align-items: center;
         }
 
-        .nav-note {
-            font-size: 12px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted2);
-            padding: 8px 12px;
-            border: 1px dashed var(--hair2);
-            border-radius: 999px;
-            display: none;
-        }
-
-        @media (min-width: 640px) {
-            .nav-note {
-                display: inline-flex;
-            }
-        }
-
         @media (max-width: 640px) {
             .nav {
                 justify-content: center;
@@ -324,7 +307,7 @@
             height: 520px;
             pointer-events: none;
             z-index: 0;
-            background: radial-gradient(700px 360px at 50% 35%, rgba(0, 0, 0, 0.78), transparent 70%), radial-gradient(900px 420px at 50% 55%, rgba(0, 0, 0, 0.42), transparent 72%);
+            background: radial-gradient(700px 360px at 50% 35%, rgba(0, 0, 0, 0.84), transparent 70%), radial-gradient(900px 420px at 50% 55%, rgba(0, 0, 0, 0.56), transparent 72%);
         }
 
         .hero>* {
@@ -420,10 +403,11 @@
 
         .status-card {
             border-radius: 12px;
-            border: 1px solid var(--border-soft);
-            background: rgba(0, 0, 0, 0.32);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(8, 10, 14, 0.58);
             padding: 12px 16px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.38);
             min-width: 0;
             width: 100%;
             text-align: left;
@@ -756,7 +740,7 @@
             inset: -24px -8px -24px -8px;
             pointer-events: none;
             z-index: 0;
-            background: radial-gradient(900px 420px at 20% 10%, rgba(0, 0, 0, 0.62), transparent 70%), radial-gradient(900px 420px at 80% 40%, rgba(0, 0, 0, 0.52), transparent 70%), linear-gradient(to bottom, rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.15));
+            background: radial-gradient(900px 420px at 20% 10%, rgba(0, 0, 0, 0.72), transparent 70%), radial-gradient(900px 420px at 80% 40%, rgba(0, 0, 0, 0.62), transparent 70%), linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.22));
             opacity: 0.95;
         }
 
@@ -829,8 +813,9 @@
 
         .card {
             border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(8, 10, 14, 0.58);
+            backdrop-filter: blur(8px);
             box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
             overflow: hidden;
             position: relative;
@@ -852,14 +837,14 @@
 
         .card .title {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.84);
+            color: rgba(255, 255, 255, 0.92);
             letter-spacing: 0.02em;
             font-weight: 600;
         }
 
         .card .desc {
             margin-top: 8px;
-            color: rgba(255, 255, 255, 0.60);
+            color: rgba(255, 255, 255, 0.74);
             line-height: 1.6;
             font-size: 13px;
             max-width: 60ch;
@@ -873,7 +858,7 @@
             font-size: 11px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.52);
+            color: rgba(255, 255, 255, 0.62);
         }
 
         .card .status .led {
@@ -1027,11 +1012,27 @@
 
         .panel {
             border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: linear-gradient(165deg, rgb(9, 11, 16), rgb(7, 9, 13));
             box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
             overflow: hidden;
             position: relative;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.26));
+            pointer-events: none;
+        }
+
+        .panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, 0.34) 58%, rgba(0, 0, 0, 0.50) 100%);
+            pointer-events: none;
         }
 
         .panel .inner {
@@ -1044,14 +1045,19 @@
             font-family: "IBM Plex Mono", ui-monospace, monospace;
             font-size: 12px;
             letter-spacing: 0.06em;
-            color: rgba(255, 255, 255, 0.64);
+            color: rgba(255, 255, 255, 0.76);
         }
 
         .panel .addr {
             margin-top: 10px;
             font-size: 14px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.90);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
+        }
+
+        .panel .addr strong {
+            color: rgba(255, 255, 255, 0.98);
         }
 
         .panel ul {
@@ -1060,14 +1066,16 @@
             margin: 14px 0 0;
             display: grid;
             gap: 10px;
-            color: rgba(255, 255, 255, 0.62);
-            font-size: 13px;
+            color: rgba(255, 255, 255, 0.86);
+            font-size: 14px;
+            line-height: 1.45;
         }
 
         .panel li {
             display: flex;
             align-items: flex-start;
             gap: 10px;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.52);
         }
 
         .panel-actions {
@@ -1077,12 +1085,18 @@
             flex-wrap: wrap;
         }
 
+        .panel-actions .btn {
+            border-color: rgba(255, 255, 255, 0.24);
+            background: rgba(7, 9, 12, 0.88);
+            color: rgba(255, 255, 255, 0.90);
+        }
+
         .bullet {
             width: 10px;
             height: 10px;
             border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            background: rgba(255, 255, 255, 0.12);
             margin-top: 4px;
             flex: 0 0 auto;
         }
@@ -1311,8 +1325,7 @@
                     </div>
                 </div>
 
-                <div class="nav-cta"> <span class="nav-note">Member portal · coming soon</span> <a class="btn primary"
-                        href="#updates">Get updates</a> </div>
+                <div class="nav-cta"> <a class="btn primary" href="#updates">Get updates</a> </div>
             </div>
         </div>
         <main id="mainContent">
@@ -1328,7 +1341,7 @@
                 <div class="hero-status" aria-label="Project status">
                     <div class="status-card">
                         <div class="status-label">Opening target</div>
-                        <div class="status-value">Jan 2026</div>
+                        <div class="status-value">Early 2026</div>
                     </div>
                     <div class="status-card">
                         <div class="status-label">Current status</div>
@@ -2267,9 +2280,9 @@
             function updateHeroFade() {
                 const y = window.scrollY || 0;
                 const vh = Math.max(1, window.innerHeight);
-                const t = (y - vh * 0.35) / (vh * 0.9);
+                const t = (y - vh * 0.2) / (vh * 0.58);
 
-                const fade = Math.max(0.18, Math.min(1.0, 1.0 - t));
+                const fade = Math.max(0.04, Math.min(1.0, 1.0 - t));
                 uniforms.uGlobalFade.value = fade;
                 waveMat.opacity = 0.1 * fade;
                 const heroHeight = heroSection?.offsetHeight || vh;
@@ -2353,7 +2366,10 @@
                 camera.position.y = 0.8 + pitchDrift * 3 - scrollPerturb * 0.25;
                 camera.lookAt(0, -0.2 - scrollPerturb * 0.3, 0);
 
-                uniforms.uOpacity.value = 0.95 - scrollPerturb * 0.25;
+                uniforms.uOpacity.value = Math.max(
+                    0.32,
+                    0.95 - scrollPerturb * 0.63
+                );
 
                 renderer.render(scene, camera);
             }
