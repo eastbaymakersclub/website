@@ -46,6 +46,7 @@
             --green: #087f5b;
             --shadow: 8px 8px 0 rgba(5, 5, 5, 0.10);
             --radius: 8px;
+            --content-inset: 36px;
             --mono: "Berkeley Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
                 "Liberation Mono", monospace;
         }
@@ -143,9 +144,16 @@
 
         .announcement-track {
             display: flex;
-            gap: 18px;
+            gap: 0;
             min-width: max-content;
             animation: ticker 24s linear infinite;
+        }
+
+        .announcement-segment {
+            display: flex;
+            gap: 18px;
+            flex: 0 0 auto;
+            padding-right: 18px;
         }
 
         .announcement span {
@@ -173,26 +181,34 @@
 
         .site-header {
             display: grid;
-            grid-template-columns: minmax(220px, 360px) 1fr auto;
-            align-items: center;
+            grid-template-columns: minmax(256px, 396px) 1fr auto;
+            align-items: end;
             gap: 24px;
             min-height: 76px;
         }
 
         .brand {
+            position: relative;
+            z-index: 1;
             display: inline-flex;
             align-items: center;
+            margin-left: var(--content-inset);
+            width: min(100%, 334px);
             min-width: 0;
         }
 
         .brand-wordmark {
-            width: min(100%, 334px);
+            position: relative;
+            z-index: 1;
+            width: 100%;
             height: auto;
         }
 
         .nav {
+            position: relative;
+            z-index: 1;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 6px;
             flex-wrap: wrap;
             color: var(--soft-ink);
@@ -232,6 +248,11 @@
             white-space: nowrap;
         }
 
+        .site-header > .btn {
+            position: relative;
+            z-index: 1;
+        }
+
         .btn:hover,
         .btn:focus-visible {
             transform: translate(3px, 3px);
@@ -256,18 +277,76 @@
         }
 
         .hero {
+            --hero-line-a: -8%;
+            --hero-line-b: 7%;
+            --hero-line-c: -2%;
+            --hero-line-d: 10%;
+            position: relative;
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(360px, 0.62fr);
             gap: 30px;
             align-items: stretch;
             padding-top: 26px;
+            isolation: isolate;
+            overflow: hidden;
+        }
+
+        .hero > :not(.hero-motion-lines) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-motion-lines {
+            position: absolute;
+            inset: 12px 0 auto;
+            z-index: 0;
+            display: grid;
+            align-content: start;
+            gap: 4px;
+            min-width: max-content;
+            pointer-events: none;
+            color: var(--blue);
+            font-size: clamp(1.85rem, 5.8vw, 5.6rem);
+            font-weight: 700;
+            line-height: 0.9;
+            text-transform: uppercase;
+            white-space: nowrap;
+            opacity: 0.052;
+            mix-blend-mode: multiply;
+        }
+
+        .hero-motion-line {
+            display: block;
+            transform: translate3d(var(--hero-line-a), 0, 0);
+            will-change: transform;
+        }
+
+        .hero-motion-line:nth-child(2) {
+            color: var(--orange);
+            transform: translate3d(var(--hero-line-b), 0, 0);
+        }
+
+        .hero-motion-line:nth-child(3) {
+            color: var(--ink);
+            transform: translate3d(var(--hero-line-c), 0, 0);
+        }
+
+        .hero-motion-line:nth-child(4) {
+            color: var(--blue);
+            display: none;
+            transform: translate3d(var(--hero-line-d), 0, 0);
+        }
+
+        .hero-motion-line span {
+            display: inline-block;
+            padding-right: 0.42em;
         }
 
         .hero-copy {
             display: grid;
             align-content: start;
             min-width: 0;
-            padding: 8px 0 0 36px;
+            padding: 8px 0 0 var(--content-inset);
         }
 
         .promo-kicker,
@@ -375,33 +454,145 @@
 
         .countdown {
             display: grid;
-            grid-template-columns: repeat(4, 92px);
-            gap: 10px;
-            margin-top: 30px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 7px;
+            width: min(100%, 456px);
+            margin: 10px 0 22px;
         }
 
         .countdown-unit {
-            min-height: 82px;
-            padding: 10px;
-            border: 2px solid var(--ink);
-            background: rgba(255, 255, 255, 0.34);
+            --flap-bg: var(--ink);
+            --flap-depth: #000;
+            --flap-ink: var(--cream-on-dark);
+            position: relative;
+            display: grid;
+            grid-template-rows: 82px 25px;
+            min-width: 0;
+            color: var(--flap-bg);
             text-align: center;
-            box-shadow: 4px 5px 0 rgba(5, 5, 5, 0.08);
+        }
+
+        .countdown-unit.is-zero[data-unit="days"] {
+            --flap-bg: var(--blue);
+            --flap-depth: var(--blue-deep);
+        }
+
+        .countdown-unit.is-zero[data-unit="hours"] {
+            --flap-bg: var(--orange);
+            --flap-depth: var(--orange-deep);
+        }
+
+        .countdown-unit.is-homing-card strong {
+            color: transparent;
+            text-shadow: none;
+        }
+
+        .countdown-unit.is-homing-white {
+            --flap-bg: var(--cream-on-dark);
+            --flap-depth: #e7ddcf;
+            --flap-ink: var(--ink);
+        }
+
+        .countdown-unit.is-homing-white strong::before {
+            background: rgba(5, 5, 5, 0.42);
+            box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.68), 0 1px 0 rgba(0, 0, 0, 0.20);
+        }
+
+        .countdown-unit.is-homing-blue {
+            --flap-bg: var(--blue);
+            --flap-depth: var(--blue-deep);
+        }
+
+        .countdown-unit.is-homing-orange {
+            --flap-bg: var(--orange);
+            --flap-depth: var(--orange-deep);
         }
 
         .countdown-unit strong {
-            display: block;
-            color: var(--blue);
-            font-size: 1.55rem;
+            --flip-duration: 240ms;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            min-width: 0;
+            border: 2px solid var(--ink);
+            border-radius: 2px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0 47%, rgba(255, 255, 255, 0) 47% 53%, rgba(0, 0, 0, 0.22) 53% 100%),
+                linear-gradient(180deg, var(--flap-bg) 0%, var(--flap-depth) 100%);
+            box-shadow: 5px 6px 0 rgba(5, 5, 5, 0.10);
+            color: var(--flap-ink);
+            font-size: clamp(2.15rem, 3.1vw, 3rem);
+            font-variant-numeric: tabular-nums;
             line-height: 1;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.18);
+            text-transform: uppercase;
+            perspective: 240px;
+            overflow: hidden;
+        }
+
+        .countdown-unit strong::before,
+        .countdown-unit strong::after {
+            content: "";
+            position: absolute;
+            inset-inline: 0;
+            pointer-events: none;
+        }
+
+        .countdown-unit strong::before {
+            top: 50%;
+            z-index: 2;
+            height: 2px;
+            background: var(--ink);
+            box-shadow: 0 -1px 0 rgba(255, 247, 234, 0.18), 0 1px 0 rgba(0, 0, 0, 0.42);
+            transform: translateY(-50%);
+        }
+
+        .countdown-unit strong::after {
+            top: 0;
+            z-index: 1;
+            height: 50%;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.02)),
+                var(--flap-bg);
+            transform-origin: bottom;
+            opacity: 0;
+        }
+
+        .countdown-unit strong.is-flipping::after {
+            animation: splitFlap var(--flip-duration) cubic-bezier(0.45, 0, 0.2, 1);
+        }
+
+        .countdown-unit strong.is-homing-flip {
+            --flip-duration: 34ms;
         }
 
         .countdown-unit span {
-            display: block;
-            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            min-width: 0;
+            border: 2px solid var(--ink);
+            border-top: 0;
+            background: var(--paper-warm);
             color: var(--soft-ink);
-            font-size: 0.64rem;
+            font-size: 0.56rem;
+            font-weight: 700;
+            line-height: 1;
             text-transform: uppercase;
+        }
+
+        @keyframes splitFlap {
+            0% {
+                opacity: 0.85;
+                transform: rotateX(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: rotateX(-82deg);
+            }
         }
 
         .callout-panel {
@@ -423,12 +614,20 @@
             position: absolute;
             inset: 0;
             color: #fff;
-            opacity: 0.96;
+            opacity: 0.58;
         }
 
-        .schematic-field svg {
-            width: 100%;
-            height: 100%;
+        .schematic-art {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 258%;
+            height: 258%;
+            max-width: none;
+            max-height: none;
+            object-fit: cover;
+            object-position: 61% 38%;
+            transform: translate(-50%, -50%);
         }
 
         .event-dock {
@@ -471,8 +670,7 @@
 
         .ticket-label::before,
         .note-label::before,
-        .activity-mark,
-        .event-chip::before {
+        .activity-mark {
             width: 10px;
             height: 10px;
             background: currentColor;
@@ -552,86 +750,9 @@
             color: var(--orange);
         }
 
-        .rail-accent-orange {
-            fill: var(--orange);
-            stroke: var(--orange);
-        }
-
-        .rail-accent-blue {
-            fill: var(--blue);
-            stroke: var(--blue);
-        }
-
-        .rail-line {
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .rail-thin {
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.45;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .rail-fill {
-            fill: #000;
-            stroke: currentColor;
-            stroke-width: 2.2;
-        }
-
-        .rail-dot {
-            fill: #000;
-            stroke: currentColor;
-            stroke-width: 2.2;
-        }
-
-        .rail-spark {
-            fill: currentColor;
-        }
-
-        .event-strip {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            margin-top: 34px;
-            border-block: 2px solid var(--ink);
-        }
-
-        .event-chip {
-            display: grid;
-            justify-items: center;
-            align-content: center;
-            gap: 12px;
-            min-height: 124px;
-            padding: 18px 12px 16px;
-            text-align: center;
-            border-right: 2px solid var(--ink);
-            text-transform: uppercase;
-        }
-
-        .event-chip:last-child {
-            border-right: 0;
-        }
-
-        .event-chip::before {
-            color: var(--blue);
-        }
-
-        .event-chip:nth-child(odd)::before {
-            color: var(--orange);
-        }
-
-        .event-chip strong {
-            font-size: 0.82rem;
-            line-height: 1.2;
-        }
-
         .section {
             margin-top: 38px;
+            padding-inline: var(--content-inset);
             padding-top: 34px;
             border-top: 2px solid var(--ink);
         }
@@ -657,6 +778,74 @@
             line-height: 1.65;
         }
 
+        #membership {
+            --membership-slide: -33px;
+            --membership-shift: -102px;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            min-height: 320px;
+            padding-top: 48px;
+            padding-bottom: 48px;
+            border: 2px solid var(--ink);
+            background: var(--ink);
+            color: var(--cream-on-dark);
+            box-shadow: var(--shadow);
+        }
+
+        #membership::before {
+            content: "";
+            position: absolute;
+            inset: -58% -26%;
+            z-index: 0;
+            background:
+                linear-gradient(112deg,
+                    rgba(6, 72, 216, 1) 0 38%,
+                    rgba(255, 61, 18, 1) 38% 68%,
+                    rgba(5, 5, 5, 0) 68% 100%);
+            transform: translate3d(var(--membership-slide), var(--membership-shift), 0) skewX(-6deg);
+            transform-origin: center;
+            will-change: transform;
+        }
+
+        #membership::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg, rgba(255, 247, 234, 0.12) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(255, 247, 234, 0.10) 1px, transparent 1px);
+            background-size: 22px 22px;
+            opacity: 0.42;
+            mix-blend-mode: screen;
+        }
+
+        #membership > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        #membership h2,
+        #membership .section-kicker {
+            color: var(--cream-on-dark);
+        }
+
+        #membership h2 {
+            text-shadow: 3px 3px 0 rgba(5, 5, 5, 0.18);
+        }
+
+        #membership p {
+            color: rgba(255, 247, 234, 0.82);
+        }
+
+        #membership .signup {
+            align-self: center;
+            background: var(--paper-warm);
+            box-shadow: 8px 8px 0 rgba(255, 247, 234, 0.14);
+        }
+
         .signup {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
@@ -664,10 +853,7 @@
             align-items: end;
             padding: 18px;
             border: 2px solid var(--ink);
-            background:
-                linear-gradient(135deg, rgba(6, 72, 216, 0.10) 0 25%, transparent 25% 50%, rgba(255, 61, 18, 0.11) 50% 75%, transparent 75%),
-                var(--paper-warm);
-            background-size: 18px 18px, auto;
+            background: var(--paper-warm);
             box-shadow: var(--shadow);
         }
 
@@ -736,6 +922,7 @@
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 14px;
+            margin-top: 22px;
         }
 
         .event-card time {
@@ -758,11 +945,16 @@
 
         .visit {
             display: grid;
-            grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+            grid-template-columns: minmax(260px, 0.72fr) minmax(320px, 1.28fr);
             gap: 24px;
+            align-items: stretch;
         }
 
         .address-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: center;
             min-height: 100%;
         }
 
@@ -774,11 +966,20 @@
         }
 
         .address-card .btn {
-            margin-top: 18px;
+            justify-self: end;
+        }
+
+        .address-copy {
+            min-width: 0;
+        }
+
+        .address-copy span {
+            display: block;
         }
 
         .map-frame {
-            min-height: 300px;
+            grid-column: 1 / -1;
+            min-height: 420px;
             border: 2px solid var(--ink);
             background: rgba(255, 255, 255, 0.32);
             box-shadow: 5px 6px 0 rgba(5, 5, 5, 0.08);
@@ -788,7 +989,7 @@
         .map-frame iframe {
             width: 100%;
             height: 100%;
-            min-height: 300px;
+            min-height: 420px;
             border: 0;
             filter: grayscale(100%) contrast(120%) sepia(12%);
         }
@@ -811,6 +1012,15 @@
                 scroll-behavior: auto;
             }
 
+            .hero-motion-lines {
+                display: none;
+            }
+
+            #membership::before {
+                transform: none;
+                will-change: auto;
+            }
+
             *,
             *::before,
             *::after {
@@ -822,6 +1032,7 @@
 
         @media (max-width: 1240px) {
             .site-header {
+                align-items: center;
                 grid-template-columns: 1fr auto;
             }
 
@@ -852,6 +1063,10 @@
         }
 
         @media (max-width: 980px) {
+            :root {
+                --content-inset: 0px;
+            }
+
             .page {
                 padding: 20px 18px 40px;
             }
@@ -871,6 +1086,11 @@
                 min-height: 620px;
             }
 
+            #membership {
+                margin-inline: -18px;
+                padding-inline: 18px;
+            }
+
             .event-dock {
                 grid-template-columns: 1fr;
                 margin: 18px;
@@ -882,18 +1102,6 @@
 
             .event-ticket strong {
                 font-size: 2.95rem;
-            }
-
-            .event-strip {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .event-chip:nth-child(2) {
-                border-right: 0;
-            }
-
-            .event-chip:nth-child(-n + 2) {
-                border-bottom: 2px solid var(--ink);
             }
 
             .calendar-grid {
@@ -908,6 +1116,10 @@
             }
 
             .brand-wordmark {
+                width: 100%;
+            }
+
+            .brand {
                 width: min(100%, 292px);
             }
 
@@ -929,17 +1141,32 @@
                 font-size: 0.72rem;
             }
 
+            .hero-motion-line:nth-child(4) {
+                display: block;
+            }
+
             .headline {
                 font-size: 4rem;
                 line-height: 0.86;
             }
 
             .countdown {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 4px;
+                width: 100%;
+                margin: 14px 0 18px;
             }
 
             .countdown-unit {
-                min-height: 74px;
+                grid-template-rows: 62px 20px;
+            }
+
+            .countdown-unit strong {
+                font-size: clamp(1.4rem, 9vw, 1.9rem);
+            }
+
+            .countdown-unit span {
+                font-size: 0.46rem;
             }
 
             .callout-panel {
@@ -959,19 +1186,8 @@
                 font-size: 2.55rem;
             }
 
-            .event-strip,
             .tool-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .event-chip,
-            .event-chip:nth-child(2) {
-                border-right: 0;
-                border-bottom: 2px solid var(--ink);
-            }
-
-            .event-chip:last-child {
-                border-bottom: 0;
             }
 
             .section h2 {
@@ -980,6 +1196,14 @@
 
             .signup {
                 grid-template-columns: 1fr;
+            }
+
+            .address-card {
+                grid-template-columns: 1fr;
+            }
+
+            .address-card .btn {
+                justify-self: start;
             }
 
             .footer {
@@ -991,6 +1215,11 @@
             .page {
                 padding-left: 14px;
                 padding-right: 14px;
+            }
+
+            #membership {
+                margin-inline: -14px;
+                padding-inline: 14px;
             }
 
             .headline {
@@ -1018,14 +1247,18 @@
     <div class="page">
         <div class="announcement" aria-label="Grand Opening announcement">
             <div class="announcement-track" aria-hidden="true">
-                <span><i></i> Grand Opening July 3</span>
-                <span><i></i> Noon to midnight</span>
-                <span><i></i> 1619 San Pablo Ave, Berkeley</span>
-                <span><i></i> Everyone welcome</span>
-                <span><i></i> Grand Opening July 3</span>
-                <span><i></i> Noon to midnight</span>
-                <span><i></i> 1619 San Pablo Ave, Berkeley</span>
-                <span><i></i> Everyone welcome</span>
+                <div class="announcement-segment">
+                    <span><i></i> Grand Opening July 3</span>
+                    <span><i></i> Noon to midnight</span>
+                    <span><i></i> 1619 San Pablo Ave, Berkeley</span>
+                    <span><i></i> Everyone welcome</span>
+                </div>
+                <div class="announcement-segment">
+                    <span><i></i> Grand Opening July 3</span>
+                    <span><i></i> Noon to midnight</span>
+                    <span><i></i> 1619 San Pablo Ave, Berkeley</span>
+                    <span><i></i> Everyone welcome</span>
+                </div>
             </div>
         </div>
 
@@ -1053,8 +1286,32 @@
 
         <main id="top">
             <section class="hero" id="opening" aria-labelledby="hero-title">
+                <div class="hero-motion-lines" aria-hidden="true">
+                    <span class="hero-motion-line">
+                        <span>Make / Build / Learn / Open /</span>
+                        <span>Make / Build / Learn / Open /</span>
+                    </span>
+                    <span class="hero-motion-line">
+                        <span>Tools / People / Projects / Berkeley /</span>
+                        <span>Tools / People / Projects / Berkeley /</span>
+                    </span>
+                    <span class="hero-motion-line">
+                        <span>July 3 / Noon to Midnight / Everyone Welcome /</span>
+                        <span>July 3 / Noon to Midnight / Everyone Welcome /</span>
+                    </span>
+                    <span class="hero-motion-line">
+                        <span>Community / Machines / Ideas / Build Night /</span>
+                        <span>Community / Machines / Ideas / Build Night /</span>
+                    </span>
+                </div>
+
                 <div class="hero-copy">
-                    <p class="promo-kicker">Friday, July 3, 2026</p>
+                    <div class="countdown" aria-label="Countdown to Grand Opening">
+                        <div class="countdown-unit" data-unit="days"><strong id="days">--</strong><span>Days</span></div>
+                        <div class="countdown-unit" data-unit="hours"><strong id="hours">--</strong><span>Hours</span></div>
+                        <div class="countdown-unit" data-unit="minutes"><strong id="minutes">--</strong><span>Minutes</span></div>
+                        <div class="countdown-unit" data-unit="seconds"><strong id="seconds">--</strong><span>Seconds</span></div>
+                    </div>
                     <h1 class="headline" id="hero-title">
                         <span class="blue">Grand</span>
                         <span class="orange">Opening</span>
@@ -1093,47 +1350,11 @@
                         </a>
                     </div>
 
-                    <div class="countdown" aria-label="Countdown to Grand Opening">
-                        <div class="countdown-unit"><strong id="days">--</strong><span>Days</span></div>
-                        <div class="countdown-unit"><strong id="hours">--</strong><span>Hours</span></div>
-                        <div class="countdown-unit"><strong id="minutes">--</strong><span>Minutes</span></div>
-                        <div class="countdown-unit"><strong id="seconds">--</strong><span>Seconds</span></div>
-                    </div>
                 </div>
 
                 <aside class="callout-panel" aria-label="Grand Opening event callouts">
                     <div class="schematic-field" aria-hidden="true">
-                        <svg viewBox="0 0 820 690" preserveAspectRatio="xMidYMid slice">
-                            <path class="rail-line" d="M28 60h280c40 0 60 20 60 60v110c0 40 20 60 60 60h360" />
-                            <path class="rail-line" d="M0 204h146m64 0h254m64 0h292" />
-                            <path class="rail-line" d="M42 520h162c38 0 57-19 57-57v-74c0-40 20-60 60-60h458" />
-                            <path class="rail-line" d="M636 30v150c0 36 18 54 54 54h104" />
-                            <path class="rail-line" d="M716 418h-84c-34 0-51 17-51 51v168" />
-
-                            <rect class="rail-fill" x="72" y="92" width="102" height="70" />
-                            <path class="rail-thin" d="M94 116h54M94 138h38" />
-                            <path class="rail-accent-orange" d="M238 83h68l34 58-34 58h-68l-34-58z" />
-                            <path class="rail-line" d="M272 112v58M243 141h58" />
-
-                            <path class="rail-fill" d="M512 102h184l34 42-18 134H494l-18-134z" />
-                            <path class="rail-thin" d="M532 148h142M542 176h140M552 204h116" />
-                            <path class="rail-line" d="M690 278v116h-86" />
-
-                            <ellipse class="rail-line" cx="190" cy="338" rx="98" ry="38" />
-                            <path class="rail-thin" d="M92 338v96c0 22 44 38 98 38s98-16 98-38v-96" />
-                            <path class="rail-thin" d="M104 374c23 23 147 23 172 0M104 414c23 23 147 23 172 0" />
-
-                            <path class="rail-fill" d="M420 438h208l44 56v134H386V494z" />
-                            <path class="rail-thin" d="M444 510h158v78H444z" />
-                            <path class="rail-accent-blue" d="M522 526 542 570 586 590 542 610 522 654 502 610 458 590 502 570z" />
-
-                            <rect class="rail-dot" x="190" y="190" width="22" height="22" />
-                            <rect class="rail-dot" x="454" y="190" width="22" height="22" />
-                            <rect class="rail-dot" x="322" y="318" width="22" height="22" />
-                            <rect class="rail-dot" x="704" y="408" width="22" height="22" />
-                            <path class="rail-spark" d="M722 70 736 112 778 126 736 140 722 182 708 140 666 126 708 112z" />
-                            <path class="rail-thin" d="M66 604h102M116 553v102M698 326h92M744 280v92" />
-                        </svg>
+                        <img class="schematic-art" src="assets/images/line-art.svg" alt="">
                     </div>
 
                     <div class="event-dock">
@@ -1180,21 +1401,6 @@
                 </aside>
             </section>
 
-            <section class="event-strip" aria-label="Grand Opening highlights">
-                <article class="event-chip">
-                    <strong>Activities</strong>
-                </article>
-                <article class="event-chip">
-                    <strong>Guest speaker</strong>
-                </article>
-                <article class="event-chip">
-                    <strong>Build night</strong>
-                </article>
-                <article class="event-chip">
-                    <strong>Snacks</strong>
-                </article>
-            </section>
-
             <section class="section split" id="membership" aria-labelledby="membership-title">
                 <div>
                     <p class="section-kicker">Membership</p>
@@ -1236,8 +1442,8 @@
 
                 <div class="tool-grid" aria-label="Workshop tool stack">
                     <article class="tool-card">
-                        <h3>Prusa MK4S<br />3D printers</h3>
-                        <p>Fast, reliable prints for prototypes, brackets, repairs, and the occasional tiny miracle.</p>
+                        <h3>Prusa<br />3D printers</h3>
+                        <p>Multiple Prusa printers, including an XL 5-tool, for prototypes, brackets, repairs, and the occasional tiny miracle.</p>
                     </article>
                     <article class="tool-card">
                         <h3>Laser cutter</h3>
@@ -1283,10 +1489,11 @@
                     <p>Close to transit, easy to reach, and ready for project-brain drop-ins on opening day.</p>
                 </div>
                 <div class="address-card">
-                    <strong>East Bay Makers Club</strong>
-                    1619 San Pablo Ave.<br />
-                    Berkeley, CA 94702
-                    <br />
+                    <div class="address-copy">
+                        <strong>East Bay Makers Club</strong>
+                        <span>1619 San Pablo Ave.</span>
+                        <span>Berkeley, CA 94702</span>
+                    </div>
                     <a class="btn" target="_blank" rel="noreferrer" href="https://maps.app.goo.gl/eZpfscjaT95YaREL9">
                         Open in maps
                     </a>
@@ -1309,8 +1516,12 @@
 
     <script>
         (() => {
+            const root = document.documentElement;
             const year = document.getElementById("year");
+            const hero = document.querySelector(".hero");
+            const membership = document.getElementById("membership");
             const calloutPanel = document.querySelector(".callout-panel");
+            const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
             const countdown = {
                 days: document.getElementById("days"),
                 hours: document.getElementById("hours"),
@@ -1321,18 +1532,85 @@
 
             year.textContent = new Date().getFullYear();
 
+            function clamp(value, min, max) {
+                return Math.min(Math.max(value, min), max);
+            }
+
             function pad(value) {
                 return String(value).padStart(2, "0");
             }
 
-            function updateCountdown() {
-                const remaining = opening.getTime() - Date.now();
-                if (remaining <= 0) {
-                    countdown.days.textContent = "00";
-                    countdown.hours.textContent = "00";
-                    countdown.minutes.textContent = "00";
-                    countdown.seconds.textContent = "00";
+            function formatCountdownNumber(value) {
+                return value > 99 ? String(value) : pad(value);
+            }
+
+            function setCountdownValue(element, key, value, options = {}) {
+                if (!element) {
                     return;
+                }
+
+                const unit = element.closest(".countdown-unit");
+                const homingCard = options.homingCard || "";
+                const displayValue = homingCard ? "\u00a0" : value;
+                const isZero = !options.homing && !homingCard && (key === "days" || key === "hours") && Number(value) === 0;
+
+                if (unit) {
+                    unit.classList.toggle("is-homing-card", Boolean(homingCard));
+                    ["black", "white", "blue", "orange"].forEach((card) => {
+                        unit.classList.toggle(`is-homing-${card}`, homingCard === card);
+                    });
+                    unit.classList.toggle("is-zero", isZero);
+                }
+
+                if (element.textContent === displayValue && !options.forceAnimate) {
+                    return;
+                }
+
+                const shouldAnimate = (options.forceAnimate || element.textContent !== "--") && !reduceMotionQuery.matches;
+                element.textContent = displayValue;
+
+                if (shouldAnimate) {
+                    element.classList.remove("is-flipping");
+                    element.classList.toggle("is-homing-flip", Boolean(options.homing));
+                    void element.offsetWidth;
+                    element.classList.add("is-flipping");
+                    window.setTimeout(() => {
+                        element.classList.remove("is-flipping");
+                        element.classList.remove("is-homing-flip");
+                    }, options.homing ? 44 : 280);
+                }
+            }
+
+            const countdownCells = [
+                { key: "days", element: countdown.days },
+                { key: "hours", element: countdown.hours },
+                { key: "minutes", element: countdown.minutes },
+                { key: "seconds", element: countdown.seconds },
+            ];
+
+            function applyCountdownValues(values, options = {}) {
+                countdownCells.forEach(({ key, element }, index) => {
+                    const update = () => setCountdownValue(element, key, values[key], options);
+
+                    if (options.stagger && !reduceMotionQuery.matches) {
+                        window.setTimeout(update, index * 42);
+                        return;
+                    }
+
+                    update();
+                });
+            }
+
+            function getCountdownValues() {
+                const remaining = opening.getTime() - Date.now();
+
+                if (remaining <= 0) {
+                    return {
+                        days: "00",
+                        hours: "00",
+                        minutes: "00",
+                        seconds: "00",
+                    };
                 }
 
                 const totalSeconds = Math.floor(remaining / 1000);
@@ -1341,13 +1619,90 @@
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = totalSeconds % 60;
 
-                countdown.days.textContent = String(days);
-                countdown.hours.textContent = pad(hours);
-                countdown.minutes.textContent = pad(minutes);
-                countdown.seconds.textContent = pad(seconds);
+                return {
+                    days: formatCountdownNumber(days),
+                    hours: pad(hours),
+                    minutes: pad(minutes),
+                    seconds: pad(seconds),
+                };
             }
 
-            if (calloutPanel && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            function updateCountdown(options = {}) {
+                applyCountdownValues(getCountdownValues(), options);
+            }
+
+            function buildHomingPath(target, maxSteps) {
+                if (target <= maxSteps - 1) {
+                    return Array.from({ length: target + 1 }, (_, step) => step);
+                }
+
+                const path = [];
+                for (let index = 0; index < maxSteps; index += 1) {
+                    const next = Math.round((target * index) / (maxSteps - 1));
+                    if (path[path.length - 1] !== next) {
+                        path.push(next);
+                    }
+                }
+
+                if (path[path.length - 1] !== target) {
+                    path.push(target);
+                }
+
+                return path;
+            }
+
+            function startCountdown() {
+                updateCountdown();
+                window.setInterval(updateCountdown, 1000);
+            }
+
+            function runCountdownHomingSequence() {
+                if (reduceMotionQuery.matches) {
+                    startCountdown();
+                    return;
+                }
+
+                const targetValues = getCountdownValues();
+                const colorCards = ["black", "white", "blue", "orange"];
+                const colorSpeed = 60;
+                const searchSpeed = 46;
+                const maxSearchSteps = 18;
+
+                colorCards.forEach((card, index) => {
+                    window.setTimeout(() => {
+                        countdownCells.forEach(({ key, element }) => {
+                            setCountdownValue(element, key, "", { forceAnimate: true, homing: true, homingCard: card });
+                        });
+                    }, index * colorSpeed);
+                });
+
+                const searchStart = colorCards.length * colorSpeed + 34;
+                const numericTargets = countdownCells.map(({ key, element }) => ({
+                    key,
+                    element,
+                    target: Math.min(Number.parseInt(targetValues[key], 10) || 0, 99),
+                }));
+                const searchPaths = numericTargets.map((target) => ({
+                    ...target,
+                    path: buildHomingPath(target.target, maxSearchSteps),
+                }));
+                const longestSearch = Math.max(...searchPaths.map(({ path }) => path.length));
+
+                searchPaths.forEach(({ key, element, path }) => {
+                    path.forEach((step, index) => {
+                        window.setTimeout(() => {
+                            setCountdownValue(element, key, pad(step), { forceAnimate: true, homing: true });
+                        }, searchStart + index * searchSpeed);
+                    });
+                });
+
+                window.setTimeout(() => {
+                    updateCountdown({ forceAnimate: true });
+                    window.setInterval(updateCountdown, 1000);
+                }, searchStart + longestSearch * searchSpeed + 96);
+            }
+
+            if (calloutPanel && !reduceMotionQuery.matches) {
                 calloutPanel.addEventListener("pointermove", (event) => {
                     const rect = calloutPanel.getBoundingClientRect();
                     const x = (event.clientX - rect.left) / rect.width - 0.5;
@@ -1362,8 +1717,47 @@
                 });
             }
 
-            updateCountdown();
-            window.setInterval(updateCountdown, 1000);
+            if (!reduceMotionQuery.matches) {
+                let isMotionTicking = false;
+
+                function updateScrollMotion() {
+                    const scrollY = window.scrollY || window.pageYOffset || 0;
+
+                    if (hero) {
+                        hero.style.setProperty("--hero-line-a", `${(-10 + scrollY * 0.018).toFixed(2)}%`);
+                        hero.style.setProperty("--hero-line-b", `${(8 - scrollY * 0.014).toFixed(2)}%`);
+                        hero.style.setProperty("--hero-line-c", `${(-4 + scrollY * 0.01).toFixed(2)}%`);
+                        hero.style.setProperty("--hero-line-d", `${(12 - scrollY * 0.018).toFixed(2)}%`);
+                    }
+
+                    if (membership) {
+                        const rect = membership.getBoundingClientRect();
+                        const viewportHeight = window.innerHeight || root.clientHeight || 1;
+                        const progress = clamp((viewportHeight - rect.top) / (viewportHeight + rect.height), 0, 1);
+                        const shift = (progress - 0.5) * 264;
+                        const slide = (progress - 0.5) * -81;
+                        membership.style.setProperty("--membership-slide", `${slide.toFixed(1)}px`);
+                        membership.style.setProperty("--membership-shift", `${shift.toFixed(1)}px`);
+                    }
+
+                    isMotionTicking = false;
+                }
+
+                function requestScrollMotion() {
+                    if (isMotionTicking) {
+                        return;
+                    }
+
+                    isMotionTicking = true;
+                    window.requestAnimationFrame(updateScrollMotion);
+                }
+
+                updateScrollMotion();
+                window.addEventListener("scroll", requestScrollMotion, { passive: true });
+                window.addEventListener("resize", requestScrollMotion);
+            }
+
+            runCountdownHomingSequence();
         })();
     </script>
 </body>
