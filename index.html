@@ -3,18 +3,15 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>East Bay Makers Club — Coming Soon</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-        rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>East Bay Makers Club | Grand Opening July 3</title>
+    <meta name="description"
+        content="East Bay Makers Club is opening July 3, 2026 in Berkeley with activities, a guest speaker, build night, snacks, and community workshop memberships." />
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="preload" href="assets/fonts/berkeley-mono/BerkeleyMono-Regular.woff2" as="font" type="font/woff2"
         crossorigin />
     <link rel="preload" href="assets/fonts/berkeley-mono/BerkeleyMono-Bold.woff2" as="font" type="font/woff2"
         crossorigin />
-    <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
     <style>
         @font-face {
             font-family: "Berkeley Mono";
@@ -26,58 +23,85 @@
 
         @font-face {
             font-family: "Berkeley Mono";
-            src: url("assets/fonts/berkeley-mono/BerkeleyMono-Oblique.woff2") format("woff2");
-            font-weight: 400;
-            font-style: italic;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: "Berkeley Mono";
             src: url("assets/fonts/berkeley-mono/BerkeleyMono-Bold.woff2") format("woff2");
             font-weight: 700;
             font-style: normal;
             font-display: swap;
         }
 
-        @font-face {
-            font-family: "Berkeley Mono";
-            src: url("assets/fonts/berkeley-mono/BerkeleyMono-Bold-Oblique.woff2") format("woff2");
-            font-weight: 700;
-            font-style: italic;
-            font-display: swap;
-        }
-
         :root {
-            --bg0: #07070a;
-            --bg1: #0c0c10;
-            --bg2: #111116;
-            --hair: rgba(255, 255, 255, 0.12);
-            --hair2: rgba(255, 255, 255, 0.08);
-            --text: rgba(255, 255, 255, 0.94);
-            --muted: rgba(255, 255, 255, 0.84);
-            --muted2: rgba(255, 255, 255, 0.68);
-            --muted3: rgba(255, 255, 255, 0.48);
-            --shadow: rgba(0, 0, 0, 0.55);
-            --led: #39ff88;
-            --maxw: 1160px;
-            --gutter: 24px;
-            --radius: 14px;
-            --border-strong: rgba(255, 255, 255, 0.18);
-            --border-soft: rgba(255, 255, 255, 0.1);
-            --font-body: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-            --font-mono-fallback: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-            --font-mono: var(--font-mono-fallback);
-            --font-canvas-mono: "IBM Plex Mono", ui-monospace, monospace;
-        }
-
-        html[data-dynamic-fonts="berkeley"] {
-            --font-mono: "Berkeley Mono", var(--font-mono-fallback);
-            --font-canvas-mono: "Berkeley Mono", ui-monospace, monospace;
+            --paper: #f4ede3;
+            --paper-warm: #fbf6ed;
+            --ink: #050505;
+            --soft-ink: #38322c;
+            --muted: #71685e;
+            --line: rgba(5, 5, 5, 0.24);
+            --line-strong: rgba(5, 5, 5, 0.82);
+            --blue: #0648d8;
+            --blue-deep: #0034a8;
+            --orange: #ff3d12;
+            --orange-deep: #d42609;
+            --cream-on-dark: #fff7ea;
+            --yellow: #ffdf69;
+            --green: #087f5b;
+            --shadow: 8px 8px 0 rgba(5, 5, 5, 0.10);
+            --radius: 8px;
+            --mono: "Berkeley Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                "Liberation Mono", monospace;
         }
 
         * {
             box-sizing: border-box;
+        }
+
+        html {
+            background: var(--paper);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100%;
+            overflow-x: hidden;
+            color: var(--ink);
+            background:
+                linear-gradient(90deg, rgba(5, 5, 5, 0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(5, 5, 5, 0.025) 1px, transparent 1px),
+                radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.86), transparent 29rem),
+                linear-gradient(180deg, var(--paper-warm), var(--paper));
+            background-size: 22px 22px, 22px 22px, auto, auto;
+            font-family: var(--mono);
+            letter-spacing: 0;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(rgba(5, 5, 5, 0.11) 0.65px, transparent 0.65px),
+                radial-gradient(rgba(255, 255, 255, 0.7) 0.8px, transparent 0.8px);
+            background-position: 0 0, 10px 11px;
+            background-size: 17px 17px, 23px 23px;
+            opacity: 0.27;
+            mix-blend-mode: multiply;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
         }
 
         .sr-only {
@@ -88,2424 +112,1301 @@
             margin: -1px;
             overflow: hidden;
             clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
             border: 0;
         }
 
-        .text-muted {
-            color: var(--muted2);
-        }
-
-        html,
-        body {
-            height: 100%;
-            width: 100%;
-            overflow-x: hidden;
-            overscroll-behavior: none;
-        }
-
-        body {
-            margin: 0;
-            color: var(--text);
-            background: radial-gradient(1200px 700px at 50% -10%, rgba(255, 255, 255, 0.06), transparent 55%), radial-gradient(900px 700px at 50% 30%, rgba(255, 255, 255, 0.04), transparent 70%), linear-gradient(to bottom, var(--bg0), var(--bg1) 35%, var(--bg0) 100%);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-        }
-
-        /* Dot grid texture */
-        body:before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 18px 18px;
-            opacity: 0.14;
-            mix-blend-mode: overlay;
-            z-index: 0;
-            mask-image: radial-gradient(1200px 700px at 50% 10%, black 35%, transparent 70%);
-        }
-
-        /* micro scanlines */
-        body:after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 3px, transparent 6px);
-            opacity: 0.05;
-            z-index: 0;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        a:hover {
-            opacity: 0.92;
-        }
-
-        /* Canvas */
-        #stage {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .wrap {
+        .page {
             position: relative;
             z-index: 1;
-        }
-
-        .top-band {
-            position: sticky;
-            top: 0;
-            z-index: 5;
-            backdrop-filter: blur(10px);
-            background: linear-gradient(to bottom, rgba(10, 10, 12, 0.82), rgba(10, 10, 12, 0.62));
-            border-bottom: 1px solid var(--hair2);
-        }
-
-        .top-band:before,
-        .top-band:after {
-            content: "";
-            display: block;
-            height: 8px;
-            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0px, rgba(255, 255, 255, 0.10) 1px, transparent 3px, transparent 7px);
-            opacity: 0.10;
-        }
-
-        .top-band:before {
-            border-bottom: 1px solid var(--hair2);
-        }
-
-        .top-band:after {
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            opacity: 0.06;
-        }
-
-        .nav {
-            max-width: var(--maxw);
+            width: min(100%, 1536px);
             margin: 0 auto;
-            padding: 12px var(--gutter);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 18px;
-            flex-wrap: wrap;
+            padding: 24px 28px 44px;
         }
 
-        .brand {
+        .announcement {
             display: flex;
             align-items: center;
-            gap: 10px;
-            min-width: 220px;
-        }
-
-        .mark {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            border: 1px solid var(--hair);
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.28), transparent 55%), radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-            background-size: auto, 5px 5px;
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.38);
-            position: relative;
+            gap: 14px;
+            min-height: 38px;
+            margin-bottom: 18px;
             overflow: hidden;
-        }
-
-        .mark:after {
-            content: "";
-            position: absolute;
-            inset: -20%;
-            background: radial-gradient(circle at 60% 30%, rgba(255, 255, 255, 0.18), transparent 55%);
-            transform: rotate(18deg);
-            opacity: 0.7;
-        }
-
-        .brand-title {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 0.12em;
+            border-block: 2px solid var(--ink);
+            background: var(--ink);
+            color: var(--cream-on-dark);
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.82);
-            line-height: 1.1;
-        }
-
-        .brand-sub {
-            margin-top: 2px;
-            font-size: 11px;
-            color: var(--muted2);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .navlinks {
-            display: none;
-            gap: 18px;
-            color: rgba(255, 255, 255, 0.62);
-            font-size: 13px;
-        }
-
-        @media (min-width: 900px) {
-            .navlinks {
-                display: flex;
-            }
-        }
-
-        .nav-cta {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        @media (max-width: 640px) {
-            .nav {
-                justify-content: center;
-                text-align: center;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .nav-cta {
-                display: none;
-            }
-
-            .brand {
-                min-width: auto;
-                justify-content: center;
-            }
-        }
-
-        .btn {
-            appearance: none;
-            border: 1px solid var(--hair);
-            background: rgba(255, 255, 255, 0.02);
-            color: rgba(255, 255, 255, 0.88);
-            padding: 10px 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: transform 120ms ease, border-color 180ms ease, background 180ms ease, opacity 180ms ease;
+            font-size: 0.8rem;
+            font-weight: 700;
             white-space: nowrap;
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
         }
 
-        .btn:hover {
-            border-color: rgba(255, 255, 255, 0.22);
-            background: rgba(255, 255, 255, 0.03);
+        .announcement-track {
+            display: flex;
+            gap: 18px;
+            min-width: max-content;
+            animation: ticker 24s linear infinite;
         }
 
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        .btn.primary {
-            background: rgba(255, 255, 255, 0.92);
-            color: rgba(0, 0, 0, 0.88);
-            border-color: rgba(255, 255, 255, 0.92);
-            padding-left: 24px;
-            padding-right: 24px;
-        }
-
-        .btn.primary:hover {
-            background: rgba(255, 255, 255, 0.98);
-            border-color: rgba(255, 255, 255, 0.98);
-        }
-
-        .btn:focus {
-            outline: none;
-        }
-
-        .btn:focus-visible {
-            outline: 2px solid rgba(255, 255, 255, 0.65);
-            outline-offset: 2px;
-        }
-
-        @media (max-width: 480px) {
-            .btn {
-                font-size: 12px;
-                padding: 9px 10px;
-            }
-
-            .btn.primary {
-                padding-left: 18px;
-                padding-right: 18px;
-            }
-        }
-
-        /* HERO */
-        .hero {
-            max-width: var(--maxw);
-            margin: 0 auto;
-            padding: 72px var(--gutter) 40px;
-            text-align: center;
-            position: relative;
-            isolation: isolate;
-        }
-
-        /* Readability scrim in hero */
-        .hero::before {
-            content: "";
-            position: absolute;
-            inset: -40px -10px 0 -10px;
-            height: 520px;
-            pointer-events: none;
-            z-index: 0;
-            background: radial-gradient(700px 360px at 50% 35%, rgba(0, 0, 0, 0.84), transparent 70%), radial-gradient(900px 420px at 50% 55%, rgba(0, 0, 0, 0.56), transparent 72%);
-        }
-
-        .hero>* {
-            position: relative;
-            z-index: 1;
-        }
-
-        .pill {
+        .announcement span {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            border: 1px solid var(--hair2);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 8px 12px;
-            border-radius: 999px;
-            color: rgba(255, 255, 255, 0.68);
-            font-size: clamp(10px, 2.4vw, 12px);
-            letter-spacing: 0.10em;
-            text-transform: uppercase;
-            font-family: var(--font-mono);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
-        }
-
-        .pill .pill-text {
-            white-space: nowrap;
-        }
-
-        @media (max-width: 500px) {
-            .pill {
-                letter-spacing: 0.08em;
-                gap: 8px;
-                padding: 6px 10px;
-            }
-        }
-
-        .led {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--led);
-            box-shadow: 0 0 0 3px rgba(57, 255, 136, 0.12), 0 0 18px rgba(57, 255, 136, 0.35);
-        }
-
-        h1 {
-            margin: 18px auto 0;
-            font-weight: 600;
-            letter-spacing: -0.04em;
-            line-height: 1.0;
-            font-size: clamp(40px, 5vw, 72px);
-            max-width: 18ch;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55), 0 18px 80px rgba(0, 0, 0, 0.75);
-        }
-
-        .subhead {
-            max-width: 70ch;
-            margin: 14px auto 0;
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--muted);
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45), 0 18px 70px rgba(0, 0, 0, 0.65);
-        }
-
-        .subhead .subhead-line {
-            display: block;
-            margin-top: 6px;
-        }
-
-        @media (max-width: 640px) {
-            .subhead .subhead-line {
-                display: inline;
-                margin-top: 0;
-            }
-        }
-
-        .hero-ctas {
-            margin-top: 22px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .hero-status {
-            margin-top: 24px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px;
-            width: min(540px, 100%);
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .status-card {
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(8, 10, 14, 0.58);
-            padding: 12px 16px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.38);
-            min-width: 0;
-            width: 100%;
-            text-align: left;
-        }
-
-        .status-card .status-label {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            color: var(--muted2);
-            text-transform: uppercase;
-        }
-
-        .status-card .status-value {
-            margin-top: 6px;
-            font-size: 15px;
-            color: var(--text);
-        }
-
-        .orbit-overlay {
-            position: absolute;
-            inset: -20px 0 auto 0;
-            height: 420px;
-            pointer-events: none;
-            opacity: 0.35;
-            mask-image: radial-gradient(closest-side at 50% 40%, black 45%, transparent 80%);
-            z-index: -1;
-            background: radial-gradient(circle at 50% 60%, transparent 46%, rgba(255, 255, 255, 0.10) 46.5%, transparent 47.5%), radial-gradient(ellipse at 50% 62%, transparent 50%, rgba(255, 255, 255, 0.06) 50.5%, transparent 51.5%), radial-gradient(ellipse at 50% 62%, transparent 62%, rgba(255, 255, 255, 0.05) 62.5%, transparent 63.5%);
-            transform: rotate(-6deg);
-        }
-
-        .console {
-            max-width: 900px;
-            margin: 46px auto 0;
-            text-align: left;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 16px 16px 14px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 30px 110px rgba(0, 0, 0, 0.55);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .console:before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(800px 220px at 30% 0%, rgba(255, 255, 255, 0.10), transparent 55%), radial-gradient(700px 240px at 100% 40%, rgba(255, 255, 255, 0.06), transparent 60%);
-            opacity: 0.8;
-            pointer-events: none;
-        }
-
-        .console-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
-        }
-
-        .console-title {
-            font-size: 13px;
-            color: rgba(213, 255, 234, 0.86);
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            flex: 1 1 260px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(57, 255, 136, 0.35);
-            background: linear-gradient(140deg, rgba(8, 12, 10, 0.92), rgba(12, 20, 16, 0.88) 55%, rgba(10, 12, 18, 0.85));
-            box-shadow: inset 0 0 18px rgba(57, 255, 136, 0.08), 0 20px 60px rgba(0, 0, 0, 0.55);
-            text-shadow: 0 0 12px rgba(57, 255, 136, 0.4);
-            position: relative;
-            overflow: hidden;
-            isolation: isolate;
-            animation: consolePulse 6.4s ease-in-out infinite;
-        }
-
-        .console-title:before {
-            content: "";
-            position: absolute;
-            inset: -40% -50% 35% -50%;
-            background: radial-gradient(circle at 20% 50%, rgba(57, 255, 136, 0.3), transparent 60%);
-            filter: blur(8px);
-            opacity: 0.9;
-            pointer-events: none;
-            z-index: -2;
-        }
-
-        .console-title:after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(110deg, rgba(57, 255, 136, 0), rgba(57, 255, 136, 0.4), rgba(57, 255, 136, 0));
-            transform: translateX(-120%);
-            animation: consoleSweep 11s ease-in-out infinite;
-            mix-blend-mode: screen;
-            opacity: 0.8;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        @keyframes consolePulse {
-            0% {
-                box-shadow: inset 0 0 18px rgba(57, 255, 136, 0.08), 0 20px 60px rgba(0, 0, 0, 0.55);
-                color: rgba(213, 255, 234, 0.78);
-            }
-
-            50% {
-                box-shadow: inset 0 0 28px rgba(57, 255, 136, 0.18), 0 30px 80px rgba(0, 0, 0, 0.6);
-                color: rgba(255, 255, 255, 0.95);
-            }
-
-            100% {
-                box-shadow: inset 0 0 18px rgba(57, 255, 136, 0.08), 0 20px 60px rgba(0, 0, 0, 0.55);
-                color: rgba(213, 255, 234, 0.78);
-            }
-        }
-
-        @keyframes consoleSweep {
-            0% {
-                transform: translateX(-120%);
-                opacity: 0;
-            }
-
-            30% {
-                opacity: 0.8;
-            }
-
-            60% {
-                transform: translateX(140%);
-                opacity: 0.4;
-            }
-
-            100% {
-                transform: translateX(160%);
-                opacity: 0;
-            }
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.18);
-            color: rgba(255, 255, 255, 0.70);
-            font-size: 12px;
-            font-family: var(--font-mono);
-            letter-spacing: 0.04em;
-        }
-
-        .chip .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.80);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
-            opacity: 0.9;
-        }
-
-        .console-actions {
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .pills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            color: rgba(255, 255, 255, 0.58);
-        }
-
-        .mini-pill {
-            border: 1px dashed var(--hair2);
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 999px;
-            padding: 8px 10px;
-            font-size: 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-family: var(--font-mono);
-            color: var(--muted2);
-            transition: border-color 120ms ease, color 120ms ease;
-        }
-
-        .mini-pill:focus-visible {
-            outline: 2px solid rgba(255, 255, 255, 0.6);
-            outline-offset: 2px;
-        }
-
-        .mini-pill:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            color: var(--text);
-        }
-
-        .play {
-            width: 38px;
-            height: 38px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(255, 255, 255, 0.05);
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            transition: transform 120ms ease, border-color 180ms ease, background 180ms ease;
-        }
-
-        .play:hover {
-            border-color: rgba(255, 255, 255, 0.26);
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        .play:active {
-            transform: translateY(1px);
-        }
-
-        .play svg {
-            opacity: 0.9;
-        }
-
-        .sep {
-            max-width: var(--maxw);
-            margin: 22px auto -22px;
-            padding: 0 var(--gutter);
-        }
-
-        .sep .line {
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.14), transparent);
-        }
-
-        .sep .hatch {
-            height: 10px;
-            margin-top: 12px;
-            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0px, rgba(255, 255, 255, 0.12) 1px, transparent 3px, transparent 8px);
-            opacity: 0.08;
-            border-radius: 999px;
-        }
-
-        .trust {
-            position: relative;
-            max-width: var(--maxw);
-            margin: 22px auto 12px;
-            width: min(var(--maxw), calc(100% - (var(--gutter) * 2)));
-            padding: 18px calc(var(--gutter) + 2px);
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 18px 22px;
-            border-radius: 3px;
-            color: rgba(255, 255, 255, 0.78);
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 0.10em;
-            text-transform: uppercase;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(7, 7, 10, 0.85);
-            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(14px);
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .trust::before {
-            content: "";
-            position: absolute;
-            inset: 1px;
-            border-radius: 999px;
-            background: radial-gradient(650px 220px at 25% 50%, rgba(255, 255, 255, 0.08), transparent 60%), radial-gradient(450px 260px at 85% 50%, rgba(255, 255, 255, 0.04), transparent 65%);
-            opacity: 0.85;
-            pointer-events: none;
-        }
-
-        .trust span {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0.95;
-            position: relative;
-            z-index: 1;
-        }
-
-        .trust .markdot {
-            width: 5px;
-            height: 5px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.35);
-            opacity: 0.7;
-        }
-
-        .trust .trust-label {
-            letter-spacing: 0.08em;
-            color: rgba(255, 255, 255, 0.72);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Sections */
-        .section {
-            max-width: var(--maxw);
-            margin: 0 auto;
-            padding: 56px var(--gutter);
-            position: relative;
-            isolation: isolate;
-        }
-
-        /* Readability wash for sections */
-        .section::before {
-            content: "";
-            position: absolute;
-            inset: -24px -8px -24px -8px;
-            pointer-events: none;
-            z-index: 0;
-            background: radial-gradient(900px 420px at 20% 10%, rgba(0, 0, 0, 0.72), transparent 70%), radial-gradient(900px 420px at 80% 40%, rgba(0, 0, 0, 0.62), transparent 70%), linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.22));
-            opacity: 0.95;
-        }
-
-        .section>* {
-            position: relative;
-            z-index: 1;
-        }
-
-        .kicker {
-            font-family: var(--font-mono);
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.56);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             gap: 14px;
         }
 
-        .kicker .left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .kicker .sn {
-            color: var(--muted2);
-        }
-
-        .kicker .rule {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.10);
-            flex: 1;
-            border-radius: 99px;
-        }
-
-        .section h2 {
-            margin: 14px 0 0;
-            font-size: clamp(28px, 3.3vw, 48px);
-            letter-spacing: -0.03em;
-            line-height: 1.05;
-            font-weight: 600;
-            max-width: 18ch;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55), 0 18px 60px rgba(0, 0, 0, 0.70);
-        }
-
-        .section p.lede {
-            margin: 12px 0 0;
-            color: var(--muted);
-            line-height: 1.7;
-            max-width: 72ch;
-            font-size: 15px;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45), 0 18px 50px rgba(0, 0, 0, 0.65);
-        }
-
-        .grid2 {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-top: 22px;
-        }
-
-        @media (min-width: 900px) {
-            .grid2 {
-                grid-template-columns: 1fr 1fr;
-                gap: 18px;
-            }
-        }
-
-        .card {
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(8, 10, 14, 0.58);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
-            overflow: hidden;
-            position: relative;
-            min-height: 220px;
-        }
-
-        .card .inner {
-            padding: 16px 16px 14px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card .head {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .card .title {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.92);
-            letter-spacing: 0.02em;
-            font-weight: 600;
-        }
-
-        .card .desc {
-            margin-top: 8px;
-            color: rgba(255, 255, 255, 0.74);
-            line-height: 1.6;
-            font-size: 13px;
-            max-width: 60ch;
-        }
-
-        .card .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.62);
-        }
-
-        .card .status .led {
-            width: 9px;
-            height: 9px;
-            box-shadow: 0 0 0 4px rgba(57, 255, 136, 0.10), 0 0 18px rgba(57, 255, 136, 0.32);
-            animation: ledPulse 2.8s ease-in-out infinite;
-        }
-
-        @keyframes ledPulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 0.95;
-            }
-
-            50% {
-                transform: scale(0.86);
-                opacity: 0.55;
-            }
-        }
-
-        .card:before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(650px 240px at 25% 0%, rgba(255, 255, 255, 0.09), transparent 60%), radial-gradient(600px 300px at 100% 60%, rgba(255, 255, 255, 0.05), transparent 62%);
-            opacity: 0.9;
-            pointer-events: none;
-        }
-
-        .card:after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0px, rgba(255, 255, 255, 0.10) 1px, transparent 3px, transparent 10px);
-            opacity: 0.05;
-            pointer-events: none;
-            mask-image: radial-gradient(closest-side at 40% 0%, black 35%, transparent 70%);
-        }
-
-        .preview {
-            margin-top: 14px;
-            height: 110px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(0, 0, 0, 0.32);
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease, box-shadow 320ms ease;
-            --pointer-x: 0.5;
-            --pointer-y: 0.5;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-        }
-
-        .preview::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at calc(var(--pointer-x, 0.5) * 100%) calc(var(--pointer-y, 0.5) * 100%), rgba(57, 255, 136, 0.12), rgba(57, 255, 136, 0.04) 45%, transparent 70%);
-            opacity: 0;
-            transition: opacity 220ms ease;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .preview.is-hovered {
-            border-color: rgba(255, 255, 255, 0.28);
-            transform: translateY(-4px);
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.50);
-        }
-
-        .preview.is-hovered::after {
-            opacity: 1;
-        }
-
-        .preview.is-active {
-            transform: translateY(-2px) scale(0.99);
-            border-color: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.55);
-        }
-
-        .preview canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            opacity: 0.94;
-            position: absolute;
-            inset: 0;
-            transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), filter 320ms ease;
-            pointer-events: none;
-        }
-
-        .preview.is-hovered canvas.spark {
-            filter: drop-shadow(0 0 12px rgba(57, 255, 136, 0.24));
-            transform: scale(1.02) translateY(-1px);
-        }
-
-        .preview.is-hovered canvas.orbit {
-            filter: drop-shadow(0 0 14px rgba(120, 180, 255, 0.22));
-            transform: scale(1.015);
-        }
-
-        .preview.is-active canvas.spark,
-        .preview.is-active canvas.orbit {
-            transform: scale(1.025) translateY(1px);
-            filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.32));
-        }
-
-        .preview .label {
-            position: absolute;
-            top: 10px;
-            left: 12px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.55);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .preview .label .tiny {
-            width: 6px;
-            height: 6px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.55);
-            opacity: 0.7;
-        }
-
-        /* Visit */
-        .visit {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-top: 22px;
-            align-items: start;
-        }
-
-        @media (min-width: 900px) {
-            .visit {
-                grid-template-columns: 0.9fr 1.1fr;
-                gap: 18px;
-            }
-        }
-
-        .panel {
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: linear-gradient(165deg, rgb(9, 11, 16), rgb(7, 9, 13));
-            box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .panel::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.26));
-            pointer-events: none;
-        }
-
-        .panel::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, 0.34) 58%, rgba(0, 0, 0, 0.50) 100%);
-            pointer-events: none;
-        }
-
-        .panel .inner {
-            padding: 16px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .panel .mono {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 0.06em;
-            color: rgba(255, 255, 255, 0.76);
-        }
-
-        .panel .addr {
-            margin-top: 10px;
-            font-size: 14px;
-            line-height: 1.55;
-            color: rgba(255, 255, 255, 0.90);
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
-        }
-
-        .panel .addr strong {
-            color: rgba(255, 255, 255, 0.98);
-        }
-
-        .panel ul {
-            list-style: none;
-            padding: 0;
-            margin: 14px 0 0;
-            display: grid;
-            gap: 10px;
-            color: rgba(255, 255, 255, 0.86);
-            font-size: 14px;
-            line-height: 1.45;
-        }
-
-        .panel li {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.52);
-        }
-
-        .panel-actions {
-            margin-top: 14px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .panel-actions .btn {
-            border-color: rgba(255, 255, 255, 0.24);
-            background: rgba(7, 9, 12, 0.88);
-            color: rgba(255, 255, 255, 0.90);
-        }
-
-        .bullet {
+        .announcement i,
+        .section-kicker::before,
+        .promo-kicker::before {
+            display: inline-block;
             width: 10px;
             height: 10px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.32);
-            background: rgba(255, 255, 255, 0.12);
-            margin-top: 4px;
+            background: var(--orange);
+            transform: rotate(45deg);
+            content: "";
+        }
+
+        @keyframes ticker {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .site-header {
+            display: grid;
+            grid-template-columns: minmax(220px, 360px) 1fr auto;
+            align-items: center;
+            gap: 24px;
+            min-height: 76px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .brand-wordmark {
+            width: min(100%, 334px);
+            height: auto;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            color: var(--soft-ink);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+        }
+
+        .nav a {
+            padding: 8px 10px;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav a:hover,
+        .nav a:focus-visible {
+            color: var(--blue);
+            border-color: var(--blue);
+            outline: none;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 50px;
+            padding: 0 22px;
+            border: 2px solid var(--ink);
+            border-radius: 2px;
+            background: var(--paper-warm);
+            color: var(--ink);
+            box-shadow: var(--shadow);
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, color 140ms ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            transform: translate(3px, 3px);
+            box-shadow: 3px 4px 0 rgba(5, 5, 5, 0.12);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: var(--cream-on-dark);
+        }
+
+        .btn-blue {
+            background: var(--blue);
+            color: var(--cream-on-dark);
+        }
+
+        .icon-arrow {
+            width: 1.1em;
+            height: 1.1em;
             flex: 0 0 auto;
         }
 
-        .map {
-            aspect-ratio: 16 / 10;
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.2);
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(360px, 0.62fr);
+            gap: 30px;
+            align-items: stretch;
+            padding-top: 26px;
+        }
+
+        .hero-copy {
+            display: grid;
+            align-content: start;
+            min-width: 0;
+            padding: 8px 0 0 36px;
+        }
+
+        .promo-kicker,
+        .section-kicker {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 0 0 14px;
+            color: var(--orange);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .headline {
+            margin: 0;
+            font-size: 7.5rem;
+            line-height: 0.82;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .headline span {
+            display: block;
+        }
+
+        .headline .blue {
+            color: var(--blue);
+        }
+
+        .headline .orange {
+            color: var(--orange);
+        }
+
+        .opening-meta {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 30px;
+            border-block: 2px solid var(--ink);
+        }
+
+        .meta-item {
+            display: grid;
+            grid-template-columns: 54px minmax(0, 1fr);
+            gap: 12px;
+            align-items: center;
+            min-height: 86px;
+            padding: 12px 14px;
+            border-right: 2px solid var(--ink);
+        }
+
+        .meta-item:last-child {
+            border-right: 0;
+        }
+
+        .meta-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            min-height: 32px;
+            border-left: 8px solid currentColor;
+            background: rgba(255, 255, 255, 0.42);
+            color: var(--blue);
+            font-size: 0.66rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .meta-item:nth-child(2) .meta-mark {
+            color: var(--orange);
+        }
+
+        .meta-copy strong {
+            display: block;
+            font-size: 0.92rem;
+            line-height: 1.15;
+            text-transform: uppercase;
+        }
+
+        .meta-copy span {
+            display: block;
+            margin-top: 4px;
+            color: var(--soft-ink);
+            font-size: 0.72rem;
+            line-height: 1.35;
+            text-transform: uppercase;
+        }
+
+        .intro {
+            max-width: 62ch;
+            margin: 24px 0 0;
+            color: var(--soft-ink);
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 92px);
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .countdown-unit {
+            min-height: 82px;
+            padding: 10px;
+            border: 2px solid var(--ink);
+            background: rgba(255, 255, 255, 0.34);
+            text-align: center;
+            box-shadow: 4px 5px 0 rgba(5, 5, 5, 0.08);
+        }
+
+        .countdown-unit strong {
+            display: block;
+            color: var(--blue);
+            font-size: 1.55rem;
+            line-height: 1;
+        }
+
+        .countdown-unit span {
+            display: block;
+            margin-top: 8px;
+            color: var(--soft-ink);
+            font-size: 0.64rem;
+            text-transform: uppercase;
+        }
+
+        .callout-panel {
+            --tilt-x: 0deg;
+            --tilt-y: 0deg;
             position: relative;
+            display: grid;
+            grid-template-rows: 1fr auto;
+            min-height: 690px;
+            border: 2px solid var(--ink);
+            background: #000;
+            box-shadow: 12px 13px 0 rgba(5, 5, 5, 0.12);
+            overflow: hidden;
+            transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+            transition: transform 180ms ease;
         }
 
-        .map iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            filter: grayscale(100%) contrast(140%) brightness(0.92);
-            opacity: 0.95;
-        }
-
-        .map:after {
-            content: "";
+        .schematic-field {
             position: absolute;
             inset: 0;
-            pointer-events: none;
-            background: radial-gradient(800px 280px at 30% 0%, rgba(255, 255, 255, 0.10), transparent 60%), radial-gradient(700px 260px at 110% 70%, rgba(255, 255, 255, 0.06), transparent 55%);
-            opacity: 0.50;
+            color: #fff;
+            opacity: 0.96;
         }
 
-        /* Membership */
-        .membership-grid {
+        .schematic-field svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .event-dock {
+            position: relative;
+            z-index: 1;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin-top: 24px;
+            grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+            gap: 14px;
+            align-self: end;
+            margin: 24px;
         }
 
-        .membership-card {
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.28);
-            padding: 18px;
-            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.4);
+        .event-ticket,
+        .event-note,
+        .event-activity {
+            border: 2px solid var(--ink);
+            background: var(--paper-warm);
+            color: var(--ink);
+            box-shadow: 6px 7px 0 rgba(0, 0, 0, 0.26);
         }
 
-        .membership-card h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .membership-card p {
-            margin: 10px 0 0;
-            color: var(--muted);
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        .tag-list {
-            margin: 14px 0 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tag-list span {
-            font-family: var(--font-mono);
-            letter-spacing: 0.08em;
-            font-size: 11px;
-            text-transform: uppercase;
-            border: 1px solid var(--hair2);
-            border-radius: 999px;
-            padding: 6px 10px;
-            color: var(--muted2);
-        }
-
-        .membership-note {
-            margin-top: 16px;
-            font-size: 13px;
-            color: var(--muted2);
-            line-height: 1.5;
-        }
-
-        /* Email capture */
-        .capture {
-            margin-top: 18px;
-            display: flex;
+        .event-ticket {
+            display: grid;
+            align-content: space-between;
             gap: 10px;
-            flex-wrap: wrap;
+            min-height: 188px;
+            padding: 18px;
         }
 
-        .field-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1 1 240px;
-            min-width: 220px;
-        }
-
-        .field-group label {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.08em;
+        .ticket-label,
+        .note-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--orange);
+            font-size: 0.72rem;
+            font-weight: 700;
             text-transform: uppercase;
-            color: var(--muted2);
+        }
+
+        .ticket-label::before,
+        .note-label::before,
+        .activity-mark,
+        .event-chip::before {
+            width: 10px;
+            height: 10px;
+            background: currentColor;
+            transform: rotate(45deg);
+            content: "";
+        }
+
+        .event-ticket strong {
+            display: block;
+            color: var(--blue);
+            font-size: 3.45rem;
+            line-height: 0.86;
+            text-transform: uppercase;
+        }
+
+        .event-ticket span:last-child {
+            display: block;
+            color: var(--ink);
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1.05;
+            text-transform: uppercase;
+        }
+
+        .event-note-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .event-note {
+            min-height: 88px;
+            padding: 12px;
+        }
+
+        .event-note strong,
+        .event-activity strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.86rem;
+            line-height: 1.15;
+            text-transform: uppercase;
+        }
+
+        .event-note span,
+        .event-activity span {
+            display: block;
+            margin-top: 4px;
+            color: var(--soft-ink);
+            font-size: 0.62rem;
+            line-height: 1.25;
+            text-transform: uppercase;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            grid-column: 1 / -1;
+        }
+
+        .event-activity {
+            display: grid;
+            grid-template-columns: 14px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+            min-height: 74px;
+            padding: 12px;
+            min-width: 0;
+        }
+
+        .event-activity:nth-child(even) .activity-mark {
+            color: var(--blue);
+        }
+
+        .event-activity:nth-child(odd) .activity-mark {
+            color: var(--orange);
+        }
+
+        .rail-accent-orange {
+            fill: var(--orange);
+            stroke: var(--orange);
+        }
+
+        .rail-accent-blue {
+            fill: var(--blue);
+            stroke: var(--blue);
+        }
+
+        .rail-line {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .rail-thin {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.45;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .rail-fill {
+            fill: #000;
+            stroke: currentColor;
+            stroke-width: 2.2;
+        }
+
+        .rail-dot {
+            fill: #000;
+            stroke: currentColor;
+            stroke-width: 2.2;
+        }
+
+        .rail-spark {
+            fill: currentColor;
+        }
+
+        .event-strip {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-top: 34px;
+            border-block: 2px solid var(--ink);
+        }
+
+        .event-chip {
+            display: grid;
+            justify-items: center;
+            align-content: center;
+            gap: 12px;
+            min-height: 124px;
+            padding: 18px 12px 16px;
+            text-align: center;
+            border-right: 2px solid var(--ink);
+            text-transform: uppercase;
+        }
+
+        .event-chip:last-child {
+            border-right: 0;
+        }
+
+        .event-chip::before {
+            color: var(--blue);
+        }
+
+        .event-chip:nth-child(odd)::before {
+            color: var(--orange);
+        }
+
+        .event-chip strong {
+            font-size: 0.82rem;
+            line-height: 1.2;
+        }
+
+        .section {
+            margin-top: 38px;
+            padding-top: 34px;
+            border-top: 2px solid var(--ink);
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+            gap: 34px;
+            align-items: start;
+        }
+
+        .section h2 {
+            margin: 0;
+            max-width: 13ch;
+            font-size: 2.55rem;
+            line-height: 1.04;
+            text-transform: uppercase;
+        }
+
+        .section p {
+            margin: 14px 0 0;
+            color: var(--soft-ink);
+            line-height: 1.65;
+        }
+
+        .signup {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: end;
+            padding: 18px;
+            border: 2px solid var(--ink);
+            background:
+                linear-gradient(135deg, rgba(6, 72, 216, 0.10) 0 25%, transparent 25% 50%, rgba(255, 61, 18, 0.11) 50% 75%, transparent 75%),
+                var(--paper-warm);
+            background-size: 18px 18px, auto;
+            box-shadow: var(--shadow);
         }
 
         .field {
-            flex: 1 1 280px;
-            min-width: 240px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(0, 0, 0, 0.22);
-            padding: 12px 12px;
-            color: rgba(255, 255, 255, 0.86);
-            font-size: 14px;
-            transition: border-color 160ms ease, background 160ms ease;
-        }
-
-        .field.select {
-            font-size: 13px;
-            letter-spacing: 0.02em;
-            background-image: linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.5) 50%),
-                linear-gradient(135deg, rgba(255, 255, 255, 0.5) 50%, transparent 50%);
-            background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
-            background-size: 6px 6px, 6px 6px;
-            background-repeat: no-repeat;
-            appearance: none;
-            padding-right: 36px;
-        }
-
-        .field::placeholder {
-            color: rgba(255, 255, 255, 0.35);
+            width: 100%;
+            min-height: 52px;
+            padding: 0 14px;
+            border: 2px solid var(--ink);
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--ink);
         }
 
         .field:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.36);
-            background: rgba(0, 0, 0, 0.28);
-        }
-
-        .field:focus-visible {
-            outline: 2px solid rgba(255, 255, 255, 0.55);
+            outline: 3px solid rgba(6, 72, 216, 0.28);
             outline-offset: 2px;
         }
 
-        .fineprint {
-            margin-top: 10px;
-            color: var(--muted2);
-            font-size: 12px;
-            line-height: 1.6;
+        .field::placeholder {
+            color: rgba(5, 5, 5, 0.48);
         }
 
-        footer {
-            max-width: var(--maxw);
-            margin: 0 auto;
-            padding: 28px var(--gutter) 48px;
-            color: rgba(255, 255, 255, 0.50);
-            font-family: var(--font-mono);
+        .signup-frame {
+            display: none;
+        }
+
+        .tools {
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+            gap: 28px;
+            align-items: center;
+        }
+
+        .tool-collage {
+            width: 100%;
+            filter: drop-shadow(8px 10px 0 rgba(5, 5, 5, 0.08));
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .tool-card,
+        .event-card,
+        .address-card {
+            border: 2px solid var(--ink);
+            background: rgba(255, 255, 255, 0.34);
+            box-shadow: 5px 6px 0 rgba(5, 5, 5, 0.08);
+            padding: 16px;
+        }
+
+        .tool-card h3,
+        .event-card h3 {
+            margin: 0;
+            font-size: 0.92rem;
+            line-height: 1.25;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-size: 11px;
+        }
+
+        .tool-card p,
+        .event-card p {
+            margin-top: 10px;
+            font-size: 0.76rem;
+            line-height: 1.5;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .event-card time {
+            display: inline-flex;
+            margin-bottom: 12px;
+            color: var(--blue);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .event-card.featured {
+            background: var(--ink);
+            color: var(--cream-on-dark);
+        }
+
+        .event-card.featured time,
+        .event-card.featured p {
+            color: var(--cream-on-dark);
+        }
+
+        .visit {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+            gap: 24px;
+        }
+
+        .address-card {
+            min-height: 100%;
+        }
+
+        .address-card strong {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--orange);
+            text-transform: uppercase;
+        }
+
+        .address-card .btn {
+            margin-top: 18px;
+        }
+
+        .map-frame {
+            min-height: 300px;
+            border: 2px solid var(--ink);
+            background: rgba(255, 255, 255, 0.32);
+            box-shadow: 5px 6px 0 rgba(5, 5, 5, 0.08);
+            overflow: hidden;
+        }
+
+        .map-frame iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            border: 0;
+            filter: grayscale(100%) contrast(120%) sepia(12%);
+        }
+
+        .footer {
             display: flex;
             justify-content: space-between;
             gap: 18px;
             flex-wrap: wrap;
-            border-top: 1px solid rgba(255, 255, 255, 0.10);
+            margin-top: 38px;
+            padding-top: 22px;
+            border-top: 2px solid var(--ink);
+            color: var(--muted);
+            font-size: 0.74rem;
+            text-transform: uppercase;
         }
 
         .toast {
             position: fixed;
             left: 50%;
             bottom: 18px;
-            transform: translateX(-50%) translateY(18px);
-            background: rgba(10, 10, 12, 0.86);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 12px;
-            padding: 10px 12px;
-            color: rgba(255, 255, 255, 0.82);
-            font-size: 13px;
-            box-shadow: 0 18px 70px rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(10px);
+            z-index: 20;
+            transform: translate(-50%, 20px);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 180ms ease, transform 180ms ease;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            border: 2px solid var(--ink);
+            background: var(--yellow);
+            color: var(--ink);
+            padding: 12px 16px;
+            box-shadow: var(--shadow);
+            font-size: 0.82rem;
+            transition: opacity 160ms ease, transform 160ms ease;
         }
 
         .toast.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            transform: translate(-50%, 0);
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .card .status .led {
-                animation: none;
+            html {
+                scroll-behavior: auto;
             }
 
-            .preview,
-            .preview canvas {
-                transition: none !important;
-                transform: none !important;
+            *,
+            *::before,
+            *::after {
+                animation-duration: 1ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 1ms !important;
+            }
+        }
+
+        @media (max-width: 1240px) {
+            .site-header {
+                grid-template-columns: 1fr auto;
             }
 
-            .console-title,
-            .console-title:after {
-                animation: none !important;
+            .nav {
+                grid-column: 1 / -1;
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 6px;
+            }
+
+            .headline {
+                font-size: 6rem;
+            }
+
+            .opening-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .meta-item {
+                border-right: 0;
+                border-bottom: 2px solid var(--ink);
+            }
+
+            .meta-item:last-child {
+                border-bottom: 0;
+            }
+        }
+
+        @media (max-width: 980px) {
+            .page {
+                padding: 20px 18px 40px;
+            }
+
+            .hero,
+            .split,
+            .tools,
+            .visit {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-copy {
+                padding-left: 0;
+            }
+
+            .callout-panel {
+                min-height: 620px;
+            }
+
+            .event-dock {
+                grid-template-columns: 1fr;
+                margin: 18px;
+            }
+
+            .event-ticket {
+                min-height: 148px;
+            }
+
+            .event-ticket strong {
+                font-size: 2.95rem;
+            }
+
+            .event-strip {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .event-chip:nth-child(2) {
+                border-right: 0;
+            }
+
+            .event-chip:nth-child(-n + 2) {
+                border-bottom: 2px solid var(--ink);
+            }
+
+            .calendar-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .site-header {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .brand-wordmark {
+                width: min(100%, 292px);
+            }
+
+            .join-btn,
+            .hero-actions,
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .nav {
+                justify-content: center;
+                overflow-x: visible;
+                flex-wrap: wrap;
+                gap: 4px 8px;
+            }
+
+            .nav a {
+                padding: 6px 4px;
+                font-size: 0.72rem;
+            }
+
+            .headline {
+                font-size: 4rem;
+                line-height: 0.86;
+            }
+
+            .countdown {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .countdown-unit {
+                min-height: 74px;
+            }
+
+            .callout-panel {
+                min-height: 700px;
+            }
+
+            .event-dock {
+                margin: 14px;
+            }
+
+            .event-note-grid,
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-ticket strong {
+                font-size: 2.55rem;
+            }
+
+            .event-strip,
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-chip,
+            .event-chip:nth-child(2) {
+                border-right: 0;
+                border-bottom: 2px solid var(--ink);
+            }
+
+            .event-chip:last-child {
+                border-bottom: 0;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .signup {
+                grid-template-columns: 1fr;
+            }
+
+            .footer {
+                display: grid;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .page {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .headline {
+                font-size: 3.2rem;
+            }
+
+            .meta-item {
+                grid-template-columns: 48px minmax(0, 1fr);
+                padding-inline: 10px;
+            }
+
+            .meta-mark {
+                width: 48px;
+                font-size: 0.6rem;
+            }
+
+            .btn {
+                padding-inline: 16px;
             }
         }
     </style>
 </head>
 
 <body>
-    <canvas id="stage"></canvas>
-    <div class="wrap">
-        <div class="top-band">
-            <div class="nav">
-                <div class="brand">
-                    <div class="mark" aria-hidden="true"></div>
+    <div class="page">
+        <div class="announcement" aria-label="Grand Opening announcement">
+            <div class="announcement-track" aria-hidden="true">
+                <span><i></i> Grand Opening July 3</span>
+                <span><i></i> Noon to midnight</span>
+                <span><i></i> 1619 San Pablo Ave, Berkeley</span>
+                <span><i></i> Everyone welcome</span>
+                <span><i></i> Grand Opening July 3</span>
+                <span><i></i> Noon to midnight</span>
+                <span><i></i> 1619 San Pablo Ave, Berkeley</span>
+                <span><i></i> Everyone welcome</span>
+            </div>
+        </div>
+
+        <header class="site-header">
+            <a class="brand" href="#top" aria-label="East Bay Makers Club home">
+                <img class="brand-wordmark" src="assets/images/ebmc-wordmark.png" alt="East Bay Makers Club" />
+            </a>
+
+            <nav class="nav" aria-label="Primary navigation">
+                <a href="#opening">Opening</a>
+                <a href="#membership">Membership</a>
+                <a href="#tools">Tools</a>
+                <a href="#calendar">Calendar</a>
+                <a href="#visit">Visit</a>
+            </nav>
+
+            <a class="btn btn-primary join-btn" href="#signup">
+                Join list
+                <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+        </header>
+
+        <main id="top">
+            <section class="hero" id="opening" aria-labelledby="hero-title">
+                <div class="hero-copy">
+                    <p class="promo-kicker">Friday, July 3, 2026</p>
+                    <h1 class="headline" id="hero-title">
+                        <span class="blue">Grand</span>
+                        <span class="orange">Opening</span>
+                    </h1>
+
+                    <div class="opening-meta" aria-label="Grand Opening details">
+                        <div class="meta-item">
+                            <span class="meta-mark" aria-hidden="true">Date</span>
+                            <span class="meta-copy"><strong>July 3rd</strong><span>Friday</span></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-mark" aria-hidden="true">Time</span>
+                            <span class="meta-copy"><strong>Noon - midnight</strong><span>Drop in anytime</span></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-mark" aria-hidden="true">Where</span>
+                            <span class="meta-copy"><strong>1619 San Pablo Ave</strong><span>Berkeley, CA</span></span>
+                        </div>
+                    </div>
+
+                    <p class="intro">
+                        East Bay Makers Club is opening its Berkeley workshop with activities, a guest speaker, build
+                        night, snacks, and a first look at the tools and people shaping the space.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#signup">
+                            Get updates
+                            <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                        <a class="btn" target="_blank" rel="noreferrer" href="https://maps.app.goo.gl/eZpfscjaT95YaREL9">
+                            Open map
+                        </a>
+                    </div>
+
+                    <div class="countdown" aria-label="Countdown to Grand Opening">
+                        <div class="countdown-unit"><strong id="days">--</strong><span>Days</span></div>
+                        <div class="countdown-unit"><strong id="hours">--</strong><span>Hours</span></div>
+                        <div class="countdown-unit"><strong id="minutes">--</strong><span>Minutes</span></div>
+                        <div class="countdown-unit"><strong id="seconds">--</strong><span>Seconds</span></div>
+                    </div>
+                </div>
+
+                <aside class="callout-panel" aria-label="Grand Opening event callouts">
+                    <div class="schematic-field" aria-hidden="true">
+                        <svg viewBox="0 0 820 690" preserveAspectRatio="xMidYMid slice">
+                            <path class="rail-line" d="M28 60h280c40 0 60 20 60 60v110c0 40 20 60 60 60h360" />
+                            <path class="rail-line" d="M0 204h146m64 0h254m64 0h292" />
+                            <path class="rail-line" d="M42 520h162c38 0 57-19 57-57v-74c0-40 20-60 60-60h458" />
+                            <path class="rail-line" d="M636 30v150c0 36 18 54 54 54h104" />
+                            <path class="rail-line" d="M716 418h-84c-34 0-51 17-51 51v168" />
+
+                            <rect class="rail-fill" x="72" y="92" width="102" height="70" />
+                            <path class="rail-thin" d="M94 116h54M94 138h38" />
+                            <path class="rail-accent-orange" d="M238 83h68l34 58-34 58h-68l-34-58z" />
+                            <path class="rail-line" d="M272 112v58M243 141h58" />
+
+                            <path class="rail-fill" d="M512 102h184l34 42-18 134H494l-18-134z" />
+                            <path class="rail-thin" d="M532 148h142M542 176h140M552 204h116" />
+                            <path class="rail-line" d="M690 278v116h-86" />
+
+                            <ellipse class="rail-line" cx="190" cy="338" rx="98" ry="38" />
+                            <path class="rail-thin" d="M92 338v96c0 22 44 38 98 38s98-16 98-38v-96" />
+                            <path class="rail-thin" d="M104 374c23 23 147 23 172 0M104 414c23 23 147 23 172 0" />
+
+                            <path class="rail-fill" d="M420 438h208l44 56v134H386V494z" />
+                            <path class="rail-thin" d="M444 510h158v78H444z" />
+                            <path class="rail-accent-blue" d="M522 526 542 570 586 590 542 610 522 654 502 610 458 590 502 570z" />
+
+                            <rect class="rail-dot" x="190" y="190" width="22" height="22" />
+                            <rect class="rail-dot" x="454" y="190" width="22" height="22" />
+                            <rect class="rail-dot" x="322" y="318" width="22" height="22" />
+                            <rect class="rail-dot" x="704" y="408" width="22" height="22" />
+                            <path class="rail-spark" d="M722 70 736 112 778 126 736 140 722 182 708 140 666 126 708 112z" />
+                            <path class="rail-thin" d="M66 604h102M116 553v102M698 326h92M744 280v92" />
+                        </svg>
+                    </div>
+
+                    <div class="event-dock">
+                        <div class="event-ticket">
+                            <span class="ticket-label">Opening day</span>
+                            <div>
+                                <strong>July 3</strong>
+                                <span>Noon - midnight</span>
+                            </div>
+                        </div>
+
+                        <div class="event-note-grid">
+                            <div class="event-note">
+                                <span class="note-label">Where</span>
+                                <strong>1619 San Pablo Ave</strong>
+                                <span>Berkeley, CA</span>
+                            </div>
+                            <div class="event-note">
+                                <span class="note-label">Who</span>
+                                <strong>Everyone welcome</strong>
+                                <span>Drop in anytime</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-grid" aria-label="Grand Opening highlights">
+                            <div class="event-activity">
+                                <span class="activity-mark" aria-hidden="true"></span>
+                                <span><strong>Activities</strong><span>Hands-on demos</span></span>
+                            </div>
+                            <div class="event-activity">
+                                <span class="activity-mark" aria-hidden="true"></span>
+                                <span><strong>Guest speaker</strong><span>Talk and Q&amp;A</span></span>
+                            </div>
+                            <div class="event-activity">
+                                <span class="activity-mark" aria-hidden="true"></span>
+                                <span><strong>Build night</strong><span>Bring a project</span></span>
+                            </div>
+                            <div class="event-activity">
+                                <span class="activity-mark" aria-hidden="true"></span>
+                                <span><strong>Snacks</strong><span>Fuel included</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="event-strip" aria-label="Grand Opening highlights">
+                <article class="event-chip">
+                    <strong>Activities</strong>
+                </article>
+                <article class="event-chip">
+                    <strong>Guest speaker</strong>
+                </article>
+                <article class="event-chip">
+                    <strong>Build night</strong>
+                </article>
+                <article class="event-chip">
+                    <strong>Snacks</strong>
+                </article>
+            </section>
+
+            <section class="section split" id="membership" aria-labelledby="membership-title">
+                <div>
+                    <p class="section-kicker">Membership</p>
+                    <h2 id="membership-title">Founding cohort now forming.</h2>
+                    <p>
+                        Join the list for opening updates, first member blocks, tool onboarding, class announcements,
+                        and early ways to help shape the workshop.
+                    </p>
+                </div>
+
+                <form class="signup" id="signup" autocomplete="on"
+                    action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post" target="signupFrame">
                     <div>
-                        <div class="brand-title">East Bay Makers Club</div>
-                        <div class="brand-sub">Archive Build 0.1</div>
+                        <label class="sr-only" for="email">Email address</label>
+                        <input class="field" id="email" name="email" type="email" placeholder="Email address" required />
                     </div>
+                    <input type="hidden" name="embed" value="1" />
+                    <button class="btn btn-blue" type="submit">
+                        Subscribe
+                        <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </form>
+                <iframe class="signup-frame" name="signupFrame" title="Signup response"></iframe>
+            </section>
+
+            <section class="section tools" id="tools" aria-labelledby="tools-title">
+                <div>
+                    <p class="section-kicker">The shop</p>
+                    <h2 id="tools-title">Tools for real projects.</h2>
+                    <p>
+                        The space is being built for practical making: prototyping, fabrication, electronics, repair,
+                        art experiments, and the weird half-formed ideas that turn into good evenings.
+                    </p>
+                    <img class="tool-collage" src="assets/images/tool-collage.png"
+                        alt="Illustration of East Bay Makers Club tools including a 3D printer, electronics bench, computer, CNC router, laser cutter, and mug." />
                 </div>
 
-                <div class="nav-cta"> <a class="btn primary" href="#updates">Get updates</a> </div>
-            </div>
-        </div>
-        <main id="mainContent">
-            <header class="hero" id="top">
-                <div class="orbit-overlay" aria-hidden="true"></div>
-                <div class="pill"> <span class="led" aria-hidden="true"></span> <span class="pill-text">NEW SPACE •
-                        MEMBERSHIPS OPENING SOON</span> </div>
-                <h1>A new space for building and community.</h1>
-                <p class="subhead"> Tools, classes, and a builder community for the East Bay.
-                    <span class="subhead-line">CNC mill, laser cutter, 3D printing, electronics, and serious shop
-                        time.</span>
-                </p>
-                <div class="hero-status" aria-label="Project status">
-                    <div class="status-card">
-                        <div class="status-label">Opening target</div>
-                        <div class="status-value">Early 2026</div>
-                    </div>
-                    <div class="status-card">
-                        <div class="status-label">Current status</div>
-                        <div class="status-value">Space build-out + early tours</div>
-                    </div>
+                <div class="tool-grid" aria-label="Workshop tool stack">
+                    <article class="tool-card">
+                        <h3>Prusa MK4S<br />3D printers</h3>
+                        <p>Fast, reliable prints for prototypes, brackets, repairs, and the occasional tiny miracle.</p>
+                    </article>
+                    <article class="tool-card">
+                        <h3>Laser cutter</h3>
+                        <p>Cut, engrave, test, repeat, and bring flat materials into crisp finished parts.</p>
+                    </article>
+                    <article class="tool-card">
+                        <h3>Electronics bench</h3>
+                        <p>Soldering, scopes, debugging, and enough bench space to stop balancing parts on notebooks.</p>
+                    </article>
+                    <article class="tool-card">
+                        <h3>ShopBot PRS5 Alpha<br />CNC mill</h3>
+                        <p>Large-format routing for furniture, fixtures, signs, molds, jigs, and sturdy ideas.</p>
+                    </article>
                 </div>
+            </section>
 
+            <section class="section" id="calendar" aria-labelledby="calendar-title">
+                <p class="section-kicker">Calendar</p>
+                <h2 id="calendar-title">What is coming up.</h2>
+                <div class="calendar-grid">
+                    <article class="event-card featured">
+                        <time datetime="2026-07-03T12:00">July 3, 2026</time>
+                        <h3>Grand Opening</h3>
+                        <p>Noon to midnight with activities, a guest speaker, build night, snacks, and everyone welcome.</p>
+                    </article>
+                    <article class="event-card">
+                        <time datetime="2026-07-10T18:00">July 10, 2026</time>
+                        <h3>Community Build Night</h3>
+                        <p>Bring a project, borrow a second brain, or start something new at the bench.</p>
+                    </article>
+                    <article class="event-card">
+                        <time datetime="2026-07-15T18:00">July 15, 2026</time>
+                        <h3>Tool Orientation</h3>
+                        <p>Intro sessions for members getting started with the shop and its core equipment.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section visit" id="visit" aria-labelledby="visit-title">
+                <div>
+                    <p class="section-kicker">Visit</p>
+                    <h2 id="visit-title">Find the space.</h2>
+                    <p>Close to transit, easy to reach, and ready for project-brain drop-ins on opening day.</p>
+                </div>
+                <div class="address-card">
+                    <strong>East Bay Makers Club</strong>
+                    1619 San Pablo Ave.<br />
+                    Berkeley, CA 94702
+                    <br />
+                    <a class="btn" target="_blank" rel="noreferrer" href="https://maps.app.goo.gl/eZpfscjaT95YaREL9">
+                        Open in maps
+                    </a>
+                </div>
+                <div class="map-frame">
+                    <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        title="Map to East Bay Makers Club"
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=-122.295478284359%2C37.87346448977305%2C-122.29250103235248%2C37.8754250383831&layer=mapnik&marker=37.874529%2C-122.293490">
+                    </iframe>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div>East Bay Makers Club</div>
+            <div>&copy; <span id="year"></span></div>
+            <div>Berkeley, CA</div>
+        </footer>
     </div>
-    <div class="sep">
-        <div class="line"></div>
-        <div class="hatch"></div>
-    </div>
-    <div class="trust" aria-label="Planned tool stack"> <span class="trust-label">Tool stack (in progress)</span>
-        <span><i class="markdot"></i> PRUSA 3D PRINTERS</span> <span><i class="markdot"></i> GLOWFORGE
-        </span> <span><i class="markdot"></i> ELECTRONIC BOARD LAB</span> <span><i class="markdot"></i> AUTODESK
-            FUSION</span> <span><i class="markdot"></i> SHOPBOT</span>
-    </div>
-    </header>
 
-    <section class="section" id="space">
-        <div class="kicker">
-            <div class="left"><span class="led" aria-hidden="true"></span> ARCHIVE DATA / EBMC</div>
-            <div class="rule" aria-hidden="true"></div>
-            <div class="sn">SN. 25/001/000/05</div>
-        </div>
-        <h2>Built for hands-on work.</h2>
-        <div class="grid2">
-            <article class="card" id="tools">
-                <div class="inner">
-                    <div class="head">
-                        <div>
-                            <div class="title">Tool Access</div>
-                            <div class="desc">CNC, laser, 3D printers, electronics bench, and a clean workflow from
-                                idea to part.</div>
-                        </div>
-                        <div class="status"><span class="led" aria-hidden="true"></span> READY</div>
-                    </div>
-                    <div class="preview">
-                        <div class="label"><span class="tiny" aria-hidden="true"></span> OSCILLOSCOPE / CH1</div>
-                        <canvas class="spark" aria-hidden="true"></canvas>
-                    </div>
-                </div>
-            </article>
-            <article class="card" id="classes">
-                <div class="inner">
-                    <div class="head">
-                        <div>
-                            <div class="title">Community + Classes</div>
-                            <div class="desc">Monthly classes, equipment certs, mentorship, and member-only build nights
-                                & events.</div>
-                        </div>
-                        <div class="status"><span class="led" aria-hidden="true"></span> ONLINE</div>
-                    </div>
-                    <div class="preview">
-                        <div class="label"><span class="tiny" aria-hidden="true"></span> ORBIT DIAGRAM</div> <canvas
-                            class="orbit" aria-hidden="true"></canvas>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
+    <div class="toast" id="toast" role="status" aria-live="polite">Saved - we'll keep you posted.</div>
 
-    <section class="section" id="updates">
-        <div class="kicker">
-            <div class="left"><span class="led" aria-hidden="true"></span> MEMBERSHIP LIST</div>
-            <div class="rule" aria-hidden="true"></div>
-            <div class="sn">NO SPAM</div>
-        </div>
-        <h2>Get updates.</h2>
-        <p class="lede">Member openings + class drops only. No noise.</p>
-
-        <form class="capture" id="signupForm" autocomplete="on"
-            action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post">
-            <label for="email" class="sr-only">Email</label>
-            <input class="field" id="email" name="email" type="email" placeholder="Email address" required />
-
-            <!-- tells Buttondown this is an embedded form -->
-            <input type="hidden" name="embed" value="1" />
-
-            <button class="btn primary" type="submit">Join</button>
-        </form>
-        <div class="fineprint"> By joining, you’ll get occasional announcements about openings and programming.
-            That’s it. </div>
-    </section>
-
-    <section class="section" id="membership">
-        <div class="kicker">
-            <div class="left"><span class="led" aria-hidden="true"></span> MEMBERSHIP MODULE</div>
-            <div class="rule" aria-hidden="true"></div>
-            <div class="sn">COHORT FORMING</div>
-        </div>
-        <h2>Membership is staged + limited.</h2>
-        <p class="lede">We’re opening with a member founding cohort. Passionate builders ready to get started.</p>
-        <div class="membership-grid">
-            <article class="membership-card">
-                <h3>Early 2026</h3>
-                <p>Small group of passionate builders, beta classes, and a shared build calendar. Co-shape the workflows
-                    and layout with the founding cohort.</p>
-                <div class="tag-list"> <span>Early access</span> <span>Tool training</span> <span>Early pricing</span>
-                </div>
-            </article>
-            <article class="membership-card">
-                <h3>Early founding pricing</h3>
-                <p>Founding pricing at <strong>$55/mo</strong> to start. Expect scheduled build blocks while we dial
-                    staffing and flows, with early members steering operating hours in real time.</p>
-                <div class="tag-list"> <span>Nights + weekends</span> <span>Community</span> <span>Build nights</span>
-                </div>
-            </article>
-            <article class="membership-card">
-                <h3>Tell us what matters</h3>
-                <p>Tell us which stack you need most—CNC, metal, electronics, or classroom-only time. Programming
-                    priority and equipment expansion follow this signal so every card stays useful.</p>
-                <div class="tag-list"> <span>CNC / wood</span> <span>Metal</span> <span>3D printing</span>
-                    <span>Electronics</span> <span>Classes only</span>
-                </div>
-            </article>
-        </div>
-    </section>
-    <section class="section" id="visit">
-        <div class="kicker">
-            <div class="left"><span class="led" aria-hidden="true"></span> VISIT MODULE</div>
-            <div class="rule" aria-hidden="true"></div>
-            <div class="sn">BERKELEY, CA</div>
-        </div>
-        <h2>Find the space.</h2>
-        <p class="lede">Close to transit. Easy parking. Bring your project brain.</p>
-        <div class="visit">
-            <div class="panel">
-                <div class="inner">
-                    <div class="mono">EAST BAY MAKERS CLUB</div>
-                    <div class="addr"> <strong>1619 San Pablo Ave.</strong><br /> Berkeley, CA 94702 </div>
-                    <ul>
-                        <li><span class="bullet" aria-hidden="true"></span>Member openings announced via email.</li>
-                        <li><span class="bullet" aria-hidden="true"></span>Tools: CNC mill, laser, 3d printing,
-                            electronics bench.</li>
-                        <li><span class="bullet" aria-hidden="true"></span>Build nights, small groups, classes.</li>
-                    </ul>
-                    <div class="panel-actions"> <a class="btn" href="#updates">Get updates</a> <a class="btn"
-                            target="_blank" rel="noreferrer" href="https://maps.app.goo.gl/eZpfscjaT95YaREL9">Open in
-                            maps</a> </div>
-                </div>
-            </div>
-            <div class="map" aria-label="Map"> <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=-122.295478284359%2C37.87346448977305%2C-122.29250103235248%2C37.8754250383831&layer=mapnik&marker=37.874529%2C-122.293490">
-                </iframe>
-
-
-
-            </div>
-        </div>
-    </section>
-
-    </main>
-    <footer>
-        <div>ARCHIVE: EBMC // BUILD 0.1</div>
-        <div>© <span id="year"></span> EAST BAY MAKERS CLUB</div>
-        <div>SN. 25/001/000/05</div>
-    </footer>
-    </div>
-    <div class="toast" id="toast" role="status" aria-live="polite"> <span class="led" aria-hidden="true"></span> <span
-            id="toastMsg">Saved.</span> </div>
     <script>
         (() => {
-            // Respect reduced-motion user preference
-            const prefersReduced =
-                window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-            const previewState = new WeakMap();
-            const previewActiveTimers = new WeakMap();
-            const finePointer =
-                window.matchMedia?.("(pointer: fine)")?.matches ?? false;
-            const root = document.documentElement;
-            const fontQuery = new URLSearchParams(window.location.search).get("font");
-            const useBerkeleyMono = fontQuery !== "legacy";
+            const year = document.getElementById("year");
+            const signup = document.getElementById("signup");
+            const toast = document.getElementById("toast");
+            const calloutPanel = document.querySelector(".callout-panel");
+            const countdown = {
+                days: document.getElementById("days"),
+                hours: document.getElementById("hours"),
+                minutes: document.getElementById("minutes"),
+                seconds: document.getElementById("seconds"),
+            };
+            const opening = new Date("2026-07-03T12:00:00-07:00");
+            let toastTimer = null;
 
-            async function loadDynamicMonoFont() {
-                if (!useBerkeleyMono || !("fonts" in document) || !("FontFace" in window)) {
-                    root.setAttribute("data-dynamic-fonts", "fallback");
+            year.textContent = new Date().getFullYear();
+
+            function showToast() {
+                toast.classList.add("show");
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+            }
+
+            function pad(value) {
+                return String(value).padStart(2, "0");
+            }
+
+            function updateCountdown() {
+                const remaining = opening.getTime() - Date.now();
+                if (remaining <= 0) {
+                    countdown.days.textContent = "00";
+                    countdown.hours.textContent = "00";
+                    countdown.minutes.textContent = "00";
+                    countdown.seconds.textContent = "00";
                     return;
                 }
 
-                const faces = [
-                    ["assets/fonts/berkeley-mono/BerkeleyMono-Regular.woff2", "400", "normal"],
-                    ["assets/fonts/berkeley-mono/BerkeleyMono-Oblique.woff2", "400", "italic"],
-                    ["assets/fonts/berkeley-mono/BerkeleyMono-Bold.woff2", "700", "normal"],
-                    ["assets/fonts/berkeley-mono/BerkeleyMono-Bold-Oblique.woff2", "700", "italic"],
-                ];
+                const totalSeconds = Math.floor(remaining / 1000);
+                const days = Math.floor(totalSeconds / 86400);
+                const hours = Math.floor((totalSeconds % 86400) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
 
-                try {
-                    root.setAttribute("data-dynamic-fonts", "loading");
-
-                    await Promise.all(
-                        faces.map(([url, weight, style]) => {
-                            const face = new FontFace(
-                                "Berkeley Mono",
-                                `url("${url}") format("woff2")`,
-                                {
-                                    weight,
-                                    style,
-                                    display: "swap",
-                                }
-                            );
-                            return face.load().then((loadedFace) => {
-                                document.fonts.add(loadedFace);
-                            });
-                        })
-                    );
-
-                    root.setAttribute("data-dynamic-fonts", "berkeley");
-                } catch (error) {
-                    root.setAttribute("data-dynamic-fonts", "fallback");
-                    console.warn("Could not load Berkeley Mono dynamically.", error);
-                }
+                countdown.days.textContent = String(days);
+                countdown.hours.textContent = pad(hours);
+                countdown.minutes.textContent = pad(minutes);
+                countdown.seconds.textContent = pad(seconds);
             }
 
-            loadDynamicMonoFont();
-
-            function getPreviewState(canvas) {
-                let state = previewState.get(canvas);
-                if (!state) {
-                    state = {
-                        hover: 0,
-                        hoverTarget: 0,
-                        cursorX: 0.5,
-                        cursorY: 0.5,
-                        cursorTargetX: 0.5,
-                        cursorTargetY: 0.5,
-                        boost: 0,
-                        seed: Math.random() * 1000,
-                    };
-                    previewState.set(canvas, state);
-                }
-                return state;
-            }
-
-            function requestStaticPreviewRender() {
-                if (prefersReduced) tickPreviews();
-            }
-
-            const noise = (() => {
-                const fract = (x) => x - Math.floor(x);
-                const hash = (x) => fract(Math.sin(x) * 43758.5453123);
-
-                function smoothNoise(x) {
-                    const i0 = Math.floor(x);
-                    const i1 = i0 + 1;
-                    const t = x - i0;
-                    return (1 - t) * hash(i0 * 12.9898 + 78.233) + t * hash(i1 * 12.9898 + 78.233);
-                }
-
-                function fbm(x, octaves = 3, falloff = 0.5) {
-                    let value = 0;
-                    let amplitude = 1;
-                    let frequency = 1;
-                    let norm = 0;
-                    for (let i = 0; i < octaves; i++) {
-                        value += smoothNoise(x * frequency) * amplitude;
-                        norm += amplitude;
-                        amplitude *= falloff;
-                        frequency *= 2;
-                    }
-                    return norm ? (value / norm) * 2 - 1 : 0;
-                }
-
-                return { fbm };
-            })();
-
-            // ------------------------------------------------------------
-            // Footer year
-            // ------------------------------------------------------------
-            document.getElementById("year").textContent = new Date().getFullYear();
-
-            // ------------------------------------------------------------
-            // Toast helper
-            // ------------------------------------------------------------
-            const toast = document.getElementById("toast");
-            const toastMsg = document.getElementById("toastMsg");
-            let toastTimer = null;
-
-            function showToast(msg) {
-                toastMsg.textContent = msg;
-                toast.classList.add("show");
-
-                clearTimeout(toastTimer);
-                toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
-            }
-
-            // ------------------------------------------------------------
-            // Email capture (local-only v1)
-            // ------------------------------------------------------------
-            document
-                .getElementById("signupForm")
-                .addEventListener("submit", (e) => {
-                    showToast("Saved — we’ll keep you posted.");
-                });
-
-            function forEachPreviewCanvas(preview, cb) {
-                preview
-                    .querySelectorAll("canvas")
-                    .forEach((canvas) => cb(getPreviewState(canvas), canvas));
-            }
-
-            function updatePreviewHover(preview, hovering) {
-                forEachPreviewCanvas(preview, (state) => {
-                    state.hoverTarget = hovering ? 1 : 0;
-                });
-                requestStaticPreviewRender();
-            }
-
-            function updatePreviewCursor(preview, x = 0.5, y = 0.5) {
-                const clampedX = Math.max(0, Math.min(1, x));
-                const clampedY = Math.max(0, Math.min(1, y));
-                preview.style.setProperty("--pointer-x", clampedX.toFixed(3));
-                preview.style.setProperty("--pointer-y", clampedY.toFixed(3));
-                forEachPreviewCanvas(preview, (state) => {
-                    state.cursorTargetX = clampedX;
-                    state.cursorTargetY = clampedY;
-                });
-                requestStaticPreviewRender();
-            }
-
-            function energizePreview(preview) {
-                preview.classList.add("is-active");
-                const prior = previewActiveTimers.get(preview);
-                if (prior) clearTimeout(prior);
-
-                forEachPreviewCanvas(preview, (state) => {
-                    state.boost = Math.min(1.4, (state.boost || 0) + 1);
-                });
-                requestStaticPreviewRender();
-
-                const timer = setTimeout(() => preview.classList.remove("is-active"), 260);
-                previewActiveTimers.set(preview, timer);
-            }
-
-            function initPreviewInteractivity() {
-                document.querySelectorAll(".card .preview").forEach((preview) => {
-                    updatePreviewCursor(preview, 0.5, 0.5);
-
-                    preview.addEventListener("pointerenter", (event) => {
-                        const rect = preview.getBoundingClientRect();
-                        const x = (event.clientX - rect.left) / rect.width;
-                        const y = (event.clientY - rect.top) / rect.height;
-                        updatePreviewCursor(preview, x, y);
-                        preview.classList.add("is-hovered");
-                        updatePreviewHover(preview, true);
-                    });
-
-                    preview.addEventListener("pointerleave", () => {
-                        preview.classList.remove("is-hovered");
-                        preview.classList.remove("is-active");
-                        updatePreviewHover(preview, false);
-                        updatePreviewCursor(preview, 0.5, 0.5);
-                    });
-
-                    preview.addEventListener("pointerdown", (event) => {
-                        const rect = preview.getBoundingClientRect();
-                        const x = (event.clientX - rect.left) / rect.width;
-                        const y = (event.clientY - rect.top) / rect.height;
-                        updatePreviewCursor(preview, x, y);
-                        energizePreview(preview);
-                    });
-
-                    preview.addEventListener("pointerup", () => {
-                        preview.classList.remove("is-active");
-                    });
-
-                    preview.addEventListener("pointercancel", () => {
-                        preview.classList.remove("is-active");
-                    });
-
-                    const handlePointerMove = (event) => {
-                        if (!finePointer) return;
-                        const rect = preview.getBoundingClientRect();
-                        const x = (event.clientX - rect.left) / rect.width;
-                        const y = (event.clientY - rect.top) / rect.height;
-                        updatePreviewCursor(preview, x, y);
-                    };
-
-                    preview.addEventListener("pointermove", handlePointerMove);
-                });
-            }
-
-            /* ============================================================
-               Preview Canvas: Oscilloscope-style signal trace
-               ============================================================ */
-            function drawScope(canvas) {
-                const ctx = canvas.getContext("2d");
-                const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-                const rect = canvas.getBoundingClientRect();
-
-                canvas.width = Math.floor(rect.width * dpr);
-                canvas.height = Math.floor(rect.height * dpr);
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-                const w = rect.width;
-                const h = rect.height;
-                const state = getPreviewState(canvas);
-
-                state.hover += (state.hoverTarget - state.hover) * 0.08;
-                state.boost = Math.max(0, (state.boost || 0) * 0.9);
-
-                const hover = state.hover;
-                const boost = state.boost;
-                state.cursorX += (state.cursorTargetX - state.cursorX) * 0.12;
-                state.cursorY += (state.cursorTargetY - state.cursorY) * 0.12;
-                const cursorX = state.cursorX;
-                const cursorY = state.cursorY;
-                const pointerTilt = (cursorX - 0.5) * 0.9;
-                const pointerLift = (0.5 - cursorY) * 0.65;
-
-                ctx.clearRect(0, 0, w, h);
-
-                const divX = 10;
-                const divY = 6;
-                const gx = w / divX;
-                const gy = h / divY;
-
-                // Panel background
-                const bg = ctx.createLinearGradient(0, 0, 0, h);
-                bg.addColorStop(0, "rgba(5,10,12,0.95)");
-                bg.addColorStop(1, "rgba(5,8,10,0.8)");
-                ctx.fillStyle = bg;
-                ctx.fillRect(0, 0, w, h);
-
-                // Minor grid
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = "rgba(255,255,255,0.05)";
-
-                for (let i = 0; i <= divX * 5; i++) {
-                    const x = (w / (divX * 5)) * i;
-                    ctx.beginPath();
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, h);
-                    ctx.stroke();
-                }
-
-                for (let j = 0; j <= divY * 5; j++) {
-                    const y = (h / (divY * 5)) * j;
-                    ctx.beginPath();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(w, y);
-                    ctx.stroke();
-                }
-
-                // Major grid
-                ctx.strokeStyle = "rgba(255,255,255,0.12)";
-
-                for (let i = 0; i <= divX; i++) {
-                    const x = i * gx;
-                    ctx.beginPath();
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, h);
-                    ctx.stroke();
-                }
-
-                for (let j = 0; j <= divY; j++) {
-                    const y = j * gy;
-                    ctx.beginPath();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(w, y);
-                    ctx.stroke();
-                }
-
-                // Center crosshair
-                ctx.strokeStyle = "rgba(255,255,255,0.16)";
-                ctx.beginPath();
-                ctx.moveTo(0, h / 2);
-                ctx.lineTo(w, h / 2);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(w / 2, 0);
-                ctx.lineTo(w / 2, h);
-                ctx.stroke();
-
-                // Signal synthesis
-                const samples = Math.max(128, Math.floor(w));
-                if (!state.trace || state.trace.length !== samples) {
-                    state.trace = new Float32Array(samples);
-                    state.afterglow = new Float32Array(samples);
-                    state.phase = 0;
-                }
-
-                state.phase += 0.015 + hover * 0.003 + boost * 0.008;
-                const baseFreq = 6.28318 * (0.9 + pointerTilt * 0.15);
-                const vPerDiv = 0.5;
-                const pxPerVolt = (gy / vPerDiv) * (1 + hover * 0.06 + boost * 0.25);
-
-                for (let i = 0; i < samples; i++) {
-                    const xNorm = i / (samples - 1);
-                    const t = state.phase + xNorm * (2.8 + boost * 0.4);
-                    const sine =
-                        0.78 * Math.sin(t * baseFreq) +
-                        0.22 * Math.sin(t * baseFreq * 1.8 + 0.8) +
-                        0.08 * Math.sin(t * baseFreq * 3.2 + 1.4);
-                    const stepWindow = Math.max(
-                        0,
-                        1 - Math.abs(xNorm - (0.42 + pointerTilt * 0.1)) * 18
-                    );
-                    const step = stepWindow * (0.32 + 0.12 * Math.sin(t * 2.0));
-                    const baseline = pointerLift * 0.35;
-                    const crest =
-                        sine * (1 + hover * 0.08) +
-                        step +
-                        baseline +
-                        noise.fbm(t * 32 + state.seed * 10, 3, 0.5) * 0.015;
-
-                    const smoothing = 0.16;
-                    const glowSmooth = 0.05;
-                    state.trace[i] += (crest - state.trace[i]) * smoothing;
-                    state.afterglow[i] += (state.trace[i] - state.afterglow[i]) * glowSmooth;
-                }
-
-                // Under-glow
-                ctx.globalCompositeOperation = "lighter";
-                ctx.lineWidth = 3.4;
-                ctx.strokeStyle = "rgba(57,255,136,0.12)";
-                ctx.beginPath();
-
-                for (let i = 0; i < samples; i++) {
-                    const x = (w / (samples - 1)) * i;
-                    const yv = h / 2 - state.afterglow[i] * pxPerVolt;
-                    if (i === 0) ctx.moveTo(x, yv);
-                    else ctx.lineTo(x, yv);
-                }
-
-                ctx.stroke();
-
-                // Main trace
-                ctx.globalCompositeOperation = "source-over";
-                ctx.lineWidth = 1.4;
-                ctx.strokeStyle = `rgba(245,255,255,${0.78 + hover * 0.12 + boost * 0.18})`;
-                ctx.beginPath();
-
-                for (let i = 0; i < samples; i++) {
-                    const x = (w / (samples - 1)) * i;
-                    const yv = h / 2 - state.trace[i] * pxPerVolt;
-                    if (i === 0) ctx.moveTo(x, yv);
-                    else ctx.lineTo(x, yv);
-                }
-
-                ctx.stroke();
-
-                // Measurement bullets
-                ctx.fillStyle = "rgba(255,255,255,0.9)";
-                ctx.globalAlpha = 0.65 + boost * 0.2;
-
-                for (let k = 0; k < 4; k++) {
-                    const idx = Math.floor(((samples - 1) * (0.55 + k * 0.08)));
-                    const x = (w / (samples - 1)) * idx;
-                    const yv = h / 2 - state.trace[idx] * pxPerVolt;
-                    ctx.beginPath();
-                    ctx.arc(x, yv, 1.9 + boost * 0.5, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                // Readouts
-                ctx.globalAlpha = 0.8;
-                ctx.fillStyle = "rgba(255,255,255,0.9)";
-                const canvasMono = getComputedStyle(root).getPropertyValue("--font-canvas-mono").trim()
-                    || "\"IBM Plex Mono\", ui-monospace, monospace";
-                ctx.font = `11px ${canvasMono}`;
-                const readoutY = h - 36;
-                ctx.fillText("CH1 0.50V/div", 10, readoutY);
-                ctx.fillText("TIME 2.0ms/div", 10, readoutY + 14);
-                ctx.fillText(
-                    `TRIG RISE ${pointerTilt >= 0 ? "+" : ""}${(pointerTilt * 0.2).toFixed(
-                        2
-                    )}V`,
-                    10,
-                    readoutY + 28
-                );
-
-                // Trigger marker
-                ctx.globalAlpha = 0.55;
-                ctx.strokeStyle = "rgba(255,255,255,0.7)";
-                ctx.lineWidth = 1;
-                const markerY = h / 2 - pointerLift * pxPerVolt;
-                ctx.beginPath();
-                ctx.moveTo(6, markerY);
-                ctx.lineTo(14, markerY - 6);
-                ctx.lineTo(14, markerY + 6);
-                ctx.closePath();
-                ctx.stroke();
-            }
-
-            /* ============================================================
-               Preview Canvas: coherent orbit diagram (great circles + nodes)
-               ============================================================ */
-            function drawOrbit(canvas) {
-                const ctx = canvas.getContext("2d");
-                const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-                const rect = canvas.getBoundingClientRect();
-
-                canvas.width = Math.floor(rect.width * dpr);
-                canvas.height = Math.floor(rect.height * dpr);
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-                const w = rect.width;
-                const h = rect.height;
-                const t = performance.now() * 0.001;
-                const state = getPreviewState(canvas);
-
-                state.hover += (state.hoverTarget - state.hover) * 0.08;
-                state.boost = Math.max(0, (state.boost || 0) * 0.9);
-                const hover = state.hover;
-                const boost = state.boost;
-                state.cursorX += (state.cursorTargetX - state.cursorX) * 0.12;
-                state.cursorY += (state.cursorTargetY - state.cursorY) * 0.12;
-                const cursorX = state.cursorX;
-                const cursorY = state.cursorY;
-                const pointerYaw = (cursorX - 0.5) * 0.8;
-                const pointerPitch = (0.5 - cursorY) * 0.8;
-                const orbitScale = 0.3 + hover * 0.04 + boost * 0.05;
-                const sweepSpeed = 0.28 + hover * 0.05 + boost * 0.12;
-
-                ctx.clearRect(0, 0, w, h);
-
-                // subtle grid
-                ctx.globalAlpha = 0.12 + hover * 0.04;
-                ctx.strokeStyle = "rgba(255,255,255,0.35)";
-                ctx.lineWidth = 1;
-
-                for (let x = 0; x < w; x += 34) {
-                    ctx.beginPath();
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, h);
-                    ctx.stroke();
-                }
-
-                for (let y = 0; y < h; y += 34) {
-                    ctx.beginPath();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(w, y);
-                    ctx.stroke();
-                }
-
-                const cx = w * 0.62;
-                const cy = h * 0.58;
-                const R = Math.min(w, h) * orbitScale;
-
-                const yaw =
-                    -0.55 + Math.sin(t * 0.12) * 0.06 + pointerYaw * 0.5 + boost * 0.15;
-                const pitch =
-                    0.35 + Math.cos(t * 0.1) * 0.05 + pointerPitch * 0.5;
-
-                if (state.yawSmooth === undefined) state.yawSmooth = yaw;
-                if (state.pitchSmooth === undefined) state.pitchSmooth = pitch;
-                state.yawSmooth += (yaw - state.yawSmooth) * 0.1;
-                state.pitchSmooth += (pitch - state.pitchSmooth) * 0.1;
-                const smoothYaw = state.yawSmooth;
-                const smoothPitch = state.pitchSmooth;
-
-                function cross(a, b) {
-                    return {
-                        x: a.y * b.z - a.z * b.y,
-                        y: a.z * b.x - a.x * b.z,
-                        z: a.x * b.y - a.y * b.x,
-                    };
-                }
-
-                function normalize(v) {
-                    const m = Math.hypot(v.x, v.y, v.z) || 1;
-                    return { x: v.x / m, y: v.y / m, z: v.z / m };
-                }
-
-                function rotY(v) {
-                    const c = Math.cos(smoothYaw);
-                    const s = Math.sin(smoothYaw);
-                    return {
-                        x: v.x * c + v.z * s,
-                        y: v.y,
-                        z: -v.x * s + v.z * c,
-                    };
-                }
-
-                function rotX(v) {
-                    const c = Math.cos(smoothPitch);
-                    const s = Math.sin(smoothPitch);
-                    return {
-                        x: v.x,
-                        y: v.y * c - v.z * s,
-                        z: v.y * s + v.z * c,
-                    };
-                }
-
-                function proj(v) {
-                    const z = v.z + 2.6;
-                    const p = 1.0 / z;
-                    return {
-                        x: cx + v.x * R * p,
-                        y: cy + v.y * R * p,
-                    };
-                }
-
-                function drawGreatCircle(normal, alpha) {
-                    const n = normalize(normal);
-                    const a = Math.abs(n.x) < 0.9 ? { x: 1, y: 0, z: 0 } : { x: 0, y: 1, z: 0 };
-                    const u = normalize(cross(n, a));
-                    const v = cross(n, u);
-
-                    ctx.globalAlpha = alpha;
-                    ctx.lineWidth = 1;
-                    ctx.strokeStyle = "rgba(255,255,255,0.72)";
-                    ctx.beginPath();
-
-                    let started = false;
-
-                    for (let i = 0; i <= 360; i++) {
-                        const ang = (i / 360) * Math.PI * 2;
-                        const p3 = {
-                            x: u.x * Math.cos(ang) + v.x * Math.sin(ang),
-                            y: u.y * Math.cos(ang) + v.y * Math.sin(ang),
-                            z: u.z * Math.cos(ang) + v.z * Math.sin(ang),
-                        };
-
-                        const r = rotX(rotY(p3));
-                        const p2 = proj(r);
-
-                        if (!started) {
-                            ctx.moveTo(p2.x, p2.y);
-                            started = true;
-                        } else {
-                            ctx.lineTo(p2.x, p2.y);
-                        }
-                    }
-
-                    ctx.stroke();
-                    return { n, u, v };
-                }
-
-                // Sphere silhouette
-                ctx.globalAlpha = 0.55 + hover * 0.1;
-                ctx.strokeStyle = "rgba(255,255,255,0.28)";
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.arc(cx, cy, R * 0.92, 0, Math.PI * 2);
-                ctx.stroke();
-
-                // Great circles
-                drawGreatCircle({ x: 0, y: 1, z: 0 }, 0.45);
-                const orbitFrame = drawGreatCircle(
-                    { x: 0.75, y: 0.2, z: 0.63 },
-                    0.55
-                );
-
-                // Nodes on the tilted orbit
-                function pointOnOrbit(ang) {
-                    const p3 = {
-                        x: orbitFrame.u.x * Math.cos(ang) + orbitFrame.v.x * Math.sin(ang),
-                        y: orbitFrame.u.y * Math.cos(ang) + orbitFrame.v.y * Math.sin(ang),
-                        z: orbitFrame.u.z * Math.cos(ang) + orbitFrame.v.z * Math.sin(ang),
-                    };
-                    return rotX(rotY(p3));
-                }
-
-                const nodes = [
-                    { ang: 0.55 + t * sweepSpeed, label: "N12" },
-                    { ang: 2.15 + t * sweepSpeed, label: "N33" },
-                    { ang: 4.1 + t * sweepSpeed, label: "N411" },
-                ];
-
-                const canvasMono = getComputedStyle(root).getPropertyValue("--font-canvas-mono").trim()
-                    || "\"IBM Plex Mono\", ui-monospace, monospace";
-                ctx.font = `11px ${canvasMono}`;
-
-                for (const n of nodes) {
-                    const p3 = pointOnOrbit(n.ang);
-                    const p2 = proj(p3);
-
-                    ctx.globalAlpha = 0.85 + boost * 0.1;
-                    ctx.fillStyle = "rgba(255,255,255,0.92)";
-                    ctx.beginPath();
-                    ctx.arc(p2.x, p2.y, 2.2 + boost * 0.8, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    ctx.globalAlpha = 0.55 + hover * 0.1;
-                    ctx.fillStyle = "rgba(255,255,255,0.75)";
-                    ctx.fillText(n.label, p2.x + 8, p2.y + 4);
-                }
-
-                // Axis lines (registry feel)
-                ctx.globalAlpha = 0.24 + hover * 0.05;
-                ctx.strokeStyle = "rgba(255,255,255,0.25)";
-                ctx.beginPath();
-                ctx.moveTo(cx - R * 0.95, cy);
-                ctx.lineTo(cx + R * 0.95, cy);
-                ctx.moveTo(cx, cy - R * 0.95);
-                ctx.lineTo(cx, cy + R * 0.95);
-                ctx.stroke();
-            }
-
-            // ------------------------------------------------------------
-            // Preview tick + loop
-            // ------------------------------------------------------------
-            function tickPreviews() {
-                document.querySelectorAll("canvas.spark").forEach(drawScope);
-                document.querySelectorAll("canvas.orbit").forEach(drawOrbit);
-            }
-
-            function loopPreviews() {
-                tickPreviews();
-                if (!prefersReduced) requestAnimationFrame(loopPreviews);
-            }
-
-            initPreviewInteractivity();
-            loopPreviews();
-            window.addEventListener("resize", tickPreviews);
-
-            /* ============================================================
-               THREE.JS — ordered-dither dome + subtle wire wave + scroll fade
-               ============================================================ */
-            const canvas = document.getElementById("stage");
-
-            const stageSupported = (() => {
-                if (!window.WebGLRenderingContext || !window.THREE) return false;
-                try {
-                    const test = document.createElement("canvas");
-                    return !!(
-                        test.getContext("webgl") || test.getContext("experimental-webgl")
-                    );
-                } catch {
-                    return false;
-                }
-            })();
-
-            if (!stageSupported) {
-                canvas.remove();
-                return;
-            }
-
-            const heroSection = document.getElementById("top");
-            let scrollPerturb = 0;
-            const stagePointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
-
-            const renderer = new THREE.WebGLRenderer({
-                canvas,
-                antialias: true,
-                alpha: true,
+            signup.addEventListener("submit", () => {
+                window.setTimeout(showToast, 150);
             });
 
-            renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            if (calloutPanel && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                calloutPanel.addEventListener("pointermove", (event) => {
+                    const rect = calloutPanel.getBoundingClientRect();
+                    const x = (event.clientX - rect.left) / rect.width - 0.5;
+                    const y = (event.clientY - rect.top) / rect.height - 0.5;
+                    calloutPanel.style.setProperty("--tilt-x", `${(-y * 3).toFixed(2)}deg`);
+                    calloutPanel.style.setProperty("--tilt-y", `${(x * 3).toFixed(2)}deg`);
+                });
 
-            const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x07070a, 0.07);
-
-            const camera = new THREE.PerspectiveCamera(
-                52,
-                window.innerWidth / window.innerHeight,
-                0.1,
-                200
-            );
-            camera.position.set(0, 0.8, 10.6);
-
-            const lightDir = new THREE.Vector3(-0.25, 0.45, 1.0).normalize();
-
-            // Point cloud dome
-            const isSmallViewport = window.innerWidth < 768;
-            const count = isSmallViewport ? 32000 : 52000;
-            const pos = new Float32Array(count * 3);
-            const nrm = new Float32Array(count * 3);
-            const seed = new Float32Array(count);
-            const golden = (1 + Math.sqrt(5)) / 2;
-            const radius = 5.6;
-
-            for (let i = 0; i < count; i++) {
-                const tt = i / (count - 1);
-                const inclination = Math.acos(1 - 2 * tt);
-                const azimuth = (2 * Math.PI * i) / golden;
-
-                const x = Math.sin(inclination) * Math.cos(azimuth);
-                const y = Math.cos(inclination);
-                const z = Math.sin(inclination) * Math.sin(azimuth);
-
-                pos[i * 3 + 0] = x * radius;
-                pos[i * 3 + 1] = y * radius * 0.78 - 3.0;
-                pos[i * 3 + 2] = z * radius;
-
-                nrm[i * 3 + 0] = x;
-                nrm[i * 3 + 1] = y;
-                nrm[i * 3 + 2] = z;
-
-                seed[i] = (i * 0.6180339887) % 1;
+                calloutPanel.addEventListener("pointerleave", () => {
+                    calloutPanel.style.setProperty("--tilt-x", "0deg");
+                    calloutPanel.style.setProperty("--tilt-y", "0deg");
+                });
             }
 
-            const geo = new THREE.BufferGeometry();
-            geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-            geo.setAttribute("normal", new THREE.BufferAttribute(nrm, 3));
-            geo.setAttribute("aSeed", new THREE.BufferAttribute(seed, 1));
-
-            const uniforms = {
-                uTime: { value: 0 },
-                uLightDir: { value: lightDir },
-                uPixelRatio: { value: Math.min(2, window.devicePixelRatio || 1) },
-                uOpacity: { value: 0.95 },
-                uGlobalFade: { value: 1.0 },
-            };
-
-            const material = new THREE.ShaderMaterial({
-                transparent: true,
-                depthWrite: false,
-                uniforms,
-                vertexShader: `
-        uniform float uTime;
-        uniform float uPixelRatio;
-        attribute float aSeed;
-        varying float vShade;
-        varying float vMask;
-        varying float vSeed;
-
-        void main() {
-          vec3 p = position;
-
-          float sway = sin(uTime * 0.28 + aSeed * 6.2831) * 0.06;
-          p.x += sway * 0.7;
-          p.z += sway * 0.9;
-
-          vMask = smoothstep(-2.8, -0.8, p.y);
-
-          vec3 n = normalize(normal);
-          vec3 ld = normalize(vec3(-0.22, 0.42, 0.88));
-          float ndl = clamp(dot(n, ld) * 0.5 + 0.5, 0.0, 1.0);
-          vShade = pow(ndl, 1.45);
-          vSeed = aSeed;
-
-          vec4 mv = modelViewMatrix * vec4(p, 1.0);
-          gl_Position = projectionMatrix * mv;
-
-          float dist = max(1.0, -mv.z);
-          float baseSize = mix(1.4, 3.3, vShade);
-          gl_PointSize = (baseSize * uPixelRatio) * (10.0 / dist);
-        }
-      `,
-                fragmentShader: `
-        uniform float uOpacity;
-        uniform float uGlobalFade;
-        varying float vShade;
-        varying float vMask;
-        varying float vSeed;
-
-        float hashDither(vec2 p) {
-          vec3 p3 = fract(vec3(p.xyx) * 0.1031);
-          p3 += dot(p3, p3.yzx + 33.33);
-          return fract((p3.x + p3.y) * p3.z);
-        }
-
-        void main() {
-          vec2 uv = gl_PointCoord * 2.0 - 1.0;
-          float r2 = dot(uv, uv);
-          if (r2 > 1.0) discard;
-
-          float edge = smoothstep(1.0, 0.72, r2);
-          float threshold = hashDither(gl_FragCoord.xy + vSeed * 17.0);
-          float keep = step(threshold, vShade);
-          float mask = vMask;
-
-          float a = uOpacity * keep * edge * mask * uGlobalFade;
-          if (a < 0.01) discard;
-
-          gl_FragColor = vec4(vec3(1.0), a);
-        }
-      `,
-            });
-
-            const points = new THREE.Points(geo, material);
-            scene.add(points);
-
-            // Wireframe wave plane
-            const waveGeo = new THREE.PlaneGeometry(16, 6, 160, 40);
-            const waveMat = new THREE.MeshBasicMaterial({
-                color: 0xffffff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.1,
-            });
-
-            const wave = new THREE.Mesh(waveGeo, waveMat);
-            wave.position.set(0, -3.35, 2.8);
-            wave.rotation.x = -0.55;
-            scene.add(wave);
-
-            // Scroll-based fade
-            renderer.setClearColor(0x000000, 0);
-
-            function updateHeroFade() {
-                const y = window.scrollY || 0;
-                const vh = Math.max(1, window.innerHeight);
-                const t = (y - vh * 0.2) / (vh * 0.58);
-
-                const fade = Math.max(0.04, Math.min(1.0, 1.0 - t));
-                uniforms.uGlobalFade.value = fade;
-                waveMat.opacity = 0.1 * fade;
-                const heroHeight = heroSection?.offsetHeight || vh;
-                const heroStart = heroHeight * 0.55;
-                const scrolledPast = Math.max(0, y - heroStart);
-                scrollPerturb = Math.min(1, scrolledPast / (heroHeight * 0.8));
-
-                if (prefersReduced) {
-                    renderScene(performance.now());
-                }
-            }
-
-            updateHeroFade();
-            window.addEventListener("scroll", updateHeroFade, { passive: true });
-
-            // Resize handler
-            function resize() {
-                renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
-                renderer.setSize(window.innerWidth, window.innerHeight);
-
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-
-                uniforms.uPixelRatio.value = Math.min(
-                    2,
-                    window.devicePixelRatio || 1
-                );
-
-                tickPreviews();
-                renderScene(performance.now());
-            }
-
-            window.addEventListener("resize", resize);
-
-            // Wave animation
-            const posAttr = waveGeo.attributes.position;
-            let staticWavePrimed = false;
-
-            function updateWave(timeSeconds) {
-                for (let i = 0; i < posAttr.count; i++) {
-                    const x = posAttr.getX(i);
-                    const y = posAttr.getY(i);
-
-                    const z =
-                        Math.sin(x * 0.8 + timeSeconds * 1.0) * 0.08 +
-                        Math.sin(x * 1.8 + timeSeconds * 0.65) * 0.05 +
-                        Math.cos(y * 1.2 + timeSeconds * 0.55) * 0.04;
-
-                    posAttr.setZ(i, z);
-                }
-
-                posAttr.needsUpdate = true;
-            }
-
-            function renderScene(time = 0) {
-                const seconds = time * 0.001;
-                const motionSeconds = prefersReduced ? 0 : seconds;
-                uniforms.uTime.value = motionSeconds;
-
-                stagePointer.x += (stagePointer.targetX - stagePointer.x) * 0.06;
-                stagePointer.y += (stagePointer.targetY - stagePointer.y) * 0.06;
-
-                if (!prefersReduced) {
-                    updateWave(seconds);
-                } else if (!staticWavePrimed) {
-                    updateWave(0);
-                    staticWavePrimed = true;
-                }
-
-                const yawDrift = scrollPerturb * 0.35 + stagePointer.x * 0.4;
-                const pitchDrift = stagePointer.y * 0.3;
-
-                points.rotation.y = Math.sin(motionSeconds * 0.12) * 0.16 + yawDrift;
-                points.rotation.x = Math.sin(motionSeconds * 0.08) * 0.04 + pitchDrift;
-
-                wave.rotation.y = yawDrift * 0.2;
-                wave.position.x = stagePointer.x * 0.5;
-                wave.position.y = -3.35 - scrollPerturb * 0.3 + stagePointer.y * 0.12;
-
-                camera.position.x = stagePointer.x * 3.0;
-                camera.position.y = 0.8 + pitchDrift * 3 - scrollPerturb * 0.25;
-                camera.lookAt(0, -0.2 - scrollPerturb * 0.3, 0);
-
-                uniforms.uOpacity.value = Math.max(
-                    0.32,
-                    0.95 - scrollPerturb * 0.63
-                );
-
-                renderer.render(scene, camera);
-            }
-
-            function setStagePointer(x, y) {
-                stagePointer.targetX = x;
-                stagePointer.targetY = y;
-                if (prefersReduced) {
-                    renderScene(performance.now());
-                }
-            }
-
-            function handleStagePointer(event) {
-                if (event.isPrimary === false) return;
-                const x = (event.clientX / window.innerWidth - 0.5) * 2;
-                const y = (event.clientY / window.innerHeight - 0.5) * 2;
-                setStagePointer(x, y);
-            }
-
-            function resetStagePointer() {
-                setStagePointer(0, 0);
-            }
-
-            window.addEventListener("pointermove", handleStagePointer, { passive: true });
-            window.addEventListener("pointerdown", handleStagePointer, { passive: true });
-            window.addEventListener("pointerout", (event) => {
-                if (!event.relatedTarget) {
-                    resetStagePointer();
-                }
-            });
-            window.addEventListener("blur", resetStagePointer);
-
-            function animate(time) {
-                renderScene(time || performance.now());
-                if (!prefersReduced) requestAnimationFrame(animate);
-            }
-
-            if (prefersReduced) {
-                renderScene(performance.now());
-            } else {
-                requestAnimationFrame(animate);
-            }
+            updateCountdown();
+            window.setInterval(updateCountdown, 1000);
         })();
     </script>
 </body>
