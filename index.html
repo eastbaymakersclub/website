@@ -129,7 +129,8 @@
             align-items: center;
             gap: 14px;
             min-height: 38px;
-            margin-bottom: 18px;
+            width: 100vw;
+            margin: 0 calc(50% - 50vw) 18px;
             overflow: hidden;
             border-block: 2px solid var(--ink);
             background: var(--ink);
@@ -138,8 +139,6 @@
             font-size: 0.8rem;
             font-weight: 700;
             white-space: nowrap;
-            -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
-            mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
         }
 
         .announcement-track {
@@ -691,10 +690,6 @@
             color: rgba(5, 5, 5, 0.48);
         }
 
-        .signup-frame {
-            display: none;
-        }
-
         .tools {
             display: grid;
             grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
@@ -809,28 +804,6 @@
             color: var(--muted);
             font-size: 0.74rem;
             text-transform: uppercase;
-        }
-
-        .toast {
-            position: fixed;
-            left: 50%;
-            bottom: 18px;
-            z-index: 20;
-            transform: translate(-50%, 20px);
-            opacity: 0;
-            pointer-events: none;
-            border: 2px solid var(--ink);
-            background: var(--yellow);
-            color: var(--ink);
-            padding: 12px 16px;
-            box-shadow: var(--shadow);
-            font-size: 0.82rem;
-            transition: opacity 160ms ease, transform 160ms ease;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1233,7 +1206,7 @@
                 </div>
 
                 <form class="signup" id="signup" autocomplete="on"
-                    action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post" target="signupFrame">
+                    action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post">
                     <div>
                         <label class="sr-only" for="email">Email address</label>
                         <input class="field" id="email" name="email" type="email" placeholder="Email address" required />
@@ -1247,7 +1220,6 @@
                         </svg>
                     </button>
                 </form>
-                <iframe class="signup-frame" name="signupFrame" title="Signup response"></iframe>
             </section>
 
             <section class="section tools" id="tools" aria-labelledby="tools-title">
@@ -1286,20 +1258,20 @@
                 <p class="section-kicker">Calendar</p>
                 <h2 id="calendar-title">What is coming up.</h2>
                 <div class="calendar-grid">
-                    <article class="event-card featured">
-                        <time datetime="2026-07-03T12:00">July 3, 2026</time>
-                        <h3>Grand Opening</h3>
-                        <p>Noon to midnight with activities, a guest speaker, build night, snacks, and everyone welcome.</p>
-                    </article>
                     <article class="event-card">
-                        <time datetime="2026-07-10T18:00">July 10, 2026</time>
+                        <time datetime="2026-06-05T18:00">June 5, 2026</time>
                         <h3>Community Build Night</h3>
                         <p>Bring a project, borrow a second brain, or start something new at the bench.</p>
                     </article>
                     <article class="event-card">
-                        <time datetime="2026-07-15T18:00">July 15, 2026</time>
-                        <h3>Tool Orientation</h3>
-                        <p>Intro sessions for members getting started with the shop and its core equipment.</p>
+                        <time datetime="2026-06-19T18:00">June 19, 2026</time>
+                        <h3>Community Build Night</h3>
+                        <p>Bring a project, borrow a second brain, or start something new at the bench.</p>
+                    </article>
+                    <article class="event-card featured">
+                        <time datetime="2026-07-03T12:00">July 3, 2026</time>
+                        <h3>Grand Opening</h3>
+                        <p>Noon to midnight with activities, a guest speaker, build night, snacks, and everyone welcome.</p>
                     </article>
                 </div>
             </section>
@@ -1335,13 +1307,9 @@
         </footer>
     </div>
 
-    <div class="toast" id="toast" role="status" aria-live="polite">Saved - we'll keep you posted.</div>
-
     <script>
         (() => {
             const year = document.getElementById("year");
-            const signup = document.getElementById("signup");
-            const toast = document.getElementById("toast");
             const calloutPanel = document.querySelector(".callout-panel");
             const countdown = {
                 days: document.getElementById("days"),
@@ -1350,15 +1318,8 @@
                 seconds: document.getElementById("seconds"),
             };
             const opening = new Date("2026-07-03T12:00:00-07:00");
-            let toastTimer = null;
 
             year.textContent = new Date().getFullYear();
-
-            function showToast() {
-                toast.classList.add("show");
-                clearTimeout(toastTimer);
-                toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
-            }
 
             function pad(value) {
                 return String(value).padStart(2, "0");
@@ -1385,10 +1346,6 @@
                 countdown.minutes.textContent = pad(minutes);
                 countdown.seconds.textContent = pad(seconds);
             }
-
-            signup.addEventListener("submit", () => {
-                window.setTimeout(showToast, 150);
-            });
 
             if (calloutPanel && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
                 calloutPanel.addEventListener("pointermove", (event) => {
