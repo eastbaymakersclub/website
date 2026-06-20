@@ -269,9 +269,24 @@
             white-space: nowrap;
         }
 
-        .site-header > .btn {
+        .site-header > .btn,
+        .site-header > .header-actions {
             position: relative;
             z-index: 1;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .header-actions .btn {
+            min-height: 44px;
+            padding-inline: 15px;
+            font-size: 0.78rem;
         }
 
         .btn:hover,
@@ -861,8 +876,45 @@
             color: rgba(255, 247, 234, 0.82);
         }
 
-        #membership .signup {
+        .membership-panel {
+            display: grid;
+            gap: 14px;
             align-self: center;
+            min-width: 0;
+        }
+
+        .membership-join {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 16px;
+            align-items: center;
+            padding: 18px;
+            border: 2px solid var(--ink);
+            background: var(--paper-warm);
+            color: var(--ink);
+            box-shadow: 8px 8px 0 rgba(255, 247, 234, 0.14);
+        }
+
+        .membership-join strong {
+            display: block;
+            color: var(--orange);
+            font-size: 0.88rem;
+            text-transform: uppercase;
+        }
+
+        .membership-join span {
+            display: block;
+            margin-top: 6px;
+            color: var(--soft-ink);
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+
+        .membership-join .btn {
+            justify-self: end;
+        }
+
+        #membership .signup {
             background: var(--paper-warm);
             box-shadow: 8px 8px 0 rgba(255, 247, 234, 0.14);
         }
@@ -1057,6 +1109,10 @@
                 grid-template-columns: 1fr auto;
             }
 
+            .header-actions {
+                justify-content: flex-end;
+            }
+
             .nav {
                 grid-column: 1 / -1;
                 justify-content: flex-start;
@@ -1144,10 +1200,23 @@
                 width: min(100%, 292px);
             }
 
-            .join-btn,
+            .header-actions,
             .hero-actions,
             .hero-actions .btn {
                 width: 100%;
+            }
+
+            .header-actions {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .header-actions .btn {
+                width: 100%;
+                min-height: 42px;
+                padding-inline: 8px;
+                font-size: 0.68rem;
             }
 
             .nav {
@@ -1217,6 +1286,14 @@
 
             .signup {
                 grid-template-columns: 1fr;
+            }
+
+            .membership-join {
+                grid-template-columns: 1fr;
+            }
+
+            .membership-join .btn {
+                justify-self: stretch;
             }
 
             .address-card {
@@ -1296,13 +1373,11 @@
                 <a href="#visit">Visit</a>
             </nav>
 
-            <a class="btn btn-primary join-btn" href="#signup">
-                Join list
-                <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </a>
+            <div class="header-actions" aria-label="Top actions">
+                <a class="btn btn-blue" href="https://ebmc-ops.vercel.app/join">Join</a>
+                <a class="btn" href="#signup">Newsletter</a>
+                <a class="btn btn-primary" href="https://ebmc-ops.vercel.app/donate">Donate</a>
+            </div>
         </header>
 
         <main id="top">
@@ -1359,8 +1434,8 @@
                     </p>
 
                     <div class="hero-actions">
-                        <a class="btn btn-primary" href="#signup">
-                            Get updates
+                        <a class="btn btn-primary" href="https://ebmc-ops.vercel.app/join">
+                            Join
                             <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
@@ -1427,26 +1502,42 @@
                     <p class="section-kicker">Membership</p>
                     <h2 id="membership-title">Founding cohort now forming.</h2>
                     <p>
-                        Join the list for opening updates, first member blocks, tool onboarding, class announcements,
+                        Join as a founding member for first member blocks, tool onboarding, class announcements,
                         and early ways to help shape the workshop.
                     </p>
                 </div>
 
-                <form class="signup" id="signup" autocomplete="on"
-                    action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post">
-                    <div>
-                        <label class="sr-only" for="email">Email address</label>
-                        <input class="field" id="email" name="email" type="email" placeholder="Email address" required />
+                <div class="membership-panel">
+                    <div class="membership-join">
+                        <div>
+                            <strong>Ready to join?</strong>
+                            <span>Start your membership application and help shape the workshop from the beginning.</span>
+                        </div>
+                        <a class="btn btn-primary" href="https://ebmc-ops.vercel.app/join">
+                            Join
+                            <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
                     </div>
-                    <input type="hidden" name="embed" value="1" />
-                    <button class="btn btn-blue" type="submit">
-                        Subscribe
-                        <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                </form>
+
+                    <form class="signup" id="signup" autocomplete="on"
+                        action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post">
+                        <div>
+                            <label class="sr-only" for="email">Email address</label>
+                            <input class="field" id="email" name="email" type="email" placeholder="Email address" required />
+                        </div>
+                        <input type="hidden" name="embed" value="1" />
+                        <button class="btn btn-blue" type="submit">
+                            Newsletter
+                            <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h13m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
             </section>
 
             <section class="section tools" id="tools" aria-labelledby="tools-title">
