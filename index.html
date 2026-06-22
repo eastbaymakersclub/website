@@ -863,6 +863,16 @@
             z-index: 1;
         }
 
+        #membership > .anchor-target {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 1px;
+            scroll-margin-top: 28px;
+            z-index: 0;
+        }
+
         #membership h2,
         #membership .section-kicker {
             color: var(--cream-on-dark);
@@ -1499,6 +1509,7 @@
             </section>
 
             <section class="section split" id="membership" aria-labelledby="membership-title">
+                <span class="anchor-target" id="signup" aria-hidden="true"></span>
                 <div>
                     <p class="section-kicker">Membership</p>
                     <h2 id="membership-title">Founding cohort now forming.</h2>
@@ -1523,7 +1534,7 @@
                         </a>
                     </div>
 
-                    <form class="signup" id="signup" autocomplete="on"
+                    <form class="signup" id="newsletter-form" autocomplete="on"
                         action="https://buttondown.com/api/emails/embed-subscribe/ebmc" method="post">
                         <div>
                             <label class="sr-only" for="email">Email address</label>
